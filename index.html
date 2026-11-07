@@ -30,6 +30,17 @@ input:focus,textarea:focus,.btn:focus-visible{outline:2px solid var(--blue)}
 nav{position:fixed;bottom:0;left:0;right:0;background:var(--navy);display:flex;padding:14px 4px calc(14px + env(safe-area-inset-bottom));z-index:9}
 nav a{flex:1;text-align:center;color:#8b97ab;font-weight:600;font-size:14px;cursor:pointer}
 nav a.on{color:#fff;text-decoration:underline;text-decoration-color:var(--blue);text-decoration-thickness:3px;text-underline-offset:8px}
+.prof{text-align:center}
+.av{width:84px;height:84px;border-radius:50%;margin:4px auto 10px;padding:5px;background:#3b6cf033;display:grid;place-items:center}
+.av span{width:100%;height:100%;border-radius:50%;background:var(--navy);border:3px solid var(--blue);color:var(--blue);font:800 34px Outfit;display:grid;place-items:center}
+.pn{font-size:26px;letter-spacing:.5px;margin:0 0 16px;text-transform:uppercase}
+.kv{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 4px;border-top:1px solid var(--line);font-size:17px;text-align:left}
+.bal{border:1.5px solid var(--line);border-radius:12px;background:var(--bg);padding:16px 10px;text-align:center}
+.bal small{display:block;font:600 11px ui-monospace,Menlo,monospace;letter-spacing:.25em;color:var(--mut);margin-bottom:8px}
+.bal b{font-size:30px;letter-spacing:-1px}
+.bal.sm{padding:14px 6px}.bal.sm b{font-size:20px}
+.bal.red{border-color:#b42318}.bal.red small,.bal.red b{color:#b42318}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 20px}
 dialog{border:0;border-radius:14px;padding:22px;width:min(92vw,420px);background:var(--card);color:var(--ink)}
 dialog::backdrop{background:#000a}
 </style>
@@ -77,13 +88,33 @@ dialog::backdrop{background:#000a}
         <div class="row"><button class="btn" id="hsave">Simpan hotel</button><button class="btn g" id="hcancel" hidden>Batal</button></div>
         <p class="err" id="herr"></p>
       </div>
+      <h3 style="margin:24px 0 12px">Akun pengguna</h3>
+      <div class="card pad" id="accform" hidden>
+        <h3 id="acctitle"></h3>
+        <label for="alv">Level akun</label><input id="alv" placeholder="mis. Gold (kosongkan = belum ada paket)">
+        <label for="atot">Total saldo akun (USD)</label><input id="atot" type="number" step="any" min="0">
+        <label for="aav">Saldo tersedia (USD)</label><input id="aav" type="number" step="any" min="0">
+        <label for="aor">Jumlah pesanan (USD)</label><input id="aor" type="number" step="any" min="0">
+        <div class="row"><button class="btn" id="accsave">Simpan akun</button><button class="btn g" id="acccancel">Batal</button></div>
+        <p class="err" id="accerr"></p>
+      </div>
+      <div id="aulist"></div>
       <h3 style="margin:24px 0 12px">Daftar hotel</h3><div id="ahlist"></div>
       <h3 style="margin:24px 0 12px">Semua pesanan</h3><div id="ablist"></div>
     </section>
     <section id="v-profile" hidden>
       <h2>Profil</h2>
-      <div class="card pad"><h3 id="pname"></h3><p class="mut" id="pid"></p><p class="mut" id="pmail"></p>
-      <button class="btn r w" id="logout">Keluar</button></div>
+      <div class="card pad prof">
+        <div class="av"><span id="pav"></span></div>
+        <h3 class="pn" id="pname"></h3>
+        <div class="kv"><span class="mut">Level akun</span><b id="plevel"></b></div>
+        <div class="bal" style="margin-top:8px"><small>TOTAL SALDO AKUN</small><b id="ptotal"></b></div>
+        <div class="two">
+          <div class="bal sm"><small>SALDO TERSEDIA</small><b id="pavail"></b></div>
+          <div class="bal sm red"><small>JUMLAH PESANAN</small><b id="porders"></b></div>
+        </div>
+        <button class="btn r w" id="logout" style="margin-top:0">Keluar</button>
+      </div>
     </section>
   </div>
   <nav>
@@ -178,9 +209,21 @@ onAuthStateChanged(auth,u=>{
 async function enter(){
   const d=await getDoc(doc(db,"users",me.uid));
   profile=d.exists()?d.data():{name:me.email,userid:"-",email:me.email};
-  $("#pname").textContent=profile.name;$("#pid").textContent="User ID: "+profile.userid;$("#pmail").textContent=profile.email;
+  await loadAccount();
   document.querySelectorAll(".adm").forEach(e=>e.hidden=!isAdmin());
   show("hotels");loadHotels();
+}
+
+/* ---------- Akun (level & saldo, hanya admin yang bisa ubah) ---------- */
+const NOACC={level:"",total:0,available:0,orders:0};
+async function loadAccount(){
+  let a=NOACC;
+  try{const d=await getDoc(doc(db,"accounts",me.uid));if(d.exists())a={...NOACC,...d.data()}}catch(x){}
+  const uid=(profile.userid&&profile.userid!=="-")?profile.userid:profile.name;
+  $("#pname").textContent=uid;
+  $("#pav").textContent=String(uid||"?").charAt(0).toUpperCase();
+  $("#plevel").textContent=a.level||"Belum ada paket";
+  $("#ptotal").textContent=money(a.total);$("#pavail").textContent=money(a.available);$("#porders").textContent=money(a.orders);
 }
 
 /* ---------- Navigasi ---------- */
@@ -189,7 +232,8 @@ function show(v){
   document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.dataset.v===v));
   scrollTo(0,0);
   if(v==="orders")loadOrders();
-  if(v==="admin"){loadHotels();loadAllBookings()}
+  if(v==="profile")loadAccount();
+  if(v==="admin"){loadHotels();loadAllBookings();loadUsers()}
 }
 document.querySelectorAll("nav a").forEach(a=>a.onclick=()=>show(a.dataset.v));
 
@@ -241,6 +285,25 @@ async function loadAllBookings(){
     $("#ablist").innerHTML=l.length?l.map(b=>bk(b,true)).join(""):'<p class="mut">Belum ada pesanan.</p>';
   }catch(x){$("#ablist").innerHTML='<p class="err">'+esc(msg(x))+'</p>'}
 }
+let users=[],accs={},accUid=null;
+async function loadUsers(){
+  if(!isAdmin())return;
+  try{
+    users=(await getDocs(collection(db,"users"))).docs.map(d=>({uid:d.id,...d.data()}));
+    accs={};(await getDocs(collection(db,"accounts"))).docs.forEach(d=>accs[d.id]={...NOACC,...d.data()});
+    $("#aulist").innerHTML=users.length?users.map(u=>{const a=accs[u.uid]||NOACC;
+      return `<div class="card pad"><h3>${esc(u.name)} <small class="mut">(@${esc(u.userid)})</small></h3><p class="mut">${esc(a.level||"Belum ada paket")} · Total ${money(a.total)} · Tersedia ${money(a.available)} · Pesanan ${money(a.orders)}</p><div class="row"><button class="btn g" data-acc="${u.uid}">Ubah akun</button></div></div>`}).join(""):'<p class="mut">Belum ada pengguna.</p>';
+  }catch(x){$("#aulist").innerHTML='<p class="err">'+esc(msg(x))+'</p>'}
+}
+$("#acccancel").onclick=()=>{accUid=null;$("#accform").hidden=true};
+$("#accsave").onclick=async()=>{
+  if(!isAdmin()||!accUid)return;
+  const n=i=>Number($(i).value||0);
+  const d={level:$("#alv").value.trim(),total:n("#atot"),available:n("#aav"),orders:n("#aor")};
+  if([d.total,d.available,d.orders].some(v=>!isFinite(v)||v<0))return $("#accerr").textContent="Angka tidak valid.";
+  try{await setDoc(doc(db,"accounts",accUid),d);$("#accform").hidden=true;accUid=null;loadUsers()}
+  catch(x){$("#accerr").textContent=msg(x)}
+};
 function resetForm(){
   editId=null;["hn","hl","hp","hph","hd"].forEach(i=>$("#"+i).value="");
   $("#ftitle").textContent="Tambah hotel";$("#hcancel").hidden=true;$("#herr").textContent="";
@@ -267,6 +330,12 @@ document.addEventListener("click",async e=>{
     const h=hotels.find(x=>x.id===t.dataset.edit);editId=h.id;
     $("#hn").value=h.name;$("#hl").value=h.location;$("#hp").value=h.price;$("#hph").value=h.photo||"";$("#hd").value=h.desc||"";
     $("#ftitle").textContent="Ubah hotel";$("#hcancel").hidden=false;scrollTo(0,0);
+  }
+  if(t.dataset.acc&&isAdmin()){
+    const u=users.find(x=>x.uid===t.dataset.acc),a=accs[u.uid]||NOACC;accUid=u.uid;
+    $("#acctitle").textContent="Ubah akun @"+u.userid;$("#alv").value=a.level||"";
+    $("#atot").value=a.total;$("#aav").value=a.available;$("#aor").value=a.orders;
+    $("#accerr").textContent="";$("#accform").hidden=false;$("#accform").scrollIntoView({behavior:"smooth"});
   }
   if(t.dataset.del&&confirm("Hapus hotel ini?")){await deleteDoc(doc(db,"hotels",t.dataset.del));loadHotels()}
   if(t.dataset.st){await updateDoc(doc(db,"bookings",t.dataset.id),{status:t.dataset.st});loadAllBookings()}
