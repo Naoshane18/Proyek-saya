@@ -126,12 +126,64 @@ nav svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.8;st
 .tile p{font-size:21px;line-height:1.5;color:var(--muted)}
 .out{display:flex;justify-content:center;align-items:center;gap:14px;background:#b42318;color:#fff;border-radius:14px;padding:26px;font:800 24px 'Outfit';letter-spacing:.1em;text-decoration:none;margin-bottom:24px}
 .out svg{width:30px;height:30px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* Login / Sign up */
+.flabel{display:block;font-size:17px;font-weight:600;margin:20px 0 8px}
+.finput{width:100%;padding:16px 18px;border:1.5px solid var(--line);border-radius:10px;font:500 17px 'Outfit';background:var(--card);color:var(--ink)}
+.finput:focus{outline:none;border-color:var(--blue2)}
+.pwrap{position:relative}
+.pwrap .finput{padding-right:52px}
+.eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--muted);padding:6px;cursor:pointer}
+.eye svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8}
+.frow{display:flex;justify-content:space-between;align-items:center;margin:20px 0 26px;flex-wrap:wrap;gap:10px}
+.chk{display:flex;align-items:center;gap:8px;font-size:16px;color:var(--muted)}
+.chk input{width:18px;height:18px}
+.flink{color:var(--blue);font-weight:600;text-decoration:underline;font-size:15px}
+#loginError{font-size:16px}
 </style>
 </head>
 <body>
 
+<!-- ============ LOGIN ============ -->
+<div id="login">
+<div data-h></div>
+<div class="wrap">
+  <div class="card" style="margin-top:28px">
+    <div class="tag">Member Access</div>
+    <h2 style="margin-top:14px" id="loginTitle">Welcome Back!</h2>
+    <p class="lead" id="loginSub" style="margin-bottom:0">Sign in to continue your journey.</p>
+    <hr style="border:none;border-top:1px solid var(--line);margin:28px 0">
+    <form id="loginForm">
+      <label class="flabel" for="loginUser">Username or Email</label>
+      <input class="finput" id="loginUser" type="text" placeholder="Enter your detail" required>
+      <div id="signupNameWrap" hidden>
+        <label class="flabel" for="signupName">Full Name</label>
+        <input class="finput" id="signupName" type="text" placeholder="Enter your name">
+      </div>
+      <label class="flabel" for="loginPass">Password</label>
+      <div class="pwrap">
+        <input class="finput" id="loginPass" type="password" placeholder="Password" required>
+        <button type="button" class="eye" id="togglePw" aria-label="Show password">
+          <svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div class="frow">
+        <label class="chk"><input type="checkbox" id="rememberMe"> Remember me</label>
+        <a href="#" class="flink" id="forgotLink">Forgotten Password?</a>
+      </div>
+      <button type="submit" class="btn primary" style="width:100%">
+        <span id="submitLabel">Sign In</span> &rarr;
+      </button>
+    </form>
+    <p id="loginError" style="color:#b91c1c;display:none;margin-top:18px">Please fill in the required fields.</p>
+    <hr style="border:none;border-top:1px solid var(--line);margin:28px 0">
+    <p class="lead" style="text-align:center" id="switchModeWrap">Don&rsquo;t have an account? <a href="#" class="flink" id="toSignup">Sign Up &rarr;</a></p>
+  </div>
+</div>
+<div data-f></div>
+</div>
+
 <!-- ============ HOME ============ -->
-<div id="home">
+<div id="home" hidden>
 <header>
   <div class="logo">
     <svg width="46" height="30" viewBox="0 0 46 30" fill="none" stroke="#3b6cf0" stroke-width="7" stroke-linecap="round"><path d="M23 15c-4-8-8-10-12-10C6 5 3 9 3 15s3 10 8 10c4 0 8-2 12-10s8-10 12-10c5 0 8 4 8 10s-3 10-8 10c-4 0-8-2-12-10z"/></svg>
@@ -146,7 +198,7 @@ nav svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.8;st
     <p>A highly precise, high-performance hospitality commerce architecture. Consolidating your channels, bookings, and operations borderlessly.</p>
     <div class="btns">
       <a class="btn primary" href="#platform">See how it works &rarr;</a>
-      <a class="btn" href="#lounge">Partner’s Lounge</a>
+      <a class="btn" href="#lounge">Partner's Lounge</a>
     </div>
     <div class="photo"><div class="photo-img">Ganti dengan foto resort Anda</div></div>
   </section>
@@ -205,7 +257,7 @@ nav svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.8;st
 
 <footer>
   <div class="logo"><svg width="56" height="36" viewBox="0 0 46 30" fill="none" stroke="#3b6cf0" stroke-width="7" stroke-linecap="round"><path d="M23 15c-4-8-8-10-12-10C6 5 3 9 3 15s3 10 8 10c4 0 8-2 12-10s8-10 12-10c5 0 8 4 8 10s-3 10-8 10c-4 0-8-2-12-10z"/></svg><div><b>INN<span>Finite</span></b><small>TECH</small></div></div>
-  <p>The world’s leading hotel commerce platform, empowering hotels to reach, convert, and retain guests borderlessly.</p>
+  <p>The world's leading hotel commerce platform, empowering hotels to reach, convert, and retain guests borderlessly.</p>
   <div class="cols">
     <div><h4>Product</h4><a href="#">Features</a><a href="#">Channel</a><a href="#">Pricing</a></div>
     <div><h4>Company</h4><a href="#about">About Us</a><a href="#">Support</a><a href="#">FAQ</a></div>
@@ -350,7 +402,7 @@ nav svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.8;st
       <a class="tile" href="#profile"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><b>Profile</b><p>Update your personal details and password.</p></a>
       <a class="tile" href="#support"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><b>Support</b><p>Chat with our team any time.</p></a>
     </div>
-    <a class="out" href="#home"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>LOGOUT</a>
+    <a class="out" href="#login" id="logoutBtn"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>LOGOUT</a>
   </div>
   <div data-f></div>
 </div>
@@ -367,6 +419,7 @@ nav svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.8;st
 var V=['orders','about','dashboard','support','profile'];
 document.querySelectorAll('[data-h]').forEach(function(d){d.appendChild(document.querySelector('#home header').cloneNode(true))});
 document.querySelectorAll('[data-f]').forEach(function(d){d.appendChild(document.querySelector('#home footer').cloneNode(true))});
+
 function route(h){
   h=(typeof h==='string')?h:location.hash;
   var id=h.slice(1), v=V.indexOf(id)>-1?id:null;
@@ -378,17 +431,84 @@ function route(h){
   if(v||h===''||h==='#home'){window.scrollTo(0,0)}
   else{var t=document.getElementById(id);if(t)t.scrollIntoView()}
 }
+
+/* ---- Auth gate (visual lock only — no real backend/security) ---- */
+function isAuthed(){return localStorage.getItem('innf_auth')==='1'}
+function applyAuth(){
+  var authed=isAuthed();
+  document.getElementById('login').hidden=authed;
+  var navEl=document.querySelector('nav');
+  if(navEl)navEl.style.display=authed?'':'none';
+  if(!authed){
+    document.getElementById('home').hidden=true;
+    V.forEach(function(k){document.getElementById(k).hidden=true});
+  }
+}
+
+var signupMode=false;
+function renderLoginMode(){
+  document.getElementById('loginTitle').textContent=signupMode?'Create Account':'Welcome Back!';
+  document.getElementById('loginSub').textContent=signupMode?'Sign up to get started.':'Sign in to continue your journey.';
+  document.getElementById('signupNameWrap').hidden=!signupMode;
+  document.getElementById('submitLabel').textContent=signupMode?'Create Account':'Sign In';
+  document.getElementById('switchModeWrap').innerHTML=signupMode
+    ? 'Already have an account? <a href="#" class="flink" id="toSignup">Sign In &rarr;</a>'
+    : 'Don\u2019t have an account? <a href="#" class="flink" id="toSignup">Sign Up &rarr;</a>';
+  document.getElementById('toSignup').addEventListener('click',function(e){
+    e.preventDefault();signupMode=!signupMode;renderLoginMode();
+  });
+}
+document.getElementById('toSignup').addEventListener('click',function(e){
+  e.preventDefault();signupMode=!signupMode;renderLoginMode();
+});
+
+document.getElementById('togglePw').addEventListener('click',function(){
+  var inp=document.getElementById('loginPass');
+  inp.type=inp.type==='password'?'text':'password';
+});
+
+document.getElementById('loginForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  var u=document.getElementById('loginUser').value.trim();
+  var p=document.getElementById('loginPass').value;
+  if(!u||!p){
+    document.getElementById('loginError').style.display='block';
+    return;
+  }
+  document.getElementById('loginError').style.display='none';
+  localStorage.setItem('innf_auth','1');
+  applyAuth();
+  try{history.replaceState(null,'','#home')}catch(x){}
+  route();
+});
+
+document.getElementById('forgotLink').addEventListener('click',function(e){
+  e.preventDefault();
+  alert('Please contact support to reset your password.');
+});
+
+document.getElementById('logoutBtn').addEventListener('click',function(e){
+  e.preventDefault();
+  localStorage.removeItem('innf_auth');
+  signupMode=false;
+  applyAuth();
+  try{history.replaceState(null,'','#login')}catch(x){}
+});
+
 document.addEventListener('click',function(e){
   var a=e.target.closest?e.target.closest('a[href^="#"]'):null;
   if(!a)return;
   var hr=a.getAttribute('href');
   if(hr==='#')return;
+  if(!isAuthed())return;
   e.preventDefault();
   try{history.replaceState(null,'',hr)}catch(x){try{location.hash=hr}catch(y){}}
   route(hr);
 });
-window.addEventListener('hashchange',function(){route()});
-route();
+window.addEventListener('hashchange',function(){if(isAuthed())route()});
+
+applyAuth();
+if(isAuthed())route();
 </script>
 </body>
 </html>
