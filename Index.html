@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>INNFinite Tech – Open up every opportunity</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0b1220;--blue:#2563eb;--blue2:#3b6cf0;--bg:#f0f3f9;--card:#fff;--ink:#0f172a;--muted:#475569;--line:#e2e8f0;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1626;--card:#141d30;--ink:#f1f5f9;--muted:#94a3b8;--line:#243049}}
+:root[data-theme="dark"]{--bg:#0e1626;--card:#141d30;--ink:#f1f5f9;--muted:#94a3b8;--line:#243049}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{font-family:'Outfit',system-ui,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:90px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--navy);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--navy);display:flex;justify-content:space-between;align-items:center;padding:14px 24px;border-bottom:1px solid #1e293b}
+.logo{display:flex;align-items:center;gap:10px;color:#fff}
+.logo b{font-size:22px;letter-spacing:.5px;font-weight:800}.logo span{font-weight:400}
+.logo small{display:block;font-size:9px;letter-spacing:.5em;text-align:center;margin-top:-2px}
+select{background:transparent;color:#fff;border:1px solid #334155;border-radius:6px;padding:10px 12px;font:700 14px 'Outfit'}
+select option{color:#000}
+.hero{background:var(--navy);color:#fff;padding:56px 24px 0;position:relative}
+.hero h1{font-size:clamp(44px,12vw,84px);line-height:1.05;font-weight:800;letter-spacing:-2px}
+.hero h1 em{font-style:normal;color:var(--blue2)}
+.hero p{color:#94a3b8;font-size:20px;line-height:1.6;margin:32px 0;max-width:620px}
+.btns{display:flex;flex-direction:column;gap:16px;max-width:520px}
+.btn{display:flex;justify-content:center;align-items:center;gap:10px;padding:22px;border-radius:8px;font:700 17px 'Outfit';letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1px solid #334155;color:#fff}
+.btn.primary{background:var(--blue2);border-color:var(--blue2);box-shadow:0 0 30px rgba(59,108,240,.3)}
+.photo{margin:48px auto -60px;max-width:760px;border-radius:14px;overflow:hidden;border:1px solid #334155;position:relative;z-index:2}
+/* Ganti .photo-img dengan <img src="foto-resort.jpg"> milik Anda */
+.photo-img{aspect-ratio:3/2.2;background:linear-gradient(180deg,#e9b98f 0%,#8a5a3c 45%,#5b3a28 60%,#7fc1c9 78%,#bfe3e6 100%);display:flex;align-items:flex-end;padding:16px;color:#fff;font-size:13px;opacity:.95}
+.stats{max-width:760px;margin:0 auto;padding-top:60px}
+.sbox{background:var(--card);border-radius:0 0 14px 14px;display:grid;grid-template-columns:1fr 1fr;margin:-60px 24px 0;position:relative;z-index:1;padding-top:60px;box-shadow:0 8px 30px rgba(15,23,42,.08)}
+.stat{padding:28px}.stat+.stat{border-left:1px solid var(--line)}
+.stat b{display:block;font-size:56px;letter-spacing:-2px;font-weight:800}.stat span{font-size:22px;color:var(--muted)}
+.wrap{max-width:760px;margin:0 auto;padding:24px}
+.card{background:var(--card);border-radius:14px;padding:32px;margin-bottom:24px;box-shadow:0 4px 20px rgba(15,23,42,.06);border:1px solid var(--line)}
+.tag{font:700 15px 'JetBrains Mono',monospace;letter-spacing:.3em;color:var(--blue);text-transform:uppercase}
+.tag::before{content:"// ";color:#94a3b8;letter-spacing:0}
+h2{font-size:clamp(34px,8vw,52px);line-height:1.1;letter-spacing:-1.5px;margin:20px 0;font-weight:800}
+.lead{font-size:20px;line-height:1.6;color:var(--muted)}
+.conn{font:700 14px 'JetBrains Mono',monospace;letter-spacing:.3em;color:var(--muted)}
+.logos{display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:12px;flex-wrap:wrap}
+.logos .t{font-size:30px;font-weight:800;color:#2563c9}.logos .t i{font-style:normal;color:#f5a623}
+.logos .b{font-size:28px;font-weight:700;color:#003580;letter-spacing:-1px}.logos .b i{font-style:normal;color:#00a2e8}
+.ex{width:42px;height:42px;border-radius:10px;background:#fcd34d;display:grid;place-items:center;font-weight:800}
+.dash{border-radius:20px;margin:32px 0;aspect-ratio:4/3;background:#050b10;padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:10px;overflow:hidden}
+.dash div{border-radius:6px;background:linear-gradient(180deg,#0c2a3a,#050b10);position:relative;overflow:hidden}
+.dash div::after{content:"";position:absolute;inset:auto 8% 10% 8%;height:55%;background:repeating-linear-gradient(90deg,#16a7e0 0 6px,transparent 6px 9px);clip-path:polygon(0 0,15% 10%,30% 55%,50% 80%,100% 95%,100% 100%,0 100%)}
+.feat{display:flex;gap:20px;padding-top:28px;border-top:1px solid var(--line)}
+.feat+.feat{margin-top:28px}
+.ico{flex:none;width:54px;height:54px;border-radius:10px;background:#eef2fb;display:grid;place-items:center;color:var(--blue)}
+.feat h3{font-size:26px;margin-bottom:10px;font-weight:700}.feat p{font-size:19px;line-height:1.7;color:var(--muted)}
+.orbit{position:relative;width:min(100%,420px);aspect-ratio:1;margin:40px auto 10px;border:1.5px dashed var(--line);border-radius:50%}
+.core{position:absolute;inset:22%;border-radius:50%;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 60px rgba(59,108,240,.25)}
+.core b{color:var(--blue2);font-size:20px}.core small{color:#94a3b8;font:12px 'JetBrains Mono',monospace;margin-top:12px;letter-spacing:.1em}
+.chip{position:absolute;background:#fff;color:#111;border-radius:14px;padding:12px 18px;font-weight:700;font-size:18px;box-shadow:0 10px 25px rgba(15,23,42,.1)}
+.c1{top:10%;left:0;color:#003580}.c2{top:10%;right:0}.c3{bottom:8%;left:5%}.c4{bottom:8%;right:5%;color:#ff385c}
+.cta .btns{margin-top:28px}.cta .btn{color:var(--ink);border-color:var(--line)}.cta .btn.primary{color:#fff;background:var(--blue);border-color:var(--blue)}
+footer{background:var(--navy);color:#94a3b8;padding:48px 24px}
+footer p{font-size:22px;line-height:1.6;margin:24px 0 40px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:760px}
+.cols h4{color:#fff;font-size:26px;margin-bottom:24px}.cols a{display:block;color:#94a3b8;text-decoration:none;font-size:22px;margin-bottom:28px}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:30;background:var(--navy);border-radius:0 0 28px 28px;display:flex;justify-content:space-around;padding:14px 4px calc(16px + env(safe-area-inset-bottom,0px));border-top:1px solid #1e293b}
+nav a{display:flex;flex-direction:column;align-items:center;gap:6px;color:#8b97ab;text-decoration:none;font-size:14px;font-weight:600;flex:1;position:relative}
+nav a.on{color:#fff}nav a.on::before{content:"";position:absolute;top:-14px;width:46px;height:4px;border-radius:0 0 4px 4px;background:var(--blue2)}
+nav svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+/* Orders view */
+.ohead{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--navy);display:flex;align-items:center;gap:20px;padding:14px 24px;border-bottom:1px solid #1e293b;color:#fff}
+.ohead a{color:#fff;display:grid;place-items:center;text-decoration:none}
+.ohead h3{font-size:26px;font-weight:700;letter-spacing:-.5px}
+.ohead select{margin-left:auto}
+.ohead svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.otitle{font-size:clamp(40px,10vw,56px);margin:14px 0 24px;letter-spacing:-1.5px}
+.empty{text-align:center;padding:48px 24px 52px}
+.empty .ico{margin:0 auto 28px;width:70px;height:70px;border-radius:20px}
+.empty h3{font-size:30px;font-weight:700;letter-spacing:-.5px;margin-bottom:16px}
+.empty p{font-size:22px;line-height:1.65;color:var(--muted);max-width:340px;margin:0 auto 36px}
+.empty .btn{display:inline-flex;padding:22px 36px;background:var(--blue);border-color:var(--blue);box-shadow:0 10px 30px rgba(37,99,235,.3)}
+@media(min-width:800px){.btns{flex-direction:row}.btn{padding:20px 32px}}
+/* Dashboard / Support / Profile views */
+.pg{font-size:clamp(38px,10vw,52px);letter-spacing:-1.5px;margin:12px 0 18px}
+.mono{font:700 15px 'JetBrains Mono',monospace;letter-spacing:.25em;text-transform:uppercase;color:var(--muted)}
+.plan b{display:block;font-size:30px;font-weight:700}.plan span{font-size:22px;color:var(--muted)}
+.mc{padding:28px}.mc .mono{color:var(--blue)}
+.mc>p{font-size:22px;color:var(--muted);margin:18px 0}
+.prog{background:var(--bg);border-radius:12px;padding:24px}
+.prog .r{display:flex;justify-content:space-between;align-items:center;font-size:22px;color:var(--muted)}
+.ready{background:#16a34a;color:#fff;font:700 16px 'JetBrains Mono',monospace;letter-spacing:.15em;padding:10px 18px;border-radius:999px}
+.prog .n{font-size:44px;font-weight:700;margin:14px 0}.prog .n small{font-size:22px;font-weight:400;color:var(--muted)}
+.bar{height:12px;border-radius:99px;background:var(--line)}
+.bk{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:999px;padding:10px;margin-top:22px;text-decoration:none;color:var(--ink);background:var(--card)}
+.bk i{width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 50% 50%,#dbe7ff 0,#4f86ff 35%,#2f63ee 100%);box-shadow:0 0 24px rgba(59,108,240,.45);flex:none}
+.bk span{flex:1;text-align:center;font:800 24px 'Outfit';letter-spacing:.2em;margin-right:64px}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.sg .card{margin:0;padding:26px 22px}.sg .mono{font-size:14px}
+.sg b{display:block;font-size:46px;letter-spacing:-2px;font-weight:800;margin-top:22px}.sg b.g{color:#0a7d4f}
+.lv h4{font-size:22px;font-weight:800;letter-spacing:-.5px;margin-bottom:24px;text-transform:uppercase}
+.lv div{padding:22px 0;border-top:1px solid var(--line)}.lv div:first-of-type{border:0;padding-top:0}
+.lv b{display:block;font-size:28px;color:var(--blue);margin-bottom:12px}.lv p{font-size:22px}
+.rules h4{font-size:22px;font-weight:800;letter-spacing:-.5px;text-transform:uppercase;margin-bottom:12px}
+.rules p{font-size:22px;line-height:1.55;color:var(--muted)}
+.loc .row{display:flex;gap:20px;margin:24px 0}
+.loc .ico{width:56px;height:56px;background:#eef2fb}
+.loc h3{font-size:28px;font-weight:700}.loc .row p{font-size:26px;line-height:1.5;color:var(--muted)}
+.map{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line)}
+.map iframe{width:100%;height:100%;border:0}
+.map a{position:absolute;top:14px;left:14px;background:#fff;color:#1a73e8;font:600 18px Roboto,Arial,sans-serif;padding:14px 18px;border-radius:4px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.me{text-align:center}
+.av{width:108px;height:108px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;background:var(--navy);color:var(--blue2);font-size:54px;font-weight:700;border:5px solid var(--blue2);box-shadow:0 0 0 8px #e0e9fd}
+.me h3{font-size:36px;font-weight:800;letter-spacing:-.5px;margin-bottom:26px}
+.kv{display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-top:1px solid var(--line);font-size:24px;color:var(--muted)}
+.kv b{color:var(--ink);font-weight:600}
+.bal{border:1px solid var(--line);border-radius:14px;background:var(--bg);padding:26px;margin-top:22px}
+.bal b{display:block;font-size:56px;letter-spacing:-2px;margin-top:16px}
+.bal2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.bal2 .bal{margin:0;padding:22px 12px}.bal2 .mono{font-size:13px;letter-spacing:.2em}.bal2 b{font-size:32px;letter-spacing:-1px}
+.bal2 .red{border-color:#b91c1c;color:#b91c1c}.bal2 .red .mono{color:#b91c1c}
+.pl{font-size:clamp(40px,10vw,52px);letter-spacing:-1.5px;margin:36px 0 12px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:26px 0}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;text-decoration:none;color:var(--ink);box-shadow:0 4px 20px rgba(15,23,42,.06)}
+.tile .ico{width:52px;height:52px;margin-bottom:26px;background:var(--bg)}
+.tile b{display:block;font-size:24px;letter-spacing:.02em;text-transform:uppercase;margin-bottom:10px}
+.tile p{font-size:21px;line-height:1.5;color:var(--muted)}
+.out{display:flex;justify-content:center;align-items:center;gap:14px;background:#b42318;color:#fff;border-radius:14px;padding:26px;font:800 24px 'Outfit';letter-spacing:.1em;text-decoration:none;margin-bottom:24px}
+.out svg{width:30px;height:30px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</head>
+<body>
+
+<!-- ============ HOME ============ -->
+<div id="home">
+<header>
+  <div class="logo">
+    <svg width="46" height="30" viewBox="0 0 46 30" fill="none" stroke="#3b6cf0" stroke-width="7" stroke-linecap="round"><path d="M23 15c-4-8-8-10-12-10C6 5 3 9 3 15s3 10 8 10c4 0 8-2 12-10s8-10 12-10c5 0 8 4 8 10s-3 10-8 10c-4 0-8-2-12-10z"/></svg>
+    <div><b>INN<span>Finite</span></b><small>TECH</small></div>
+  </div>
+  <select aria-label="Language"><option>EN</option><option>ID</option></select>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Open up every <em>opportunity.</em></h1>
+    <p>A highly precise, high-performance hospitality commerce architecture. Consolidating your channels, bookings, and operations borderlessly.</p>
+    <div class="btns">
+      <a class="btn primary" href="#platform">See how it works &rarr;</a>
+      <a class="btn" href="#lounge">Partner’s Lounge</a>
+    </div>
+    <div class="photo"><div class="photo-img">Ganti dengan foto resort Anda</div></div>
+  </section>
+
+  <div class="stats"><div class="sbox">
+    <div class="stat"><b>99.99%</b><span>Sync Rate</span></div>
+    <div class="stat"><b>0%</b><span>Commission</span></div>
+  </div></div>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="conn">CONNECTED WITH</div>
+      <div class="logos">
+        <span class="t">Trip<i>.</i>com</span>
+        <span class="b">Booking<i>.com</i></span>
+        <span class="ex">&#8599;</span>
+      </div>
+    </div>
+
+    <div class="card" id="platform">
+      <div class="tag">Platform</div>
+      <h2>Everything you need to reach, convert and grow.</h2>
+      <p class="lead">A highly streamlined hospitality architecture that maps rate updates and customer retention borderlessly.</p>
+      <div class="dash"><div></div><div></div><div></div><div></div></div>
+      <div class="feat">
+        <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></div>
+        <div><h3>Hotel Channel Manager</h3><p>Sell your inventory borderlessly. Push rate adjustments and room allocations to hundreds of OTAs, search agents, and travel networks simultaneously with sub-second update latencies.</p></div>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
+        <div><h3>Metasearch Connectivity</h3><p>Compete directly against travel giants. Propagate your dynamic direct rates next to OTAs on metasearch engines like Google Hotel Finder and TripAdvisor, pulling high-intent booking traffic.</p></div>
+      </div>
+    </div>
+
+    <div class="card" id="integrations">
+      <div class="tag">Integrations</div>
+      <h2>Connect with us.<br>Sell everywhere.</h2>
+      <p class="lead">Seamlessly link the INNFinite Tech core with the tools you already rely on: PMS property management systems, RMS pricing intelligence networks, global channels, and merchant payment gateways.</p>
+      <div class="orbit">
+        <div class="core"><b>INNFinite Tech</b><small>SYS.GLOBAL_CORE</small></div>
+        <span class="chip c1">Booking.com</span><span class="chip c2">&#8599; Expedia</span>
+        <span class="chip c3">Google</span><span class="chip c4">airbnb</span>
+      </div>
+    </div>
+
+    <div class="card cta" id="lounge">
+      <h2>Ready to open up every opportunity?</h2>
+      <p class="lead">Join 41,000+ luxury properties and start growing your direct revenue today.</p>
+      <div class="btns">
+        <a class="btn primary" href="#">Get Started &rarr;</a>
+        <a class="btn" href="#">Talk to Sales</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="logo"><svg width="56" height="36" viewBox="0 0 46 30" fill="none" stroke="#3b6cf0" stroke-width="7" stroke-linecap="round"><path d="M23 15c-4-8-8-10-12-10C6 5 3 9 3 15s3 10 8 10c4 0 8-2 12-10s8-10 12-10c5 0 8 4 8 10s-3 10-8 10c-4 0-8-2-12-10z"/></svg><div><b>INN<span>Finite</span></b><small>TECH</small></div></div>
+  <p>The world’s leading hotel commerce platform, empowering hotels to reach, convert, and retain guests borderlessly.</p>
+  <div class="cols">
+    <div><h4>Product</h4><a href="#">Features</a><a href="#">Channel</a><a href="#">Pricing</a></div>
+    <div><h4>Company</h4><a href="#about">About Us</a><a href="#">Support</a><a href="#">FAQ</a></div>
+  </div>
+</footer>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<div id="about" hidden>
+  <div class="ohead">
+    <a href="#home" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></a>
+    <h3>About Us</h3>
+    <select aria-label="Language"><option>EN</option><option>ID</option></select>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <div class="tag">About Us</div>
+      <h2>Open up every opportunity.</h2>
+      <p class="lead">INNFinite Tech is a hospitality commerce platform that helps hotels reach, convert, and retain guests borderlessly by consolidating channels, bookings, and operations in one place.</p>
+    </div>
+    <div class="card">
+      <div class="tag">Our Mission</div>
+      <h2>Hotels first, zero commission.</h2>
+      <p class="lead">We give properties of every size the tools to sell direct, stay in sync across every channel, and keep their revenue.</p>
+      <div class="sbox" style="margin:28px 0 0;padding-top:0;box-shadow:none;border:1px solid var(--line);border-radius:14px">
+        <div class="stat"><b>41K+</b><span>Properties</span></div>
+        <div class="stat"><b>99.99%</b><span>Sync Rate</span></div>
+      </div>
+    </div>
+    <div class="card cta">
+      <h2>Want to work with us?</h2>
+      <div class="btns"><a class="btn primary" href="#home">Back to Home</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ORDERS ============ -->
+<div id="orders" hidden>
+  <div class="ohead">
+    <a href="#home" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></a>
+    <h3>Order History</h3>
+    <select aria-label="Language"><option>EN</option><option>ID</option></select>
+  </div>
+  <div class="wrap">
+    <div class="tag" style="margin-top:12px">Manage and track your hotel bookings</div>
+    <h2 class="otitle">Order History</h2>
+    <div class="card empty">
+      <div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></div>
+      <h3>No Order History</h3>
+      <p>Your rated and unrated bookings will appear here.</p>
+      <a class="btn primary" href="#home">Find Hotels &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ DASHBOARD ============ -->
+<div id="dashboard" hidden>
+  <div data-h></div>
+  <div class="wrap">
+    <h2 class="pg">Connect Every Stay.</h2>
+    <p class="lead" style="margin-bottom:28px">Grow your earnings through verified bookings, transparent commission rates, and trusted hospitality partners.</p>
+    <div class="card plan" style="padding:26px 30px"><b>No plan</b><span>Daily Bookings Capacity: —</span></div>
+    <div class="card mc">
+      <div class="mono">Mission Control</div>
+      <p>One dashboard. Every booking. Complete control.</p>
+      <div class="prog">
+        <div class="r"><span>Current progress</span><span class="ready">READY</span></div>
+        <div class="n">0 / 0 <small>Bookings</small></div>
+        <div class="bar"></div>
+      </div>
+      <a class="bk" href="#home"><i></i><span>BOOK NOW</span></a>
+    </div>
+    <div class="sg">
+      <div class="card"><div class="mono">Today's Earnings</div><b class="g">+$0.00</b></div>
+      <div class="card"><div class="mono">Orders Amount</div><b>$0.00</b></div>
+      <div class="card"><div class="mono">Completed Bookings</div><b>0</b></div>
+      <div class="card"><div class="mono">Available Balance</div><b>$0.00</b></div>
+    </div>
+    <div class="card lv">
+      <h4>Merchant Commission Levels</h4>
+      <div><b>Classic</b><p>Profits of 0.4% per booking - 20 bookings</p></div>
+      <div><b>Deluxe</b><p>Profits of 0.5% per booking - 40 bookings</p></div>
+      <div><b>Executive</b><p>Profits of 0.7% per booking - 60 bookings</p></div>
+      <div><b>Suite</b><p>Profits of 0.8% per booking - 80 bookings</p></div>
+      <div><b>Presidential</b><p>Profits of 0.9% per booking - 100 bookings</p></div>
+    </div>
+    <div class="card rules">
+      <h4>Platform Rules Notice</h4>
+      <p>When processing reservations, details are securely submitted to merchant servers. Each Partnership tier includes a daily activity limit. Users can unlock enhanced privileges by advancing to higher Partnership tiers.</p>
+    </div>
+  </div>
+  <div data-f></div>
+</div>
+
+<!-- ============ SUPPORT ============ -->
+<div id="support" hidden>
+  <div class="ohead">
+    <a href="#home" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></a>
+    <h3>Contact Us</h3>
+    <select aria-label="Language"><option>EN</option><option>ID</option></select>
+  </div>
+  <div class="wrap">
+    <div class="card loc">
+      <div class="mono">Location</div>
+      <div class="row">
+        <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+        <div><h3>Global Headquarters</h3><p>Midtown Centre Office Park<br>Jacksonville, FL 32207 USA</p></div>
+      </div>
+      <div class="map">
+        <iframe title="Map" loading="lazy" src="https://maps.google.com/maps?q=Midtown+Centre+Office+Park+Jacksonville+FL+32207&amp;output=embed"></iframe>
+        <a href="https://maps.google.com/?q=Midtown+Centre+Office+Park+Jacksonville+FL+32207" target="_blank" rel="noopener">Open in Maps &#8599;</a>
+      </div>
+    </div>
+  </div>
+  <div data-f></div>
+</div>
+
+<!-- ============ PROFILE ============ -->
+<div id="profile" hidden>
+  <div data-h></div>
+  <div class="wrap">
+    <div class="card me">
+      <div class="av">D</div>
+      <h3>DRAGONALTAR</h3>
+      <div class="kv"><span>Signature ID</span><b>8M2ZNLDS</b></div>
+      <div class="kv"><span>Account level</span><b>No plan</b></div>
+      <div class="bal"><div class="mono">Total Account Balance</div><b>$0.00</b></div>
+      <div class="bal2">
+        <div class="bal"><div class="mono">Available Balance</div><b>$0.00</b></div>
+        <div class="bal red"><div class="mono">Orders Amount</div><b>$0.00</b></div>
+      </div>
+    </div>
+    <h2 class="pl">Partner Lounge</h2>
+    <p class="lead">Your private space to manage orders, wallet, account settings and support.</p>
+    <div class="tiles">
+      <a class="tile" href="#dashboard"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><b>Dashboard</b><p>Orders, earnings and today's progress at a glance.</p></a>
+      <a class="tile" href="#profile"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg></div><b>Wallet</b><p>Manage your wallet balance and payment details.</p></a>
+      <a class="tile" href="#profile"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></div><b>Add Funds</b><p>Add funds to your wallet.</p></a>
+      <a class="tile" href="#profile"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div><b>Withdraw</b><p>Request a payout to your bank card.</p></a>
+      <a class="tile" href="#profile"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2"/></svg></div><b>History</b><p>Review your deposits, withdrawals and transactions.</p></a>
+      <a class="tile" href="#orders"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M9 15l2 2 4-4"/></svg></div><b>Orders</b><p>View and rate your orders.</p></a>
+      <a class="tile" href="#profile"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><b>Profile</b><p>Update your personal details and password.</p></a>
+      <a class="tile" href="#support"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><b>Support</b><p>Chat with our team any time.</p></a>
+    </div>
+    <a class="out" href="#home"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>LOGOUT</a>
+  </div>
+  <div data-f></div>
+</div>
+
+<nav>
+  <a data-v="home" class="on" href="#home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/><path d="M9 21v-6h6v6"/></svg>Home</a>
+  <a data-v="orders" href="#orders"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M9 15l2 2 4-4"/></svg>Orders</a>
+  <a href="#dashboard"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+  <a href="#support"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Support</a>
+  <a href="#profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Profile</a>
+</nav>
+
+<script>
+var V=['orders','about','dashboard','support','profile'];
+document.querySelectorAll('[data-h]').forEach(function(d){d.appendChild(document.querySelector('#home header').cloneNode(true))});
+document.querySelectorAll('[data-f]').forEach(function(d){d.appendChild(document.querySelector('#home footer').cloneNode(true))});
+function route(h){
+  h=(typeof h==='string')?h:location.hash;
+  var id=h.slice(1), v=V.indexOf(id)>-1?id:null;
+  document.getElementById('home').hidden=!!v;
+  V.forEach(function(k){document.getElementById(k).hidden=(k!==v)});
+  document.querySelectorAll('nav a').forEach(function(a){
+    a.classList.toggle('on',a.getAttribute('href')==='#'+(v||'home'));
+  });
+  if(v||h===''||h==='#home'){window.scrollTo(0,0)}
+  else{var t=document.getElementById(id);if(t)t.scrollIntoView()}
+}
+document.addEventListener('click',function(e){
+  var a=e.target.closest?e.target.closest('a[href^="#"]'):null;
+  if(!a)return;
+  var hr=a.getAttribute('href');
+  if(hr==='#')return;
+  e.preventDefault();
+  try{history.replaceState(null,'',hr)}catch(x){try{location.hash=hr}catch(y){}}
+  route(hr);
+});
+window.addEventListener('hashchange',function(){route()});
+route();
+</script>
+</body>
+</html>
