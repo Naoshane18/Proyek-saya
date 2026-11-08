@@ -33,7 +33,7 @@ nav a.on{color:#fff;text-decoration:underline;text-decoration-color:var(--blue);
 .prof{text-align:center}
 .av{width:84px;height:84px;border-radius:50%;margin:4px auto 10px;padding:5px;background:#3b6cf033;display:grid;place-items:center}
 .av span{width:100%;height:100%;border-radius:50%;background:var(--navy);border:3px solid var(--blue);color:var(--blue);font:800 34px Outfit;display:grid;place-items:center}
-.pn{font-size:26px;letter-spacing:.5px;margin:0 0 16px;text-transform:uppercase}
+.pn{font-size:26px;letter-spacing:.5px;margin:0 0 16px;overflow-wrap:anywhere}
 .kv{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 4px;border-top:1px solid var(--line);font-size:17px;text-align:left}
 .bal{border:1.5px solid var(--line);border-radius:12px;background:var(--bg);padding:16px 10px;text-align:center}
 .bal small{display:block;font:600 11px ui-monospace,Menlo,monospace;letter-spacing:.25em;color:var(--mut);margin-bottom:8px}
@@ -528,9 +528,9 @@ async function loadAccount(){
   let a=NOACC;
   try{const d=await getDoc(doc(db,"accounts",me.uid));if(d.exists())a={...NOACC,...d.data()}}catch(x){}
   myAcc=a;
-  const uid=(profile.userid&&profile.userid!=="-")?profile.userid:profile.name;
-  $("#pname").textContent=uid;
-  $("#pav").textContent=String(uid||"?").charAt(0).toUpperCase();
+  const shown=(profile.name&&profile.name.trim())||profile.userid||me.email;
+  $("#pname").textContent=shown;
+  $("#pav").textContent=String(shown||"?").charAt(0).toUpperCase();
   $("#plevel").textContent=a.level||"No plan yet";
   $("#ptotal").textContent=money(a.total);$("#pavail").textContent=money(a.available);$("#porders").textContent=money(a.orders);
   const set=(id,v)=>{const e=$(id);if(e)e.textContent=v};
@@ -699,7 +699,7 @@ async function loadHistory(){
 function fillEdit(){$("#enm").value=profile.name;$("#eid").textContent="@"+profile.userid+" · "+me.email;$("#eerr").textContent=""}
 $("#esave").onclick=async()=>{
   const name=$("#enm").value.trim();if(!name)return say("#eerr","Name cannot be empty.");
-  try{await updateDoc(doc(db,"users",me.uid),{name});profile.name=name;say("#eerr","Saved.",1)}catch(x){say("#eerr",msg(x))}
+  try{await updateDoc(doc(db,"users",me.uid),{name});profile.name=name;$("#pname").textContent=name;$("#pav").textContent=name.charAt(0).toUpperCase();say("#eerr","Saved.",1)}catch(x){say("#eerr",msg(x))}
 };
 $("#epw").onclick=async()=>{
   try{await sendPasswordResetEmail(auth,me.email);say("#eerr","Password reset link sent to "+me.email+".",1)}catch(x){say("#eerr",msg(x))}
