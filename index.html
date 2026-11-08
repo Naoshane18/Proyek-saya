@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Velora – Booking Hotel</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+<script>try{if(localStorage.getItem("velora_in")==="1")document.documentElement.className="in"}catch(e){}</script>
 <style>
 :root{--navy:#0b1220;--blue:#3b6cf0;--bg:#f0f3f9;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0}
 @media(prefers-color-scheme:dark){:root{--bg:#0e1626;--card:#141d30;--ink:#f1f5f9;--mut:#94a3b8;--line:#243049}}
@@ -199,6 +200,10 @@ body{padding-bottom:100px}
 .bghead p{position:relative;z-index:1;color:#e2e8f0;margin-top:6px;text-shadow:0 1px 8px rgba(0,0,0,.5)}
 .bghead .bgtrack{animation-duration:60s}.bghead .bgrow.rev .bgtrack{animation-duration:75s}
 
+/* prarender: sudah login -> langsung tampil halaman terakhir, tanpa login/splash */
+html.in #auth{display:none!important}
+html.in #app{display:block!important}
+html.in:not(.rdy) #app{visibility:hidden}
 /* ================= TAMPILAN DESKTOP (layar >= 900px) ================= */
 @media (min-width:900px){
   body{padding-bottom:0}
@@ -303,9 +308,7 @@ body{padding-bottom:100px}
 </head>
 <body>
 
-<div id="splash" style="position:fixed;inset:0;z-index:99;background:#0b1220;display:grid;place-items:center;color:#fff;font:800 30px Outfit,system-ui,sans-serif;letter-spacing:.04em">VELORA</div>
-<script>setTimeout(function(){var s=document.getElementById("splash");if(s){s.remove();document.getElementById("auth").hidden=false}},10000)</script>
-<div id="auth" hidden>
+<div id="auth">
   <div class="bgflow" data-bg></div>
   <header><svg viewBox="0 0 60 32" aria-hidden="true"><defs><linearGradient id="lgx1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1e3fae"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs><path d="M16 6C5 6 5 26 16 26C26 26 34 6 44 6C55 6 55 26 44 26C34 26 26 6 16 6Z" fill="none" stroke="url(#lgx1)" stroke-width="6.5" stroke-linejoin="round"/></svg><div class="bt"><b>VELORA</b><small>BOOKING HOTEL</small></div></header>
   <div class="wrap"><div class="card pad">
@@ -570,6 +573,30 @@ body{padding-bottom:100px}
   </nav>
 </div>
 
+<script>
+/* Prarender halaman terakhir dari data tersimpan (tanpa menunggu Firebase) */
+(function(){try{
+  var h=document.documentElement;if(h.className.indexOf("in")<0)return;
+  var c={};try{c=JSON.parse(localStorage.getItem("velora_cache")||"{}")}catch(e){}
+  var V=["home","orders","admin","profile","dashboard","wallet","addfunds","withdraw","history","support","editprofile","about"];
+  var M={wallet:"profile",addfunds:"profile",withdraw:"profile",history:"profile",editprofile:"profile"};
+  var v=location.hash.slice(1)||localStorage.getItem("velora_view")||"";
+  if(V.indexOf(v)<0||(v==="admin"&&!c.adm))v="home";
+  var g=function(i){return document.getElementById(i)};
+  g("app").hidden=false;
+  g("mainhead").hidden=v==="about";g("subhead").hidden=v!=="about";
+  V.forEach(function(k){var e=g("v-"+k);if(e)e.hidden=k!==v});
+  g("sitefoot").hidden=v==="orders";
+  document.querySelectorAll("nav a").forEach(function(a){a.classList.toggle("on",a.dataset.v===(M[v]||v))});
+  document.querySelectorAll(".adm").forEach(function(e){e.hidden=!c.adm});
+  var t=function(i,x){var e=g(i);if(e&&x!=null)e.textContent=x};
+  var m=function(n){return Number(n||0).toLocaleString("en-US",{style:"currency",currency:"USD"})};
+  if(c.n){t("pname",c.n);t("pav",String(c.n).charAt(0).toUpperCase());
+    t("plevel",c.l||"No plan yet");t("ptotal",m(c.t));t("pavail",m(c.a));t("porders",m(c.o));
+    t("dbal",m(c.a));t("dord",m(c.o));t("wtotal",m(c.t));t("wavail",m(c.a));t("xavail",m(c.a))}
+  window.__pre=true;h.className+=" rdy";
+}catch(e){document.documentElement.className="rdy"}})();
+</script>
 <dialog id="dlg">
   <h3 id="bname"></h3>
   <label for="ci">Check-in</label><input id="ci" type="date">
@@ -649,10 +676,10 @@ $("#af").onsubmit=async e=>{
   }catch(x){signingUp=false;er.textContent=msg(x)}
 };
 $("#logout").onclick=()=>{try{localStorage.removeItem(VKEY);history.replaceState(null,"",location.pathname)}catch(x){}signOut(auth)};
-function reveal(){$("#auth").hidden=true;$("#app").hidden=false;const sp=$("#splash");if(sp)sp.remove()}
+function reveal(){document.documentElement.className="";$("#auth").hidden=true;$("#app").hidden=false;try{localStorage.setItem("velora_in","1")}catch(x){}}
 onAuthStateChanged(auth,u=>{
   me=u;
-  if(!u){$("#app").hidden=true;$("#auth").hidden=false;const sp=$("#splash");if(sp)sp.remove();return}
+  if(!u){document.documentElement.className="";try{localStorage.removeItem("velora_in");localStorage.removeItem("velora_cache")}catch(x){}$("#app").hidden=true;$("#auth").hidden=false;return}
   if(!signingUp)enter();
 });
 async function enter(){try{await enter0()}finally{reveal()}}
@@ -676,6 +703,7 @@ async function loadAccount(){
   $("#pav").textContent=String(shown||"?").charAt(0).toUpperCase();
   $("#plevel").textContent=a.level||"No plan yet";
   $("#ptotal").textContent=money(a.total);$("#pavail").textContent=money(a.available);$("#porders").textContent=money(a.orders);
+  try{localStorage.setItem("velora_cache",JSON.stringify({n:shown,l:a.level||"",t:a.total,a:a.available,o:a.orders,adm:!!isAdmin()}))}catch(x){}
   const set=(id,v)=>{const e=$(id);if(e)e.textContent=v};
   set("#dbal",money(a.available));set("#dord",money(a.orders));
   set("#wtotal",money(a.total));set("#wavail",money(a.available));set("#xavail",money(a.available));
@@ -701,7 +729,7 @@ function show(v){
   $("#sitefoot").hidden=v==="orders";
   if(unsub){unsub();unsub=null}
   document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.dataset.v===(NAVMAP[v]||v)));
-  scrollTo(0,0);
+  if(window.__pre){window.__pre=false}else scrollTo(0,0);
   if(v==="orders")loadOrders();
   if(v==="profile")loadAccount();
   if(v==="dashboard")loadDashboard();
