@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -41,8 +41,9 @@ nav a.on{color:#fff;text-decoration:underline;text-decoration-color:var(--blue);
 .bal.sm{padding:14px 6px}.bal.sm b{font-size:20px}
 .bal.red{border-color:#b42318}.bal.red small,.bal.red b{color:#b42318}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 20px}
-.lg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.lg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:15px;align-items:stretch}
 .lc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:left;color:var(--ink);font-family:Outfit;cursor:pointer;display:block}
+.lc i svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .lc i{display:grid;place-items:center;width:44px;height:44px;border-radius:10px;background:var(--bg);color:var(--blue);font:700 20px Outfit;font-style:normal}
 .lc b{display:block;text-transform:uppercase;margin:12px 0 6px;font-size:16px}
 .lc span{color:var(--mut);font-size:14px;line-height:1.35;display:block}
@@ -122,6 +123,8 @@ nav a svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;
 .foot p.copy{font-size:19px;margin:0 0 20px;color:#94a3b8}
 .foot .legal{display:flex;gap:36px;flex-wrap:wrap}.foot .legal a{color:#94a3b8;font-size:19px;text-decoration:none}
 body{padding-bottom:100px}
+.logout{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:50px;margin:0 0 28px;padding:0 20px;border-radius:14px;font-size:16px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.logout svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
 </style>
 </head>
 <body>
@@ -129,20 +132,20 @@ body{padding-bottom:100px}
 <div id="auth">
   <header><svg viewBox="0 0 60 32" aria-hidden="true"><defs><linearGradient id="lgx1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1e3fae"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs><path d="M16 6C5 6 5 26 16 26C26 26 34 6 44 6C55 6 55 26 44 26C34 26 26 6 16 6Z" fill="none" stroke="url(#lgx1)" stroke-width="6.5" stroke-linejoin="round"/></svg><div class="bt"><b>VELORA</b><small>BOOKING HOTEL</small></div></header>
   <div class="wrap"><div class="card pad">
-    <h2 id="atitle">Masuk</h2>
-    <p class="mut" id="asub">Masuk untuk melihat hotel dan memesan kamar.</p>
+    <h2 id="atitle">Log in</h2>
+    <p class="mut" id="asub">Log in to browse hotels and book rooms.</p>
     <form id="af">
-      <div id="gl"><label for="id">User ID atau email</label><input id="id" autocomplete="username" autocapitalize="none"></div>
+      <div id="gl"><label for="id">User ID or email</label><input id="id" autocomplete="username" autocapitalize="none"></div>
       <div id="gs" hidden>
-        <label for="name">Nama lengkap</label><input id="name" autocomplete="name">
-        <label for="uid">User ID</label><input id="uid" autocapitalize="none" placeholder="huruf kecil, angka, _">
+        <label for="name">Full name</label><input id="name" autocomplete="name">
+        <label for="uid">User ID</label><input id="uid" autocapitalize="none" placeholder="lowercase letters, numbers, _">
         <label for="email">Email</label><input id="email" type="email" autocomplete="email">
       </div>
       <label for="pass">Password</label><input id="pass" type="password" autocomplete="current-password">
-      <button class="btn w" id="abtn">Masuk</button>
+      <button class="btn w" id="abtn">Log in</button>
     </form>
     <p class="err" id="aerr"></p>
-    <p class="row"><a class="l" id="forgot">Lupa password?</a><a class="l" id="swap">Daftar akun baru</a></p>
+    <p class="row"><a class="l" id="forgot">Forgot password?</a><a class="l" id="swap">Create new account</a></p>
   </div></div>
 </div>
 
@@ -188,8 +191,8 @@ body{padding-bottom:100px}
         </div>
       </div>
       <div id="hotels-sec">
-        <h2>Hotel</h2>
-        <input id="search" placeholder="Cari nama atau lokasi">
+        <h2>Hotels</h2>
+        <input id="search" placeholder="Search by name or location">
         <div id="hlist" style="margin:18px 0"></div>
       </div>
       <div class="card cta">
@@ -199,108 +202,108 @@ body{padding-bottom:100px}
         <button class="btn g" data-go="support">Talk to sales</button>
       </div>
     </section>
-    <section id="v-orders" hidden><h2>Pesanan saya</h2><div id="olist"></div></section>
+    <section id="v-orders" hidden><h2>My orders</h2><div id="olist"></div></section>
     <section id="v-admin" hidden>
       <h2>Admin</h2>
       <div class="card pad">
-        <h3 id="ftitle">Tambah hotel</h3>
-        <label for="hn">Nama hotel</label><input id="hn">
-        <label for="hl">Lokasi</label><input id="hl">
-        <label for="hp">Harga per malam (USD)</label><input id="hp" type="number" min="0" step="any">
-        <label for="hph">Link foto (mis. foto/bali1.jpg)</label><input id="hph">
-        <label for="hd">Deskripsi</label><textarea id="hd" rows="3"></textarea>
-        <div class="row"><button class="btn" id="hsave">Simpan hotel</button><button class="btn g" id="hcancel" hidden>Batal</button></div>
+        <h3 id="ftitle">Add hotel</h3>
+        <label for="hn">Hotel name</label><input id="hn">
+        <label for="hl">Location</label><input id="hl">
+        <label for="hp">Price per night (USD)</label><input id="hp" type="number" min="0" step="any">
+        <label for="hph">Photo link (e.g. foto/bali1.jpg)</label><input id="hph">
+        <label for="hd">Description</label><textarea id="hd" rows="3"></textarea>
+        <div class="row"><button class="btn" id="hsave">Save hotel</button><button class="btn g" id="hcancel" hidden>Cancel</button></div>
         <p class="err" id="herr"></p>
       </div>
-      <h3 style="margin:24px 0 12px">Akun pengguna</h3>
+      <h3 style="margin:24px 0 12px">User accounts</h3>
       <div class="card pad" id="accform" hidden>
         <h3 id="acctitle"></h3>
-        <label for="alv">Level akun</label><input id="alv" placeholder="mis. Gold (kosongkan = belum ada paket)">
-        <label for="atot">Total saldo akun (USD)</label><input id="atot" type="number" step="any" min="0">
-        <label for="aav">Saldo tersedia (USD)</label><input id="aav" type="number" step="any" min="0">
-        <label for="aor">Jumlah pesanan (USD)</label><input id="aor" type="number" step="any" min="0">
-        <div class="row"><button class="btn" id="accsave">Simpan akun</button><button class="btn g" id="acccancel">Batal</button></div>
+        <label for="alv">Account level</label><input id="alv" placeholder="e.g. Gold (leave empty = no plan yet)">
+        <label for="atot">Total account balance (USD)</label><input id="atot" type="number" step="any" min="0">
+        <label for="aav">Available balance (USD)</label><input id="aav" type="number" step="any" min="0">
+        <label for="aor">Orders amount (USD)</label><input id="aor" type="number" step="any" min="0">
+        <div class="row"><button class="btn" id="accsave">Save account</button><button class="btn g" id="acccancel">Cancel</button></div>
         <p class="err" id="accerr"></p>
       </div>
       <div id="aulist"></div>
-      <h3 style="margin:24px 0 12px">Permintaan saldo</h3><div id="atx"></div>
-      <h3 style="margin:24px 0 12px">Pesan support</h3><div id="ainbox"></div>
-      <h3 style="margin:24px 0 12px">Daftar hotel</h3><div id="ahlist"></div>
-      <h3 style="margin:24px 0 12px">Semua pesanan</h3><div id="ablist"></div>
+      <h3 style="margin:24px 0 12px">Balance requests</h3><div id="atx"></div>
+      <h3 style="margin:24px 0 12px">Support messages</h3><div id="ainbox"></div>
+      <h3 style="margin:24px 0 12px">Hotel list</h3><div id="ahlist"></div>
+      <h3 style="margin:24px 0 12px">All orders</h3><div id="ablist"></div>
     </section>
     <section id="v-profile" hidden>
-      <h2>Profil</h2>
+      <h2>Profile</h2>
       <div class="card pad prof">
         <div class="av"><span id="pav"></span></div>
         <h3 class="pn" id="pname"></h3>
-        <div class="kv"><span class="mut">Level akun</span><b id="plevel"></b></div>
-        <div class="bal" style="margin-top:8px"><small>TOTAL SALDO AKUN</small><b id="ptotal"></b></div>
+        <div class="kv"><span class="mut">Account level</span><b id="plevel"></b></div>
+        <div class="bal" style="margin-top:8px"><small>TOTAL ACCOUNT BALANCE</small><b id="ptotal"></b></div>
         <div class="two">
-          <div class="bal sm"><small>SALDO TERSEDIA</small><b id="pavail"></b></div>
-          <div class="bal sm red"><small>JUMLAH PESANAN</small><b id="porders"></b></div>
+          <div class="bal sm"><small>AVAILABLE BALANCE</small><b id="pavail"></b></div>
+          <div class="bal sm red"><small>ORDERS AMOUNT</small><b id="porders"></b></div>
         </div>
       </div>
-      <h2 style="margin-top:28px">Ruang Mitra</h2>
-      <p class="mut" style="margin:-6px 0 16px">Ruang pribadi Anda untuk mengelola pesanan, dompet, pengaturan akun, dan bantuan.</p>
+      <h2 style="margin-top:28px">Partner's Lounge</h2>
+      <p class="mut" style="margin:-6px 0 16px">Your private space to manage orders, wallet, account settings, and support.</p>
       <div class="lg">
-        <button class="lc" data-go="dashboard"><i>▦</i><b>Dashboard</b><span>Pesanan dan saldo sekilas.</span></button>
-        <button class="lc" data-go="wallet"><i>▭</i><b>Dompet</b><span>Kelola saldo dan detail pembayaran.</span></button>
-        <button class="lc" data-go="addfunds"><i>+</i><b>Tambah dana</b><span>Tambah dana ke dompet Anda.</span></button>
-        <button class="lc" data-go="withdraw"><i>↑</i><b>Tarik dana</b><span>Ajukan penarikan ke kartu bank.</span></button>
-        <button class="lc" data-go="history"><i>⟲</i><b>Riwayat</b><span>Lihat setoran, penarikan, dan transaksi.</span></button>
-        <button class="lc" data-go="orders"><i>✓</i><b>Pesanan</b><span>Lihat dan beri rating pesanan.</span></button>
-        <button class="lc" data-go="editprofile"><i>☺</i><b>Profil</b><span>Ubah data diri dan password.</span></button>
-        <button class="lc" data-go="support"><i>✉</i><b>Support</b><span>Chat dengan tim kami kapan saja.</span></button>
+        <button class="lc" data-go="dashboard"><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg></i><b>Dashboard</b><span>Orders and balance at a glance.</span></button>
+        <button class="lc" data-go="wallet"><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 10h19M16 15h2"/></svg></i><b>Wallet</b><span>Manage your balance and payment details.</span></button>
+        <button class="lc" data-go="addfunds"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></i><b>Add funds</b><span>Top up your wallet.</span></button>
+        <button class="lc" data-go="withdraw"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></i><b>Withdraw</b><span>Request a withdrawal to your bank card.</span></button>
+        <button class="lc" data-go="history"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg></i><b>History</b><span>View deposits, withdrawals, and transactions.</span></button>
+        <button class="lc" data-go="orders"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></i><b>Orders</b><span>View and rate your orders.</span></button>
+        <button class="lc" data-go="editprofile"><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></i><b>Profile</b><span>Edit your details and password.</span></button>
+        <button class="lc" data-go="support"><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 7l9 6 9-6"/></svg></i><b>Support</b><span>Chat with our team anytime.</span></button>
       </div>
-      <button class="btn r w" id="logout" style="margin-top:0">Keluar</button>
+      <button class="btn r logout" id="logout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg><span>Logout</span></button>
     </section>
     <section id="v-dashboard" hidden>
-      <h2>Dashboard</h2><p class="mut">Pesanan dan saldo Anda sekilas.</p>
+      <h2>Dashboard</h2><p class="mut">Your orders and balance at a glance.</p>
       <div class="two">
-        <div class="bal sm"><small>TOTAL PESANAN</small><b id="dtotal">0</b></div>
-        <div class="bal sm"><small>HARI INI</small><b id="dtoday">0</b></div>
-        <div class="bal sm"><small>DIKONFIRMASI</small><b id="dconf">0</b></div>
-        <div class="bal sm"><small>MENUNGGU</small><b id="dwait">0</b></div>
+        <div class="bal sm"><small>TOTAL ORDERS</small><b id="dtotal">0</b></div>
+        <div class="bal sm"><small>TODAY</small><b id="dtoday">0</b></div>
+        <div class="bal sm"><small>CONFIRMED</small><b id="dconf">0</b></div>
+        <div class="bal sm"><small>PENDING</small><b id="dwait">0</b></div>
         <div class="bal sm"><small>SALDO TERSEDIA</small><b id="dbal">$0.00</b></div>
         <div class="bal sm red"><small>JUMLAH PESANAN</small><b id="dord">$0.00</b></div>
       </div><p class="err" id="derr"></p>
     </section>
     <section id="v-wallet" hidden>
-      <button class="btn g back" data-go="profile">← Ruang Mitra</button><h2>Dompet</h2>
-      <div class="two"><div class="bal sm"><small>TOTAL SALDO</small><b id="wtotal">$0.00</b></div><div class="bal sm"><small>TERSEDIA</small><b id="wavail">$0.00</b></div></div>
-      <div class="card pad"><h3>Detail pembayaran</h3><p class="mut">Rekening atau kartu bank tujuan penarikan.</p>
-        <label for="wbank">Nama bank</label><input id="wbank">
-        <label for="whold">Nama pemilik</label><input id="whold">
-        <label for="wnum">Nomor rekening/kartu</label><input id="wnum" inputmode="numeric" autocomplete="off">
-        <button class="btn w" id="wsave">Simpan</button><p class="err" id="werr"></p></div>
+      <button class="btn g back" data-go="profile">← Partner's Lounge</button><h2>Wallet</h2>
+      <div class="two"><div class="bal sm"><small>TOTAL BALANCE</small><b id="wtotal">$0.00</b></div><div class="bal sm"><small>AVAILABLE</small><b id="wavail">$0.00</b></div></div>
+      <div class="card pad"><h3>Payment details</h3><p class="mut">Bank account or card for withdrawals.</p>
+        <label for="wbank">Bank name</label><input id="wbank">
+        <label for="whold">Account holder name</label><input id="whold">
+        <label for="wnum">Account/card number</label><input id="wnum" inputmode="numeric" autocomplete="off">
+        <button class="btn w" id="wsave">Save</button><p class="err" id="werr"></p></div>
     </section>
     <section id="v-addfunds" hidden>
-      <button class="btn g back" data-go="profile">← Ruang Mitra</button><h2>Tambah dana</h2>
-      <div class="card pad"><label for="famt" style="margin-top:0">Jumlah (USD)</label><input id="famt" type="number" min="0" step="any" inputmode="decimal">
-        <p class="mut" style="margin-top:10px">Permintaan diverifikasi admin sebelum saldo bertambah.</p>
-        <button class="btn w" id="fsend">Kirim permintaan</button><p class="err" id="ferr"></p></div>
+      <button class="btn g back" data-go="profile">← Partner's Lounge</button><h2>Add funds</h2>
+      <div class="card pad"><label for="famt" style="margin-top:0">Amount (USD)</label><input id="famt" type="number" min="0" step="any" inputmode="decimal">
+        <p class="mut" style="margin-top:10px">Requests are verified by an admin before your balance is updated.</p>
+        <button class="btn w" id="fsend">Submit request</button><p class="err" id="ferr"></p></div>
     </section>
     <section id="v-withdraw" hidden>
-      <button class="btn g back" data-go="profile">← Ruang Mitra</button><h2>Tarik dana</h2>
-      <div class="card pad"><p>Saldo tersedia: <b id="xavail">$0.00</b></p><p class="mut" style="margin-top:4px">Tujuan: <span id="xbank"></span></p>
-        <label for="xamt">Jumlah (USD)</label><input id="xamt" type="number" min="0" step="any" inputmode="decimal">
-        <button class="btn w" id="xsend">Ajukan penarikan</button><p class="err" id="xerr"></p></div>
+      <button class="btn g back" data-go="profile">← Partner's Lounge</button><h2>Withdraw</h2>
+      <div class="card pad"><p>Available balance: <b id="xavail">$0.00</b></p><p class="mut" style="margin-top:4px">Destination: <span id="xbank"></span></p>
+        <label for="xamt">Amount (USD)</label><input id="xamt" type="number" min="0" step="any" inputmode="decimal">
+        <button class="btn w" id="xsend">Request withdrawal</button><p class="err" id="xerr"></p></div>
     </section>
     <section id="v-history" hidden>
-      <button class="btn g back" data-go="profile">← Ruang Mitra</button><h2>Riwayat</h2><div id="hislist"></div>
+      <button class="btn g back" data-go="profile">← Partner's Lounge</button><h2>History</h2><div id="hislist"></div>
     </section>
     <section id="v-support" hidden>
       <h2>Support</h2>
       <div class="card pad"><div class="chat" id="chat"></div>
-        <div class="row"><input id="ctext" placeholder="Tulis pesan…" style="flex:1" maxlength="1000"><button class="btn" id="csend">Kirim</button></div>
+        <div class="row"><input id="ctext" placeholder="Type a message…" style="flex:1" maxlength="1000"><button class="btn" id="csend">Send</button></div>
         <p class="err" id="cerr"></p></div>
     </section>
     <section id="v-editprofile" hidden>
-      <button class="btn g back" data-go="profile">← Ruang Mitra</button><h2>Ubah profil</h2>
+      <button class="btn g back" data-go="profile">← Partner's Lounge</button><h2>Edit profile</h2>
       <div class="card pad"><p class="mut" id="eid"></p>
-        <label for="enm">Nama lengkap</label><input id="enm">
-        <button class="btn w" id="esave">Simpan</button>
-        <button class="btn g w" id="epw" style="margin-top:12px">Kirim link ganti password</button>
+        <label for="enm">Full name</label><input id="enm">
+        <button class="btn w" id="esave">Save</button>
+        <button class="btn g w" id="epw" style="margin-top:12px">Send password reset link</button>
         <p class="err" id="eerr"></p></div>
     </section>
     <footer class="foot" id="sitefoot">
@@ -330,7 +333,7 @@ body{padding-bottom:100px}
   <label for="co">Check-out</label><input id="co" type="date">
   <p id="tot" style="margin-top:14px;font-weight:700"></p>
   <p class="err" id="berr"></p>
-  <div class="row"><button class="btn g" id="bcancel">Tutup</button><button class="btn" id="bsend">Kirim pesanan</button></div>
+  <div class="row"><button class="btn g" id="bcancel">Close</button><button class="btn" id="bsend">Submit booking</button></div>
 </dialog>
 
 <script type="module">
@@ -351,8 +354,8 @@ const auth=getAuth(app),db=getFirestore(app);
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const money=n=>Number(n).toLocaleString("en-US",{style:"currency",currency:"USD"});
-const M={"auth/invalid-credential":"User ID/email atau password salah.","auth/email-already-in-use":"Email sudah terdaftar.","auth/weak-password":"Password minimal 6 karakter.","auth/invalid-email":"Format email salah.","permission-denied":"Akses ditolak oleh aturan database."};
-const msg=x=>M[x.code]||x.message||"Terjadi kesalahan, coba lagi.";
+const M={"auth/invalid-credential":"Incorrect User ID/email or password.","auth/email-already-in-use":"This email is already registered.","auth/weak-password":"Password must be at least 6 characters.","auth/invalid-email":"Invalid email format.","permission-denied":"Access denied by database rules."};
+const msg=x=>M[x.code]||x.message||"Something went wrong, please try again.";
 let me=null,profile=null,hotels=[],mode="login",signingUp=false,editId=null,cur=null;
 const isAdmin=()=>me&&me.email===ADMIN;
 
@@ -360,23 +363,23 @@ const isAdmin=()=>me&&me.email===ADMIN;
 function setMode(m){
   mode=m;const s=m==="signup";
   $("#gl").hidden=s;$("#gs").hidden=!s;$("#aerr").textContent="";
-  $("#atitle").textContent=s?"Daftar akun":"Masuk";
-  $("#asub").textContent=s?"Buat akun untuk melihat hotel dan memesan kamar.":"Masuk untuk melihat hotel dan memesan kamar.";
-  $("#abtn").textContent=s?"Daftar":"Masuk";
-  $("#swap").textContent=s?"Sudah punya akun? Masuk":"Daftar akun baru";
+  $("#atitle").textContent=s?"Create account":"Log in";
+  $("#asub").textContent=s?"Create an account to browse hotels and book rooms.":"Log in to browse hotels and book rooms.";
+  $("#abtn").textContent=s?"Sign up":"Log in";
+  $("#swap").textContent=s?"Already have an account? Log in":"Create new account";
   $("#forgot").hidden=s;
   $("#pass").autocomplete=s?"new-password":"current-password";
 }
 async function toEmail(id){
-  id=id.trim();if(!id)throw Error("Isi User ID atau email.");
+  id=id.trim();if(!id)throw Error("Enter your User ID or email.");
   if(id.includes("@"))return id;
   const d=await getDoc(doc(db,"usernames",id.toLowerCase()));
-  if(!d.exists())throw Error("User ID tidak ditemukan.");
+  if(!d.exists())throw Error("User ID not found.");
   return d.data().email;
 }
 $("#swap").onclick=()=>setMode(mode==="login"?"signup":"login");
 $("#forgot").onclick=async()=>{
-  try{await sendPasswordResetEmail(auth,await toEmail($("#id").value));$("#aerr").style.color="inherit";$("#aerr").textContent="Link reset password sudah dikirim ke email.";}
+  try{await sendPasswordResetEmail(auth,await toEmail($("#id").value));$("#aerr").style.color="inherit";$("#aerr").textContent="Password reset link has been sent to your email.";}
   catch(x){$("#aerr").style.color="";$("#aerr").textContent=msg(x)}
 };
 $("#af").onsubmit=async e=>{
@@ -384,14 +387,14 @@ $("#af").onsubmit=async e=>{
   const pass=$("#pass").value;
   try{
     if(mode==="login"){
-      if(!pass)throw Error("Isi password.");
+      if(!pass)throw Error("Enter your password.");
       await signInWithEmailAndPassword(auth,await toEmail($("#id").value),pass);
     }else{
       const name=$("#name").value.trim(),uid=$("#uid").value.trim().toLowerCase(),email=$("#email").value.trim();
-      if(!name||!email)throw Error("Lengkapi nama dan email.");
-      if(!/^[a-z0-9_]{4,20}$/.test(uid))throw Error("User ID 4-20 karakter: huruf kecil, angka, atau _.");
-      if(pass.length<6)throw Error("Password minimal 6 karakter.");
-      if((await getDoc(doc(db,"usernames",uid))).exists())throw Error("User ID sudah dipakai.");
+      if(!name||!email)throw Error("Please fill in your name and email.");
+      if(!/^[a-z0-9_]{4,20}$/.test(uid))throw Error("User ID must be 4-20 characters: lowercase letters, numbers, or _.");
+      if(pass.length<6)throw Error("Password must be at least 6 characters.");
+      if((await getDoc(doc(db,"usernames",uid))).exists())throw Error("User ID is already taken.");
       signingUp=true;
       const c=await createUserWithEmailAndPassword(auth,email,pass);
       try{
@@ -415,7 +418,7 @@ async function enter(){
   show("home");loadHotels();
 }
 
-/* ---------- Akun (level & saldo, hanya admin yang bisa ubah) ---------- */
+/* ---------- Account (level & balance, admin-editable only) ---------- */
 const NOACC={level:"",total:0,available:0,orders:0};
 let myAcc={...NOACC};
 async function loadAccount(){
@@ -425,15 +428,15 @@ async function loadAccount(){
   const uid=(profile.userid&&profile.userid!=="-")?profile.userid:profile.name;
   $("#pname").textContent=uid;
   $("#pav").textContent=String(uid||"?").charAt(0).toUpperCase();
-  $("#plevel").textContent=a.level||"Belum ada paket";
+  $("#plevel").textContent=a.level||"No plan yet";
   $("#ptotal").textContent=money(a.total);$("#pavail").textContent=money(a.available);$("#porders").textContent=money(a.orders);
   const set=(id,v)=>{const e=$(id);if(e)e.textContent=v};
   set("#dbal",money(a.available));set("#dord",money(a.orders));
   set("#wtotal",money(a.total));set("#wavail",money(a.available));set("#xavail",money(a.available));
-  const po=profile.payout;set("#xbank",po&&po.number?`${po.bank} · •••• ${po.number.slice(-4)}`:"Belum diisi (isi di Dompet)");
+  const po=profile.payout;set("#xbank",po&&po.number?`${po.bank} · •••• ${po.number.slice(-4)}`:"Not set (add it in Wallet)");
 }
 
-/* ---------- Navigasi ---------- */
+/* ---------- Navigation ---------- */
 const VIEWS=["home","orders","admin","profile","dashboard","wallet","addfunds","withdraw","history","support","editprofile"];
 const NAVMAP={wallet:"profile",addfunds:"profile",withdraw:"profile",history:"profile",editprofile:"profile"};
 let unsub=null;
@@ -466,43 +469,45 @@ async function loadHotels(){
 function renderHotels(){
   const q=$("#search").value.toLowerCase();
   const l=hotels.filter(h=>((h.name||"")+" "+(h.location||"")).toLowerCase().includes(q));
-  $("#hlist").innerHTML=l.length?l.map(h=>`<div class="card hc"><img src="${esc(h.photo)}" alt="" loading="lazy" onerror="this.style.display='none'"><div class="pad"><h3>${esc(h.name)}</h3><p class="mut">${esc(h.location)}</p><p style="margin-top:8px">${esc(h.desc)}</p><div class="row"><b>${money(h.price)} <small class="mut">/ malam</small></b><button class="btn" data-book="${h.id}">Pesan</button></div></div></div>`).join(""):'<p class="mut">Belum ada hotel yang cocok.</p>';
+  $("#hlist").innerHTML=l.length?l.map(h=>`<div class="card hc"><img src="${esc(h.photo)}" alt="" loading="lazy" onerror="this.style.display='none'"><div class="pad"><h3>${esc(h.name)}</h3><p class="mut">${esc(h.location)}</p><p style="margin-top:8px">${esc(h.desc)}</p><div class="row"><b>${money(h.price)} <small class="mut">/ night</small></b><button class="btn" data-book="${h.id}">Book</button></div></div></div>`).join(""):'<p class="mut">No matching hotels found.</p>';
 }
 $("#search").oninput=renderHotels;
 
-/* ---------- Pesan kamar ---------- */
+/* ---------- Room booking ---------- */
 const nights=()=>{const n=Math.round((new Date($("#co").value)-new Date($("#ci").value))/864e5);return n>0?n:0};
-function total(){const n=nights();$("#tot").textContent=n?`${n} malam · ${money(n*cur.price)}`:""}
+function total(){const n=nights();$("#tot").textContent=n?`${n} night${n>1?"s":""} · ${money(n*cur.price)}`:""}
 $("#ci").onchange=$("#co").onchange=total;
 $("#bcancel").onclick=()=>$("#dlg").close();
 $("#bsend").onclick=async()=>{
-  const n=nights();if(!n)return $("#berr").textContent="Check-out harus setelah check-in.";
+  const n=nights();if(!n)return $("#berr").textContent="Check-out must be after check-in.";
   try{
     await addDoc(collection(db,"bookings"),{uid:me.uid,userid:profile.userid,name:profile.name,hotelId:cur.id,hotelName:cur.name,checkin:$("#ci").value,checkout:$("#co").value,nights:n,total:n*cur.price,status:"Menunggu",created:Date.now()});
     $("#dlg").close();show("orders");
   }catch(x){$("#berr").textContent=msg(x)}
 };
 const rate=b=>b.status!=="Dikonfirmasi"?"":`<div class="row" style="justify-content:flex-start;gap:4px"><span class="mut">Rating:</span>${[1,2,3,4,5].map(n=>`<button class="btn g" style="padding:6px 10px${(b.rating||0)>=n?";color:#f5a623":""}" data-rate="${n}" data-id="${b.id}">★</button>`).join("")}</div>`;
-const bk=(b,adm)=>`<div class="card pad"><div class="row" style="margin:0"><h3>${esc(b.hotelName)}</h3><span class="st">${esc(b.status)}</span></div><p class="mut">${esc(b.checkin)} → ${esc(b.checkout)} · ${b.nights} malam</p><b>${money(b.total)}</b>${adm?`<p class="mut">${esc(b.name)} (@${esc(b.userid)})</p><div class="row"><button class="btn" data-st="Dikonfirmasi" data-id="${b.id}">Konfirmasi</button><button class="btn r" data-st="Dibatalkan" data-id="${b.id}">Batalkan</button></div>`:rate(b)}</div>`;
+const bk=(b,adm)=>`<div class="card pad"><div class="row" style="margin:0"><h3>${esc(b.hotelName)}</h3><span class="st">${esc(stl(b.status))}</span></div><p class="mut">${esc(b.checkin)} → ${esc(b.checkout)} · ${b.nights} night${b.nights>1?"s":""}</p><b>${money(b.total)}</b>${adm?`<p class="mut">${esc(b.name)} (@${esc(b.userid)})</p><div class="row"><button class="btn" data-st="Dikonfirmasi" data-id="${b.id}">Confirm</button><button class="btn r" data-st="Dibatalkan" data-id="${b.id}">Cancel</button></div>`:rate(b)}</div>`;
+const SL={Menunggu:"Pending",Dikonfirmasi:"Confirmed",Dibatalkan:"Cancelled",Disetujui:"Approved",Ditolak:"Rejected"};
+const stl=x=>SL[x]||x;
 const byNew=(a,b)=>b.created-a.created;
 async function loadOrders(){
   try{
     const s=await getDocs(query(collection(db,"bookings"),where("uid","==",me.uid)));
     const l=s.docs.map(d=>({id:d.id,...d.data()})).sort(byNew);
-    $("#olist").innerHTML=l.length?l.map(b=>bk(b)).join(""):'<p class="mut">Belum ada pesanan. Pilih hotel lalu ketuk Pesan.</p>';
+    $("#olist").innerHTML=l.length?l.map(b=>bk(b)).join(""):'<p class="mut">No orders yet. Choose a hotel and tap Book.</p>';
   }catch(x){$("#olist").innerHTML='<p class="err">'+esc(msg(x))+'</p>'}
 }
 
 /* ---------- Admin ---------- */
 function renderAdminHotels(){
   if(!isAdmin())return;
-  $("#ahlist").innerHTML=hotels.map(h=>`<div class="card pad"><h3>${esc(h.name)}</h3><p class="mut">${esc(h.location)} · ${money(h.price)}</p><div class="row"><button class="btn g" data-edit="${h.id}">Ubah</button><button class="btn r" data-del="${h.id}">Hapus</button></div></div>`).join("")||'<p class="mut">Belum ada hotel.</p>';
+  $("#ahlist").innerHTML=hotels.map(h=>`<div class="card pad"><h3>${esc(h.name)}</h3><p class="mut">${esc(h.location)} · ${money(h.price)}</p><div class="row"><button class="btn g" data-edit="${h.id}">Edit</button><button class="btn r" data-del="${h.id}">Delete</button></div></div>`).join("")||'<p class="mut">No hotels yet.</p>';
 }
 async function loadAllBookings(){
   if(!isAdmin())return;
   try{
     const l=(await getDocs(collection(db,"bookings"))).docs.map(d=>({id:d.id,...d.data()})).sort(byNew);
-    $("#ablist").innerHTML=l.length?l.map(b=>bk(b,true)).join(""):'<p class="mut">Belum ada pesanan.</p>';
+    $("#ablist").innerHTML=l.length?l.map(b=>bk(b,true)).join(""):'<p class="mut">No orders yet.</p>';
   }catch(x){$("#ablist").innerHTML='<p class="err">'+esc(msg(x))+'</p>'}
 }
 let users=[],accs={},accUid=null;
@@ -512,7 +517,7 @@ async function loadUsers(){
     users=(await getDocs(collection(db,"users"))).docs.map(d=>({uid:d.id,...d.data()}));
     accs={};(await getDocs(collection(db,"accounts"))).docs.forEach(d=>accs[d.id]={...NOACC,...d.data()});
     $("#aulist").innerHTML=users.length?users.map(u=>{const a=accs[u.uid]||NOACC;
-      return `<div class="card pad"><h3>${esc(u.name)} <small class="mut">(@${esc(u.userid)})</small></h3><p class="mut">${esc(a.level||"Belum ada paket")} · Total ${money(a.total)} · Tersedia ${money(a.available)} · Pesanan ${money(a.orders)}</p><div class="row"><button class="btn g" data-acc="${u.uid}">Ubah akun</button></div></div>`}).join(""):'<p class="mut">Belum ada pengguna.</p>';
+      return `<div class="card pad"><h3>${esc(u.name)} <small class="mut">(@${esc(u.userid)})</small></h3><p class="mut">${esc(a.level||"No plan yet")} · Total ${money(a.total)} · Available ${money(a.available)} · Orders ${money(a.orders)}</p><div class="row"><button class="btn g" data-acc="${u.uid}">Edit account</button></div></div>`}).join(""):'<p class="mut">No users yet.</p>';
   }catch(x){$("#aulist").innerHTML='<p class="err">'+esc(msg(x))+'</p>'}
 }
 $("#acccancel").onclick=()=>{accUid=null;$("#accform").hidden=true};
@@ -520,27 +525,27 @@ $("#accsave").onclick=async()=>{
   if(!isAdmin()||!accUid)return;
   const n=i=>Number($(i).value||0);
   const d={level:$("#alv").value.trim(),total:n("#atot"),available:n("#aav"),orders:n("#aor")};
-  if([d.total,d.available,d.orders].some(v=>!isFinite(v)||v<0))return $("#accerr").textContent="Angka tidak valid.";
+  if([d.total,d.available,d.orders].some(v=>!isFinite(v)||v<0))return $("#accerr").textContent="Invalid number.";
   try{await setDoc(doc(db,"accounts",accUid),d);$("#accform").hidden=true;accUid=null;loadUsers()}
   catch(x){$("#accerr").textContent=msg(x)}
 };
 function resetForm(){
   editId=null;["hn","hl","hp","hph","hd"].forEach(i=>$("#"+i).value="");
-  $("#ftitle").textContent="Tambah hotel";$("#hcancel").hidden=true;$("#herr").textContent="";
+  $("#ftitle").textContent="Add hotel";$("#hcancel").hidden=true;$("#herr").textContent="";
 }
 $("#hcancel").onclick=resetForm;
 $("#hsave").onclick=async()=>{
   const d={name:$("#hn").value.trim(),location:$("#hl").value.trim(),price:Number($("#hp").value),photo:$("#hph").value.trim(),desc:$("#hd").value.trim()};
-  if(!d.name||!d.location||!(d.price>=0)||$("#hp").value==="")return $("#herr").textContent="Nama, lokasi, dan harga wajib diisi.";
+  if(!d.name||!d.location||!(d.price>=0)||$("#hp").value==="")return $("#herr").textContent="Name, location, and price are required.";
   try{
     if(editId)await updateDoc(doc(db,"hotels",editId),d);else await addDoc(collection(db,"hotels"),d);
     resetForm();loadHotels();
   }catch(x){$("#herr").textContent=msg(x)}
 };
 
-/* ---------- Ruang Mitra ---------- */
-const fmt=t=>new Date(t).toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"});
-const TL={deposit:"Tambah dana",withdraw:"Penarikan"};
+/* ---------- Partner's Lounge ---------- */
+const fmt=t=>new Date(t).toLocaleString("en-US",{dateStyle:"medium",timeStyle:"short"});
+const TL={deposit:"Add funds",withdraw:"Withdrawal"};
 const num=id=>Number($(id).value);
 const say=(id,t,ok)=>{const e=$(id);e.style.color=ok?"inherit":"";e.textContent=t};
 async function loadDashboard(){
@@ -560,45 +565,45 @@ function fillWallet(){
 }
 $("#wsave").onclick=async()=>{
   const p={bank:$("#wbank").value.trim(),holder:$("#whold").value.trim(),number:$("#wnum").value.replace(/\s/g,"")};
-  if(!p.bank||!p.holder||!/^\d{6,25}$/.test(p.number))return say("#werr","Isi bank, nama pemilik, dan nomor (angka saja).");
-  try{await updateDoc(doc(db,"users",me.uid),{payout:p});profile.payout=p;say("#werr","Tersimpan.",1)}
+  if(!p.bank||!p.holder||!/^\d{6,25}$/.test(p.number))return say("#werr","Enter the bank, account holder name, and number (digits only).");
+  try{await updateDoc(doc(db,"users",me.uid),{payout:p});profile.payout=p;say("#werr","Saved.",1)}
   catch(x){say("#werr",msg(x))}
 };
 async function newTx(type,amtSel,errSel,extra={}){
   const amount=num(amtSel);
-  if(!(amount>0))return say(errSel,"Masukkan jumlah yang valid.");
+  if(!(amount>0))return say(errSel,"Enter a valid amount.");
   try{
     await addDoc(collection(db,"transactions"),{uid:me.uid,userid:profile.userid,name:profile.name,type,amount,status:"Menunggu",created:Date.now(),...extra});
-    $(amtSel).value="";say(errSel,"Permintaan terkirim. Menunggu persetujuan admin.",1);
+    $(amtSel).value="";say(errSel,"Request sent. Waiting for admin approval.",1);
   }catch(x){say(errSel,msg(x))}
 }
 $("#fsend").onclick=()=>newTx("deposit","#famt","#ferr");
 $("#xsend").onclick=()=>{
   const p=profile.payout;
-  if(!p||!p.number)return say("#xerr","Isi detail pembayaran di Dompet dulu.");
-  if(num("#xamt")>myAcc.available)return say("#xerr","Melebihi saldo tersedia.");
+  if(!p||!p.number)return say("#xerr","Add your payment details in Wallet first.");
+  if(num("#xamt")>myAcc.available)return say("#xerr","Exceeds available balance.");
   newTx("withdraw","#xamt","#xerr",{bank:p.bank,holder:p.holder,number:p.number});
 };
 async function loadHistory(){
   try{
     const l=(await getDocs(query(collection(db,"transactions"),where("uid","==",me.uid)))).docs.map(d=>({id:d.id,...d.data()})).sort(byNew);
-    $("#hislist").innerHTML=l.length?l.map(t=>`<div class="card pad"><div class="row" style="margin:0"><h3>${TL[t.type]}</h3><span class="st">${esc(t.status)}</span></div><p class="mut">${fmt(t.created)}</p><b>${t.type==="deposit"?"+":"−"}${money(t.amount)}</b></div>`).join(""):'<p class="mut">Belum ada transaksi.</p>';
+    $("#hislist").innerHTML=l.length?l.map(t=>`<div class="card pad"><div class="row" style="margin:0"><h3>${TL[t.type]}</h3><span class="st">${esc(stl(t.status))}</span></div><p class="mut">${fmt(t.created)}</p><b>${t.type==="deposit"?"+":"−"}${money(t.amount)}</b></div>`).join(""):'<p class="mut">No transactions yet.</p>';
   }catch(x){$("#hislist").innerHTML='<p class="err">'+esc(msg(x))+'</p>'}
 }
 function fillEdit(){$("#enm").value=profile.name;$("#eid").textContent="@"+profile.userid+" · "+me.email;$("#eerr").textContent=""}
 $("#esave").onclick=async()=>{
-  const name=$("#enm").value.trim();if(!name)return say("#eerr","Nama tidak boleh kosong.");
-  try{await updateDoc(doc(db,"users",me.uid),{name});profile.name=name;say("#eerr","Tersimpan.",1)}catch(x){say("#eerr",msg(x))}
+  const name=$("#enm").value.trim();if(!name)return say("#eerr","Name cannot be empty.");
+  try{await updateDoc(doc(db,"users",me.uid),{name});profile.name=name;say("#eerr","Saved.",1)}catch(x){say("#eerr",msg(x))}
 };
 $("#epw").onclick=async()=>{
-  try{await sendPasswordResetEmail(auth,me.email);say("#eerr","Link ganti password dikirim ke "+me.email+".",1)}catch(x){say("#eerr",msg(x))}
+  try{await sendPasswordResetEmail(auth,me.email);say("#eerr","Password reset link sent to "+me.email+".",1)}catch(x){say("#eerr",msg(x))}
 };
 const bub=(m,mine)=>`<div class="msg${mine?" me":""}">${esc(m.text)}<small>${fmt(m.created)}</small></div>`;
 function startChat(){
-  $("#chat").innerHTML='<p class="mut">Memuat…</p>';
+  $("#chat").innerHTML='<p class="mut">Loading…</p>';
   unsub=onSnapshot(query(collection(db,"messages"),where("uid","==",me.uid)),s=>{
     const l=s.docs.map(d=>d.data()).sort((a,b)=>a.created-b.created);
-    $("#chat").innerHTML=l.length?l.map(m=>bub(m,m.from==="user")).join(""):'<p class="mut">Belum ada pesan. Tulis pertanyaan Anda, tim kami akan membalas.</p>';
+    $("#chat").innerHTML=l.length?l.map(m=>bub(m,m.from==="user")).join(""):'<p class="mut">No messages yet. Write your question and our team will reply.</p>';
     $("#chat").scrollTop=$("#chat").scrollHeight;
   },x=>{$("#chat").innerHTML='<p class="err">'+esc(msg(x))+'</p>'});
 }
@@ -608,12 +613,12 @@ $("#csend").onclick=async()=>{
   catch(x){$("#cerr").textContent=msg(x)}
 };
 
-/* ---------- Admin: saldo & support ---------- */
+/* ---------- Admin: balance & support ---------- */
 async function loadTx(){
   if(!isAdmin())return;
   try{
     const l=(await getDocs(collection(db,"transactions"))).docs.map(d=>({id:d.id,...d.data()})).sort(byNew);
-    $("#atx").innerHTML=l.length?l.map(t=>`<div class="card pad"><div class="row" style="margin:0"><h3>${TL[t.type]} ${money(t.amount)}</h3><span class="st">${esc(t.status)}</span></div><p class="mut">${esc(t.name)} (@${esc(t.userid)}) · ${fmt(t.created)}</p>${t.type==="withdraw"?`<p class="mut">${esc(t.bank)} · ${esc(t.holder)} · ${esc(t.number)}</p>`:""}${t.status==="Menunggu"?`<div class="row"><button class="btn" data-tx="1" data-txid="${t.id}">Setujui</button><button class="btn r" data-tx="0" data-txid="${t.id}">Tolak</button></div>`:""}</div>`).join(""):'<p class="mut">Belum ada permintaan.</p>';
+    $("#atx").innerHTML=l.length?l.map(t=>`<div class="card pad"><div class="row" style="margin:0"><h3>${TL[t.type]} ${money(t.amount)}</h3><span class="st">${esc(stl(t.status))}</span></div><p class="mut">${esc(t.name)} (@${esc(t.userid)}) · ${fmt(t.created)}</p>${t.type==="withdraw"?`<p class="mut">${esc(t.bank)} · ${esc(t.holder)} · ${esc(t.number)}</p>`:""}${t.status==="Menunggu"?`<div class="row"><button class="btn" data-tx="1" data-txid="${t.id}">Approve</button><button class="btn r" data-tx="0" data-txid="${t.id}">Reject</button></div>`:""}</div>`).join(""):'<p class="mut">No requests yet.</p>';
   }catch(x){$("#atx").innerHTML='<p class="err">'+esc(msg(x))+'</p>'}
 }
 async function decide(id,ok){
@@ -624,7 +629,7 @@ async function decide(id,ok){
     const sign=t.type==="deposit"?1:-1;
     if(sign<0){
       const a=(await getDoc(doc(db,"accounts",t.uid))).data()||NOACC;
-      if(t.amount>(a.available||0))return alert("Saldo tersedia pengguna tidak cukup.");
+      if(t.amount>(a.available||0))return alert("The user's available balance is insufficient.");
     }
     b.set(doc(db,"accounts",t.uid),{total:increment(sign*t.amount),available:increment(sign*t.amount)},{merge:true});
   }
@@ -639,11 +644,11 @@ async function loadInbox(){
     const g={};l.forEach(m=>(g[m.uid]??=[]).push(m));
     const ids=Object.keys(g).sort((a,b)=>g[b][g[b].length-1].created-g[a][g[a].length-1].created);
     $("#ainbox").innerHTML=ids.length?ids.map(u=>{const m=g[u],f=m.find(x=>x.from==="user")||m[0];
-      return `<div class="card pad"><h3>${esc(f.name)} <small class="mut">(@${esc(f.userid)})</small></h3><div class="chat">${m.slice(-6).map(x=>bub(x,x.from==="admin")).join("")}</div><div class="row"><input class="ri" data-u="${u}" placeholder="Balas…" style="flex:1"><button class="btn" data-reply="${u}">Kirim</button></div></div>`}).join(""):'<p class="mut">Belum ada pesan.</p>';
+      return `<div class="card pad"><h3>${esc(f.name)} <small class="mut">(@${esc(f.userid)})</small></h3><div class="chat">${m.slice(-6).map(x=>bub(x,x.from==="admin")).join("")}</div><div class="row"><input class="ri" data-u="${u}" placeholder="Reply…" style="flex:1"><button class="btn" data-reply="${u}">Send</button></div></div>`}).join(""):'<p class="mut">No messages yet.</p>';
   }catch(x){$("#ainbox").innerHTML='<p class="err">'+esc(msg(x))+'</p>'}
 }
 
-/* ---------- Klik tombol dinamis ---------- */
+/* ---------- Dynamic button clicks ---------- */
 document.addEventListener("click",async e=>{
   const t=e.target.closest("button");if(!t)return;
   if(t.dataset.go)show(t.dataset.go);
@@ -665,15 +670,15 @@ document.addEventListener("click",async e=>{
   if(t.dataset.edit){
     const h=hotels.find(x=>x.id===t.dataset.edit);editId=h.id;
     $("#hn").value=h.name;$("#hl").value=h.location;$("#hp").value=h.price;$("#hph").value=h.photo||"";$("#hd").value=h.desc||"";
-    $("#ftitle").textContent="Ubah hotel";$("#hcancel").hidden=false;scrollTo(0,0);
+    $("#ftitle").textContent="Edit hotel";$("#hcancel").hidden=false;scrollTo(0,0);
   }
   if(t.dataset.acc&&isAdmin()){
     const u=users.find(x=>x.uid===t.dataset.acc),a=accs[u.uid]||NOACC;accUid=u.uid;
-    $("#acctitle").textContent="Ubah akun @"+u.userid;$("#alv").value=a.level||"";
+    $("#acctitle").textContent="Edit account @"+u.userid;$("#alv").value=a.level||"";
     $("#atot").value=a.total;$("#aav").value=a.available;$("#aor").value=a.orders;
     $("#accerr").textContent="";$("#accform").hidden=false;$("#accform").scrollIntoView({behavior:"smooth"});
   }
-  if(t.dataset.del&&confirm("Hapus hotel ini?")){await deleteDoc(doc(db,"hotels",t.dataset.del));loadHotels()}
+  if(t.dataset.del&&confirm("Delete this hotel?")){await deleteDoc(doc(db,"hotels",t.dataset.del));loadHotels()}
   if(t.dataset.st){await updateDoc(doc(db,"bookings",t.dataset.id),{status:t.dataset.st});loadAllBookings()}
 });
 </script>
