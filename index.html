@@ -303,7 +303,9 @@ body{padding-bottom:100px}
 </head>
 <body>
 
-<div id="auth">
+<div id="splash" style="position:fixed;inset:0;z-index:99;background:#0b1220;display:grid;place-items:center;color:#fff;font:800 30px Outfit,system-ui,sans-serif;letter-spacing:.04em">VELORA</div>
+<script>setTimeout(function(){var s=document.getElementById("splash");if(s){s.remove();document.getElementById("auth").hidden=false}},10000)</script>
+<div id="auth" hidden>
   <div class="bgflow" data-bg></div>
   <header><svg viewBox="0 0 60 32" aria-hidden="true"><defs><linearGradient id="lgx1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1e3fae"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs><path d="M16 6C5 6 5 26 16 26C26 26 34 6 44 6C55 6 55 26 44 26C34 26 26 6 16 6Z" fill="none" stroke="url(#lgx1)" stroke-width="6.5" stroke-linejoin="round"/></svg><div class="bt"><b>VELORA</b><small>BOOKING HOTEL</small></div></header>
   <div class="wrap"><div class="card pad">
@@ -647,11 +649,14 @@ $("#af").onsubmit=async e=>{
   }catch(x){signingUp=false;er.textContent=msg(x)}
 };
 $("#logout").onclick=()=>{try{localStorage.removeItem(VKEY);history.replaceState(null,"",location.pathname)}catch(x){}signOut(auth)};
+function reveal(){$("#auth").hidden=true;$("#app").hidden=false;const sp=$("#splash");if(sp)sp.remove()}
 onAuthStateChanged(auth,u=>{
-  me=u;$("#auth").hidden=!!u;$("#app").hidden=!u;
-  if(u&&!signingUp)enter();
+  me=u;
+  if(!u){$("#app").hidden=true;$("#auth").hidden=false;const sp=$("#splash");if(sp)sp.remove();return}
+  if(!signingUp)enter();
 });
-async function enter(){
+async function enter(){try{await enter0()}finally{reveal()}}
+async function enter0(){
   const d=await getDoc(doc(db,"users",me.uid));
   profile=d.exists()?d.data():{name:me.email,userid:"-",email:me.email};
   await loadAccount();
