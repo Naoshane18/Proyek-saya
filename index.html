@@ -81,7 +81,7 @@ header small{margin-top:4px;padding-left:2px}
 
 .marq{overflow:hidden;margin:0 -24px;padding:2px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
 .mtrack{display:flex;align-items:center;gap:16px;width:max-content;padding-left:16px;animation:mq 40s linear infinite;will-change:transform}
-.marq:hover .mtrack{animation-play-state:paused}
+@media(hover:hover) and (pointer:fine){.marq:hover .mtrack{animation-play-state:paused}}
 .lg1{flex:none;display:flex;align-items:center;height:56px;background:#fff;border-radius:12px;padding:6px 12px}
 .lg1 img{display:block;background:none;border-radius:0;padding:0;max-width:none}.lg1 img.sqr{border-radius:6px}
 
@@ -518,7 +518,7 @@ $("#af").onsubmit=async e=>{
     }
   }catch(x){signingUp=false;er.textContent=msg(x)}
 };
-$("#logout").onclick=()=>signOut(auth);
+$("#logout").onclick=()=>{try{localStorage.removeItem(VKEY);history.replaceState(null,"",location.pathname)}catch(x){}signOut(auth)};
 onAuthStateChanged(auth,u=>{
   me=u;$("#auth").hidden=!!u;$("#app").hidden=!u;
   if(u&&!signingUp)enter();
@@ -528,7 +528,7 @@ async function enter(){
   profile=d.exists()?d.data():{name:me.email,userid:"-",email:me.email};
   await loadAccount();
   document.querySelectorAll(".adm").forEach(e=>e.hidden=!isAdmin());
-  show("home");loadHotels();
+  show(savedView());loadHotels();
 }
 
 /* ---------- Account (level & balance, admin-editable only) ---------- */
@@ -553,7 +553,15 @@ async function loadAccount(){
 const VIEWS=["home","orders","admin","profile","dashboard","wallet","addfunds","withdraw","history","support","editprofile","about"];
 const NAVMAP={wallet:"profile",addfunds:"profile",withdraw:"profile",history:"profile",editprofile:"profile"};
 let unsub=null,lastV="home";
+const VKEY="velora_view";
+function savedView(){
+  let v="";
+  try{v=location.hash.slice(1)||localStorage.getItem(VKEY)||""}catch(x){}
+  if(!VIEWS.includes(v)||(v==="admin"&&!isAdmin()))return"home";
+  return v;
+}
 function show(v){
+  try{localStorage.setItem(VKEY,v);history.replaceState(null,"","#"+v)}catch(x){}
   if(v!=="about")lastV=v;
   $("#mainhead").hidden=v==="about";$("#subhead").hidden=v!=="about";
   VIEWS.forEach(k=>$("#v-"+k).hidden=k!==v);
