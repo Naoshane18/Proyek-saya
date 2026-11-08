@@ -200,6 +200,14 @@ body{padding-bottom:100px}
 .bghead p{position:relative;z-index:1;color:#e2e8f0;margin-top:6px;text-shadow:0 1px 8px rgba(0,0,0,.5)}
 .bghead .bgtrack{animation-duration:60s}.bghead .bgrow.rev .bgtrack{animation-duration:75s}
 
+/* ---------- Loading saat pindah menu (seperti INNFinite) ---------- */
+#topbar{position:fixed;top:0;left:0;height:3px;width:0;opacity:0;pointer-events:none;z-index:1000;background:linear-gradient(90deg,#3b6cf0,#7aa2ff);box-shadow:0 0 10px #3b6cf0}
+#topbar.run{animation:tbar .6s ease-out forwards}
+@keyframes tbar{0%{width:0;opacity:1}65%{width:88%;opacity:1}100%{width:100%;opacity:0}}
+body.ld #app section:not([hidden]){opacity:.4;transition:opacity .2s}
+.vin{animation:vin .38s ease both}
+@keyframes vin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.vin{animation:none}#topbar.run{animation-duration:.01s}}
 /* prarender: sudah login -> langsung tampil halaman terakhir, tanpa login/splash */
 html.in #auth{display:none!important}
 html.in #app{display:block!important}
@@ -307,6 +315,7 @@ html.in:not(.rdy) #app{visibility:hidden}
 </style>
 </head>
 <body>
+<div id="topbar"></div>
 
 <div id="auth">
   <div class="bgflow" data-bg></div>
@@ -729,6 +738,8 @@ function show(v){
   $("#sitefoot").hidden=v==="orders";
   if(unsub){unsub();unsub=null}
   document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.dataset.v===(NAVMAP[v]||v)));
+  document.body.classList.remove("ld");
+  if(!window.__pre){const sec=$("#v-"+v);if(sec){sec.classList.remove("vin");void sec.offsetWidth;sec.classList.add("vin")}}
   if(window.__pre){window.__pre=false}else scrollTo(0,0);
   if(v==="orders")loadOrders();
   if(v==="profile")loadAccount();
@@ -741,8 +752,15 @@ function show(v){
   if(v==="editprofile")fillEdit();
   if(v==="admin"){loadHotels();loadAllBookings();loadUsers();loadTx();loadInbox()}
 }
-document.querySelectorAll("nav a").forEach(a=>a.onclick=()=>show(a.dataset.v));
-$("#aback").onclick=()=>show(lastV);
+let navT=null;
+function nav(v){
+  if(navT)clearTimeout(navT);
+  const bar=$("#topbar");bar.classList.remove("run");void bar.offsetWidth;bar.classList.add("run");
+  document.body.classList.add("ld");
+  navT=setTimeout(()=>{navT=null;show(v)},300);
+}
+document.querySelectorAll("nav a").forEach(a=>a.onclick=()=>nav(a.dataset.v));
+$("#aback").onclick=()=>nav(lastV);
 
 /* ---------- Hotel ---------- */
 async function loadHotels(){
@@ -767,7 +785,7 @@ $("#bsend").onclick=async()=>{
   const n=nights();if(!n)return $("#berr").textContent="Check-out must be after check-in.";
   try{
     await addDoc(collection(db,"bookings"),{uid:me.uid,userid:profile.userid,name:profile.name,hotelId:cur.id,hotelName:cur.name,checkin:$("#ci").value,checkout:$("#co").value,nights:n,total:n*cur.price,status:"Menunggu",created:Date.now()});
-    $("#dlg").close();show("orders");
+    $("#dlg").close();nav("orders");
   }catch(x){$("#berr").textContent=msg(x)}
 };
 const rate=b=>b.status!=="Dikonfirmasi"?"":`<div class="row" style="justify-content:flex-start;gap:4px"><span class="mut">Rating:</span>${[1,2,3,4,5].map(n=>`<button class="btn g" style="padding:6px 10px${(b.rating||0)>=n?";color:#f5a623":""}" data-rate="${n}" data-id="${b.id}">★</button>`).join("")}</div>`;
@@ -936,7 +954,7 @@ async function loadInbox(){
 /* ---------- Dynamic button clicks ---------- */
 document.addEventListener("click",async e=>{
   const t=e.target.closest("button");if(!t)return;
-  if(t.dataset.go)show(t.dataset.go);
+  if(t.dataset.go)nav(t.dataset.go);
   if(t.dataset.scroll){if($("#v-home").hidden)show("home");setTimeout(()=>{const el=document.getElementById(t.dataset.scroll);if(el)el.scrollIntoView({behavior:"smooth"})},60)}
   if(t.dataset.rate){try{await updateDoc(doc(db,"bookings",t.dataset.id),{rating:Number(t.dataset.rate)});loadOrders()}catch(x){alert(msg(x))}}
   if(t.dataset.tx&&isAdmin())decide(t.dataset.txid,t.dataset.tx==="1");
