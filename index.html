@@ -198,6 +198,88 @@ body{padding-bottom:100px}
 .bghead h2{position:relative;z-index:1;color:#fff;margin:0;text-shadow:0 2px 12px rgba(0,0,0,.45)}
 .bghead p{position:relative;z-index:1;color:#e2e8f0;margin-top:6px;text-shadow:0 1px 8px rgba(0,0,0,.5)}
 .bghead .bgtrack{animation-duration:60s}.bghead .bgrow.rev .bgtrack{animation-duration:75s}
+
+/* ================= TAMPILAN DESKTOP (layar >= 900px) ================= */
+@media (min-width:900px){
+  body{padding-bottom:0}
+  header{min-height:76px;padding-top:14px;padding-bottom:14px;padding-left:max(32px,calc(50% - 580px));padding-right:max(32px,calc(50% - 580px))}
+  /* menu bawah -> menu atas (di dalam header) */
+  nav{top:0;bottom:auto;left:auto;right:max(32px,calc(50% - 580px));height:76px;width:auto;padding:0;background:transparent;align-items:center;gap:6px}
+  nav a{flex:none;flex-direction:row;gap:10px;padding:11px 18px;border-radius:10px;font-size:15px}
+  nav a svg{width:20px;height:20px}
+  nav a:hover{color:#fff;background:#ffffff10}
+  nav a.on{background:#ffffff18;color:#fff}
+  nav a.on::before{display:none}
+
+  .wrap{max-width:1240px;padding:32px 40px 40px}
+  #auth .wrap{max-width:520px;padding-top:80px}
+
+  /* Beranda */
+  .hero{margin:0;border-radius:24px;padding:96px 64px 190px}
+  .hero h1{font-size:clamp(56px,6.2vw,92px);max-width:900px;letter-spacing:-3px}
+  .hero p{max-width:640px;font-size:21px}
+  .hero .btn{display:inline-block;width:auto;padding:20px 38px;margin:0 14px 0 0}
+  .hc2{margin:-140px 48px 24px;display:grid;grid-template-columns:1.5fr 1fr}
+  .hc2>img{height:100%;aspect-ratio:auto;min-height:340px}
+  .stats{grid-template-columns:1fr;align-content:center}
+  .stats div+div{border-left:0;border-top:1px solid var(--line)}
+  .pad2{padding:44px 48px}
+  .marq{margin:0 -48px}
+  h2.big{font-size:clamp(36px,3.6vw,52px)}
+  .lead{max-width:760px}
+  #platform{display:grid;grid-template-columns:1fr 1fr;column-gap:56px}
+  #platform>.eyebrow,#platform>h2,#platform>.lead,#platform>.shot{grid-column:1/-1}
+  #platform>.shot{max-height:460px;object-fit:cover}
+  #platform>.feat:nth-of-type(-n+2){border-top:0}
+  .orbit{height:560px;max-width:980px;margin:28px auto 0}
+  .orbit .core{width:300px;height:300px;margin:-150px 0 0 -150px}
+  #hotels-sec h2{font-size:38px}
+  #search{max-width:520px}
+  #hlist,#olist,#hislist,#aulist,#ahlist,#atx,#ainbox,#ablist{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;align-items:start}
+  #hlist .card,#olist .card,#hislist .card,#aulist .card,#ahlist .card,#atx .card,#ablist .card{margin-bottom:0}
+  #hlist .err,#hlist>p,#olist>p,#hislist>p{grid-column:1/-1}
+  .hc img{aspect-ratio:16/10}
+  .cta{padding:56px 48px}
+  .cta .btn{display:inline-block;width:auto;padding:20px 38px;margin:20px 14px 0 0}
+  .foot{margin:24px 0 0;border-radius:24px;padding:56px 56px 44px}
+  .fc{grid-template-columns:repeat(2,minmax(0,260px));gap:48px}
+
+  /* Banner halaman */
+  .bghead{min-height:240px;padding:110px 40px 28px;border-radius:24px;margin-bottom:28px}
+  .bghead h2{font-size:44px}
+
+  /* Profil, Dashboard, dll */
+  #v-profile>.card.prof{max-width:760px;margin-left:auto;margin-right:auto}
+  .lg{grid-template-columns:repeat(4,1fr);gap:20px}
+  .lc{padding:22px}
+  .lc span{font-size:15px}
+  #v-dashboard .two{grid-template-columns:repeat(3,1fr);gap:20px}
+  .bal.sm b{font-size:26px}
+  #v-wallet,#v-addfunds,#v-withdraw,#v-editprofile{max-width:680px;margin:0 auto}
+  #v-history{max-width:1000px;margin:0 auto}
+  #v-support .card{max-width:900px;margin-left:auto;margin-right:auto}
+  .chat{max-height:55vh}
+  #v-admin{display:block}
+  #v-admin>.card{max-width:760px}
+
+  /* About Us */
+  .ab{max-width:1040px;margin:0 auto}
+  .ab-pad{padding:44px 48px}
+  .ab .roundimg{aspect-ratio:16/7}
+  .ab-stats{grid-template-columns:repeat(4,1fr);padding:56px 32px;gap:24px;border-radius:16px}
+  .ab-dark{padding:44px 48px}
+  .ab-dark .sg{grid-template-columns:repeat(4,1fr)}
+  .ab .featlist{display:grid;grid-template-columns:1fr 1fr;column-gap:48px}
+  .ab .featlist .feat:nth-child(2){border-top:0;padding-top:14px}
+  .ab .insetimg{max-height:420px;object-fit:cover}
+  dialog{width:min(92vw,480px)}
+}
+@media (min-width:1500px){
+  .wrap{max-width:1360px}
+  header,nav{--x:0}
+  header{padding-left:max(32px,calc(50% - 640px));padding-right:max(32px,calc(50% - 640px))}
+  nav{right:max(32px,calc(50% - 640px))}
+}
 </style>
 </head>
 <body>
@@ -845,7 +927,7 @@ t.style.gap="16px"})();
   function row(list,rev){
     var r=document.createElement('div');r.className='bgrow'+(rev?' rev':'');
     var t=document.createElement('div');t.className='bgtrack';
-    for(var k=0;k<2;k++)list.forEach(function(u){var i=new Image();i.src=u;i.alt='';i.decoding='async';t.appendChild(i)});
+    for(var k=0;k<4;k++)list.forEach(function(u){var i=new Image();i.src=u;i.alt='';i.decoding='async';t.appendChild(i)});
     r.appendChild(t);return r;
   }
   document.querySelectorAll('[data-bg]').forEach(function(el){
@@ -861,7 +943,7 @@ t.style.gap="16px"})();
   function row(list,rev){
     var r=document.createElement('div');r.className='bgrow'+(rev?' rev':'');
     var t=document.createElement('div');t.className='bgtrack';
-    for(var k=0;k<3;k++)list.forEach(function(u){var i=new Image();i.src=u;i.alt='';i.decoding='async';t.appendChild(i)});
+    for(var k=0;k<6;k++)list.forEach(function(u){var i=new Image();i.src=u;i.alt='';i.decoding='async';t.appendChild(i)});
     r.appendChild(t);return r;
   }
   document.querySelectorAll('[data-bg2]').forEach(function(el){
