@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="velora-build" content="navfix-2026-11-09-v2"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="velora-build" content="navfix-2026-11-09-v3"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Velora – Booking Hotel</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
 <script>try{if(localStorage.getItem("velora_in")==="1")document.documentElement.className="in"}catch(e){}</script>
@@ -1412,7 +1412,6 @@ const PROVIDERS=DEMO_PROVIDERS.map((name,i)=>({id:"demo-"+i,name,color:"#2457df"
 
 let bflow={hotel:null,provider:null,busy:false};
 
-function money2(n){return "$"+Number(n).toFixed(2)}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
 function showB(id,on){const e=$(id);if(e)e.hidden=!on}
 function rndBookingNo(){
