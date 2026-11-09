@@ -510,6 +510,28 @@ html.in:not(.rdy) #app{visibility:hidden}
   #v-dashboard .mcl-row span{font-size:17px;line-height:1.45}
 }
 
+
+/* VELORA support page + Tawk.to launcher */
+.velora-support-intro{padding:4px 0 20px}
+.velora-support-kicker{font:800 12px Outfit,sans-serif;letter-spacing:3px;color:var(--blue);margin-bottom:12px}
+.velora-support-intro h2{font-size:clamp(32px,9vw,46px);line-height:1.08;margin:0 0 12px;color:var(--ink);font-weight:800;letter-spacing:-1.3px}
+.velora-support-intro h2 span{color:var(--blue)}
+.velora-support-intro p{font-size:17px;line-height:1.6;color:var(--muted);margin:0}
+.velora-livechat-card{padding:22px!important;border:1px solid var(--line);border-radius:18px}
+.velora-livechat-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.velora-livechat-icon{width:48px;height:48px;border-radius:10px;background:color-mix(in srgb,var(--blue) 9%,var(--card));display:grid;place-items:center;color:var(--blue)}
+.velora-livechat-icon svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.velora-live-status{display:inline-flex;align-items:center;gap:7px;padding:9px 12px;border-radius:5px;background:#e8f7f0;color:#087b59;font:800 11px Outfit,sans-serif;letter-spacing:.7px}
+.velora-live-status i{width:8px;height:8px;border-radius:50%;background:#10a66a;display:block}
+.velora-livechat-card h3{font-size:21px;margin:0 0 10px;color:var(--ink)}
+.velora-livechat-card>p{font-size:16px;line-height:1.6;color:var(--muted);margin:0}
+.velora-livechat-button{display:flex;justify-content:center;align-items:center;gap:14px;min-height:54px;letter-spacing:1px;margin-top:24px!important;border-radius:8px}
+.velora-livechat-button span{font-size:22px;line-height:1}
+.velora-livechat-note{font-size:12px!important;text-align:center;margin-top:12px!important;color:var(--muted)!important}
+.velora-support-help{padding:22px 4px 8px;color:var(--ink)}
+.velora-support-help p{margin:7px 0 0;color:var(--muted);line-height:1.5}
+.velora-legacy-chat{display:none!important}
+
 </style>
 </head>
 <body>
@@ -769,9 +791,34 @@ html.in:not(.rdy) #app{visibility:hidden}
     </section>
     <section id="v-support" hidden>
       <div class="bghead" data-bg2="2"><h2>Support</h2></div>
-      <div class="card pad"><div class="chat" id="chat"></div>
+      <div class="velora-support-intro">
+        <div class="velora-support-kicker">// VELORA CUSTOMER CARE</div>
+        <h2>We're here for <span>you</span></h2>
+        <p>Our support team is ready to help with your bookings and account questions.</p>
+      </div>
+      <div class="card pad velora-livechat-card">
+        <div class="velora-livechat-top">
+          <div class="velora-livechat-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-5 4v-4.4a2.5 2.5 0 0 1-1-2.1z"/><path d="M8 8h8M8 11.5h5"/></svg>
+          </div>
+          <span class="velora-live-status"><i></i><span id="veloraTawkStatus">CONNECTING</span></span>
+        </div>
+        <h3>Chat with our team</h3>
+        <p>Get assistance from our support team directly through live chat.</p>
+        <button class="btn w velora-livechat-button" id="tawkStart" type="button">
+          START LIVE CHAT <span aria-hidden="true">→</span>
+        </button>
+        <p class="velora-livechat-note">A support conversation will open in a secure chat window.</p>
+      </div>
+      <div class="velora-support-help">
+        <b>Need help with a reservation?</b>
+        <p>Start a live chat and tell us how we can assist you.</p>
+      </div>
+      <div class="velora-legacy-chat" hidden>
+        <div class="chat" id="chat"></div>
         <div class="row"><input id="ctext" placeholder="Type a message…" style="flex:1" maxlength="1000"><button class="btn" id="csend">Send</button></div>
-        <p class="err" id="cerr"></p></div>
+        <p class="err" id="cerr"></p>
+      </div>
     </section>
     <section id="v-editprofile" hidden>
       <button class="btn g back" data-go="profile">← Partner's Lounge</button><h2>Edit profile</h2>
@@ -1553,6 +1600,51 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
+<script>
+(function(){
+  var ready = false;
+  var openWhenReady = false;
+  var statusEl = document.getElementById('veloraTawkStatus');
+  var startBtn = document.getElementById('tawkStart');
+
+  window.Tawk_API = window.Tawk_API || {};
+  window.Tawk_API.onLoad = function(){
+    ready = true;
+    if (startBtn) {
+      startBtn.disabled = false;
+      startBtn.innerHTML = 'START LIVE CHAT <span aria-hidden="true">→</span>';
+    }
+    if (statusEl) statusEl.textContent = window.Tawk_API.getStatus
+      ? String(window.Tawk_API.getStatus()).toUpperCase()
+      : 'LIVE CHAT';
+    window.Tawk_API.hideWidget();
+    if (openWhenReady) {
+      window.Tawk_API.showWidget();
+      window.Tawk_API.maximize();
+      openWhenReady = false;
+    }
+  };
+  window.Tawk_API.onStatusChange = function(status){
+    if (statusEl) statusEl.textContent = String(status).toUpperCase();
+  };
+  window.Tawk_API.onChatMinimized = function(){
+    window.Tawk_API.hideWidget();
+  };
+
+  if (startBtn) {
+    startBtn.addEventListener('click', function(){
+      if (ready && window.Tawk_API.showWidget && window.Tawk_API.maximize) {
+        window.Tawk_API.showWidget();
+        window.Tawk_API.maximize();
+      } else {
+        openWhenReady = true;
+        startBtn.textContent = 'CONNECTING TO LIVE CHAT…';
+        startBtn.disabled = true;
+      }
+    });
+  }
+})();
+</script>
 
 </body>
 </html>
