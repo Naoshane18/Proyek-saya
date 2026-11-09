@@ -1587,19 +1587,7 @@ t.style.gap="16px"})();
 })();
 </script>
 
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/6af166a90fa26e3c41c62857/1k6vfi275';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
+<!-- VELORA: Tawk.to is loaded with its API callbacks registered first -->
 <script>
 (function(){
   var ready = false;
@@ -1608,32 +1596,54 @@ s0.parentNode.insertBefore(s1,s0);
   var startBtn = document.getElementById('tawkStart');
 
   window.Tawk_API = window.Tawk_API || {};
+
+  function hideFloatingWidget(){
+    if (window.Tawk_API && typeof window.Tawk_API.hideWidget === 'function') {
+      window.Tawk_API.hideWidget();
+    }
+  }
+
   window.Tawk_API.onLoad = function(){
     ready = true;
     if (startBtn) {
       startBtn.disabled = false;
       startBtn.innerHTML = 'START LIVE CHAT <span aria-hidden="true">→</span>';
     }
-    if (statusEl) statusEl.textContent = window.Tawk_API.getStatus
-      ? String(window.Tawk_API.getStatus()).toUpperCase()
-      : 'LIVE CHAT';
-    window.Tawk_API.hideWidget();
+    if (statusEl) {
+      statusEl.textContent = window.Tawk_API.getStatus
+        ? String(window.Tawk_API.getStatus()).toUpperCase()
+        : 'LIVE CHAT';
+    }
+
+    /* Hide the floating launcher immediately on every page load. */
+    hideFloatingWidget();
+    setTimeout(hideFloatingWidget, 250);
+    setTimeout(hideFloatingWidget, 1000);
+    setTimeout(hideFloatingWidget, 2000);
+
     if (openWhenReady) {
-      window.Tawk_API.showWidget();
-      window.Tawk_API.maximize();
+      if (typeof window.Tawk_API.showWidget === 'function') {
+        window.Tawk_API.showWidget();
+      }
+      if (typeof window.Tawk_API.maximize === 'function') {
+        window.Tawk_API.maximize();
+      }
       openWhenReady = false;
     }
   };
+
   window.Tawk_API.onStatusChange = function(status){
     if (statusEl) statusEl.textContent = String(status).toUpperCase();
   };
+
   window.Tawk_API.onChatMinimized = function(){
-    window.Tawk_API.hideWidget();
+    hideFloatingWidget();
   };
 
   if (startBtn) {
     startBtn.addEventListener('click', function(){
-      if (ready && window.Tawk_API.showWidget && window.Tawk_API.maximize) {
+      if (ready && typeof window.Tawk_API.showWidget === 'function'
+          && typeof window.Tawk_API.maximize === 'function') {
         window.Tawk_API.showWidget();
         window.Tawk_API.maximize();
       } else {
@@ -1645,6 +1655,21 @@ s0.parentNode.insertBefore(s1,s0);
   }
 })();
 </script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_LoadStart = new Date();
+(function(){
+  var s1 = document.createElement("script");
+  var s0 = document.getElementsByTagName("script")[0];
+  s1.async = true;
+  s1.src = 'https://embed.tawk.to/6af166a90fa26e3c41c62857/1k6vfi275';
+  s1.charset = 'UTF-8';
+  s1.setAttribute('crossorigin', '*');
+  s0.parentNode.insertBefore(s1, s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
 
 </body>
 </html>
