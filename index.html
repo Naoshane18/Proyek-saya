@@ -532,6 +532,26 @@ html.in:not(.rdy) #app{visibility:hidden}
 .velora-support-help p{margin:7px 0 0;color:var(--muted);line-height:1.5}
 .velora-legacy-chat{display:none!important}
 
+
+/* Hard-hide every Tawk.to launcher/widget on initial page entry.
+   The Support button temporarily enables the widget by adding .velora-tawk-open to body. */
+body:not(.velora-tawk-open) iframe[src*="tawk.to"],
+body:not(.velora-tawk-open) [id^="tawk"],
+body:not(.velora-tawk-open) [id*="tawk"],
+body:not(.velora-tawk-open) [class*="tawk"] {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+body.velora-tawk-open iframe[src*="tawk.to"],
+body.velora-tawk-open [id^="tawk"],
+body.velora-tawk-open [id*="tawk"],
+body.velora-tawk-open [class*="tawk"] {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
 </style>
 </head>
 <body>
@@ -1587,7 +1607,7 @@ t.style.gap="16px"})();
 })();
 </script>
 
-<!-- VELORA: Tawk.to is loaded with its API callbacks registered first -->
+<!-- VELORA: keep Tawk.to hidden on entry; reveal only from Support -->
 <script>
 (function(){
   var ready = false;
@@ -1597,11 +1617,30 @@ t.style.gap="16px"})();
 
   window.Tawk_API = window.Tawk_API || {};
 
-  function hideFloatingWidget(){
+  function closeFloatingChat(){
+    document.body.classList.remove('velora-tawk-open');
     if (window.Tawk_API && typeof window.Tawk_API.hideWidget === 'function') {
       window.Tawk_API.hideWidget();
     }
   }
+
+  function openSupportChat(){
+    document.body.classList.add('velora-tawk-open');
+    if (ready && typeof window.Tawk_API.showWidget === 'function'
+        && typeof window.Tawk_API.maximize === 'function') {
+      window.Tawk_API.showWidget();
+      window.Tawk_API.maximize();
+    } else {
+      openWhenReady = true;
+      if (startBtn) {
+        startBtn.textContent = 'CONNECTING TO LIVE CHAT…';
+        startBtn.disabled = true;
+      }
+    }
+  }
+
+  /* Hide before the third-party widget is downloaded or rendered. */
+  document.body.classList.remove('velora-tawk-open');
 
   window.Tawk_API.onLoad = function(){
     ready = true;
@@ -1614,21 +1653,10 @@ t.style.gap="16px"})();
         ? String(window.Tawk_API.getStatus()).toUpperCase()
         : 'LIVE CHAT';
     }
-
-    /* Hide the floating launcher immediately on every page load. */
-    hideFloatingWidget();
-    setTimeout(hideFloatingWidget, 250);
-    setTimeout(hideFloatingWidget, 1000);
-    setTimeout(hideFloatingWidget, 2000);
-
+    closeFloatingChat();
     if (openWhenReady) {
-      if (typeof window.Tawk_API.showWidget === 'function') {
-        window.Tawk_API.showWidget();
-      }
-      if (typeof window.Tawk_API.maximize === 'function') {
-        window.Tawk_API.maximize();
-      }
       openWhenReady = false;
+      openSupportChat();
     }
   };
 
@@ -1636,23 +1664,20 @@ t.style.gap="16px"})();
     if (statusEl) statusEl.textContent = String(status).toUpperCase();
   };
 
-  window.Tawk_API.onChatMinimized = function(){
-    hideFloatingWidget();
-  };
+  window.Tawk_API.onChatMinimized = closeFloatingChat;
+  window.Tawk_API.onChatEnded = closeFloatingChat;
 
-  if (startBtn) {
-    startBtn.addEventListener('click', function(){
-      if (ready && typeof window.Tawk_API.showWidget === 'function'
-          && typeof window.Tawk_API.maximize === 'function') {
-        window.Tawk_API.showWidget();
-        window.Tawk_API.maximize();
-      } else {
-        openWhenReady = true;
-        startBtn.textContent = 'CONNECTING TO LIVE CHAT…';
-        startBtn.disabled = true;
+  if (startBtn) startBtn.addEventListener('click', openSupportChat);
+
+  /* Re-hide any launcher elements inserted asynchronously while the page is closed. */
+  var observer = new MutationObserver(function(){
+    if (!document.body.classList.contains('velora-tawk-open')) {
+      if (window.Tawk_API && typeof window.Tawk_API.hideWidget === 'function') {
+        window.Tawk_API.hideWidget();
       }
-    });
-  }
+    }
+  });
+  observer.observe(document.documentElement, {childList:true, subtree:true});
 })();
 </script>
 
