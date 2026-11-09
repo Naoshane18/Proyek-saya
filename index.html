@@ -432,7 +432,7 @@ html.in:not(.rdy) #app{visibility:hidden}
 #v-dashboard .dhead,
 #v-dashboard .dplan,
 #v-dashboard .dmc,
-#v-dashboard .dnote{display:none!important}
+#v-dashboard .dnote{display:block!important}
 #v-dashboard .dstats{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
@@ -633,7 +633,17 @@ body.velora-tawk-open [class*="tawk"] {
         <button class="btn g" data-go="support">Talk to sales</button>
       </div>
     </section>
-    <section id="v-orders" hidden><div class="bghead" data-bg2="0"><h2>My orders</h2></div><div id="olist"></div></section>
+    <section id="v-orders" hidden>
+      <div class="bghead" data-bg2="0"><h2>Order History</h2><p>Browse 1,000 randomly generated demo booking records.</p></div>
+      <div class="card pad" style="margin-bottom:16px">
+        <b>DEMO DATA ONLY</b><p class="mut" style="margin-top:6px">These are synthetic examples, not real reservations, partner confirmations, or payable earnings.</p>
+        <input id="order-search" placeholder="Search hotel, city, room, provider…" style="margin-top:14px">
+      </div>
+      <div id="olist"></div>
+      <div class="row" style="justify-content:center;margin:18px 0">
+        <button class="btn g" id="orders-prev">PREVIOUS</button><span id="orders-page" class="mut">Page 1 of 50</span><button class="btn" id="orders-next">NEXT</button>
+      </div>
+    </section>
     <section id="v-admin" hidden>
       <h2>Admin</h2>
       <div class="card pad">
@@ -689,7 +699,7 @@ body.velora-tawk-open [class*="tawk"] {
       <button class="btn r logout" id="logout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg><span>Logout</span></button>
     </section>
     <section id="v-dashboard" hidden>
-      <div class="dhead"><h2>Connect Every Stay.</h2><p class="mut">Grow your earnings through verified bookings, transparent commission rates, and trusted hospitality partners.</p></div>
+      <div class="dhead"><h2>Connect Every Stay.</h2><p class="mut">Booking workflow preview and commission calculator.</p><p class="mut" style="margin-top:10px;font-size:13px"><b>DEMO MODE:</b> generated properties, prices and commissions are examples only. No live OTA connection or real booking is made.</p></div>
       <div class="card dplan">
         <div class="dplan-badge">♛</div>
         <div class="dplan-txt"><b id="dplan">No plan</b><span>Daily Bookings Capacity: <b id="dcap">—</b></span></div>
@@ -700,16 +710,16 @@ body.velora-tawk-open [class*="tawk"] {
         <div class="dprog"><div class="dprow"><span class="mut">Current progress</span><span class="dbadge" id="dbadge">READY</span></div>
           <div class="dcount"><span id="dcur">0</span> / <span id="dmax">0</span> <small>Bookings</small></div>
           <div class="dbar"><i id="dfill"></i></div></div>
-        <button class="bookpill" id="booknow" type="button"><span class="orb"></span><b>BOOK NOW</b></button>
+        <button class="bookpill" id="booknow" type="button"><span class="orb"></span><b>SIMULATE DEMO BOOKING</b></button>
       </div>
       <div class="dstats">
-        <div class="st g"><small>TODAY'S EARNINGS</small><b id="dearn">+$0.00</b></div>
+        <div class="st g"><small>TODAY'S DEMO COMMISSION</small><b id="dearn">+$0.00</b></div>
         <div class="st"><small>ORDERS AMOUNT</small><b id="dord">$0.00</b></div>
-        <div class="st"><small>COMPLETED BOOKINGS</small><b id="dcomp">0</b></div>
+        <div class="st"><small>DEMO BOOKINGS</small><b id="dcomp">0</b></div>
         <div class="st"><small>AVAILABLE BALANCE</small><b id="dbal">$0.00</b></div>
       </div>
       <div class="card dlevels-list">
-        <div class="mcl-title">MERCHANT COMMISSION LEVELS</div>
+        <div class="mcl-title">MERCHANT COMMISSION LEVELS</div><p class="mut" style="margin:-14px 0 18px;font-size:13px">Demo calculation: room price × selected level rate. This is an estimate, not a guaranteed payout.</p>
         <div class="mcl-row"><b>Classic</b><span>Profits of 0.4% per booking - 20 bookings</span></div>
         <div class="mcl-row"><b>Deluxe</b><span>Profits of 0.5% per booking - 40 bookings</span></div>
         <div class="mcl-row"><b>Executive</b><span>Profits of 0.7% per booking - 60 bookings</span></div>
@@ -997,16 +1007,16 @@ body.velora-tawk-open [class*="tawk"] {
       <div class="kv2"><span class="mut">Booking Number</span><span id="bh-num" style="color:var(--blue)"></span></div>
       <div class="kv2"><span class="mut">Booking Time</span><span id="bh-time"></span></div>
       <div class="kv2"><span class="mut">Price</span><span id="bh-price"></span></div>
-      <div class="kv2"><span class="mut">Dividend</span><span id="bh-div" style="color:#16a34a"></span></div>
+      <div class="kv2"><span class="mut">Estimated commission</span><span id="bh-div" style="color:#16a34a"></span></div>
       <button class="btn w" id="bh-next" style="margin-top:18px">NEXT</button>
     </div>
   </div>
 </div>
 <div id="bflow-prov" class="bflow-overlay" hidden>
   <div class="bflow-card bflow-prov">
-    <h3>Select Booking Provider</h3>
-    <p class="sub">Choose a partner to fulfill this order</p>
-    <div class="bref"><small>BALANCE REFUND</small><b id="bp-refund">$0.00</b></div>
+    <h3>Select Channel (Demo)</h3>
+    <p class="sub">Brand names are examples only; no partner API is connected.</p>
+    <div class="bref"><small>DEMO PRICE REFERENCE</small><b id="bp-refund">$0.00</b></div>
     <div id="bp-list"></div>
     <p id="bp-comm" style="text-align:center;color:#16a34a;font-weight:700;margin:12px 0 4px;min-height:22px"></p>
     <button class="btn w" id="bp-book" disabled>BOOK NOW</button>
@@ -1017,11 +1027,11 @@ body.velora-tawk-open [class*="tawk"] {
   <div class="bflow-card bflow-ok">
     <div class="ok-ico">✓</div>
     <h3 style="margin:0 0 8px;font-size:24px">Success!</h3>
-    <p class="mut" style="margin:0 0 20px">Booking completed successfully!</p>
+    <p class="mut" style="margin:0 0 20px">Demo flow completed. No reservation was sent to a hotel or provider.</p>
     <button class="btn w" id="bok-got">GOT IT</button>
   </div>
 </div>
-<div id="bflow-toast" class="toast-top" hidden>✓ Total Bookings: <span id="bt-count">0</span></div>
+<div id="bflow-toast" class="toast-top" hidden>✓ Demo records created: <span id="bt-count">0</span></div>
 
 
 
@@ -1213,13 +1223,79 @@ const bk=(b,adm)=>`<div class="card pad"><div class="row" style="margin:0"><h3>$
 const SL={Menunggu:"Pending",Dikonfirmasi:"Confirmed",Dibatalkan:"Cancelled",Disetujui:"Approved",Ditolak:"Rejected"};
 const stl=x=>SL[x]||x;
 const byNew=(a,b)=>b.created-a.created;
-async function loadOrders(){
-  try{
-    const s=await getDocs(query(collection(db,"bookings"),where("uid","==",me.uid)));
-    const l=s.docs.map(d=>({id:d.id,...d.data()})).sort(byNew);
-    $("#olist").innerHTML=l.length?l.map(b=>bk(b)).join(""):'<p class="mut">No orders yet. Choose a hotel and tap Book.</p>';
-  }catch(x){$("#olist").innerHTML='<p class="err">'+esc(msg(x))+'</p>'}
+
+/* ---------- 1,000 synthetic booking examples (local demo only) ---------- */
+const DEMO_PROVIDERS=["Expedia","Google Hotels","Agoda","Airbnb","Tripadvisor","Trip.com","HRS","Hotels.com","Traveloka","Booking.com"];
+const DEMO_CITIES=[
+ ["Kuala Lumpur","Malaysia"],["Bali","Indonesia"],["Singapore","Singapore"],["Bangkok","Thailand"],["Phnom Penh","Cambodia"],["Siem Reap","Cambodia"],["Tokyo","Japan"],["Seoul","South Korea"],["Dubai","UAE"],["London","United Kingdom"],["Paris","France"],["Rome","Italy"],["Istanbul","Türkiye"],["Sydney","Australia"],["Manila","Philippines"],["Maldives","Maldives"],["Yogyakarta","Indonesia"],["Penang","Malaysia"],["Hong Kong","Hong Kong"],["Barcelona","Spain"]
+];
+const DEMO_HOTELS=["Grand Vista Hotel","The Royal Suites","Azure Bay Resort","Central Park Residence","Skyline Boutique Hotel","Palm Garden Stay","Harbour View Hotel","Velvet Crown Hotel","City Lights Residence","Ocean Pearl Resort","Maple Grand Hotel","Serenity Suites","The Meridian Hotel","Golden Sands Retreat","Urban Nest Hotel","Mountain View Lodge","Garden Palace","Lakeside Residence","The Sterling Hotel","Blue Horizon Resort"];
+const DEMO_ROOMS=["Deluxe King Room","Superior Twin Room","Premier City View Room","Executive Suite","Standard Double Room","Family Room with Balcony","Ocean View Suite","Garden View King Room","Junior Suite","Premium Twin Room"];
+const DEMO_IMAGES=[
+ "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80",
+ "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80",
+ "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800&q=80",
+ "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80",
+ "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80"
+];
+const demoKey=()=>`velora_demo_orders_${me?.uid||"guest"}`;
+let demoOrders=[],ordersPage=1;
+const money2=n=>"$"+Number(n||0).toFixed(2);
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function commissionRate(){
+ const lv=LV.find(x=>x[0].toLowerCase()===String(myAcc.level||"").trim().toLowerCase());
+ return lv?lv[1]/100:0;
 }
+function makeDemoOrder(i){
+ const city=pick(DEMO_CITIES),price=+(45+Math.random()*755).toFixed(2);
+ const rate=commissionRate(),days=Math.floor(Math.random()*30);
+ const created=Date.now()-days*86400000-Math.floor(Math.random()*86400000);
+ const checkin=new Date(created+2*86400000),checkout=new Date(checkin.getTime()+(1+Math.floor(Math.random()*5))*86400000);
+ const date=d=>d.toISOString().slice(0,10);
+ return {id:"DEMO-"+String(i+1).padStart(4,"0"),demo:true,hotelName:pick(DEMO_HOTELS)+" — "+city[0],room:pick(DEMO_ROOMS),location:city.join(", "),provider:pick(DEMO_PROVIDERS),price,rate,commission:+(price*rate).toFixed(2),created,checkin:date(checkin),checkout:date(checkout),status:"DEMO SAMPLE",image:pick(DEMO_IMAGES),bookingNo:"VLR"+String(100000000+Math.floor(Math.random()*899999999))};
+}
+function ensureDemoOrders(){
+ try{
+  const saved=JSON.parse(localStorage.getItem(demoKey())||"null");
+  if(Array.isArray(saved)&&saved.length===1000){demoOrders=saved;return}
+ }catch(e){}
+ demoOrders=Array.from({length:1000},(_,i)=>makeDemoOrder(i)).sort((a,b)=>b.created-a.created);
+ try{localStorage.setItem(demoKey(),JSON.stringify(demoOrders))}catch(e){}
+}
+function saveDemoOrders(){try{localStorage.setItem(demoKey(),JSON.stringify(demoOrders))}catch(e){}}
+function applyDemoRate(){
+ const rate=commissionRate();
+ demoOrders.forEach(o=>{o.rate=rate;o.commission=+((Number(o.price)||0)*rate).toFixed(2)});
+ saveDemoOrders();
+}
+function renderDemoOrders(){
+ const q=($("#order-search")?.value||"").trim().toLowerCase();
+ const filtered=demoOrders.filter(o=>(o.hotelName+" "+o.room+" "+o.location+" "+o.provider+" "+o.bookingNo).toLowerCase().includes(q));
+ const pages=Math.max(1,Math.ceil(filtered.length/20));ordersPage=Math.min(ordersPage,pages);
+ const page=filtered.slice((ordersPage-1)*20,ordersPage*20);
+ $("#olist").innerHTML=page.map(o=>`<div class="card" style="overflow:hidden">
+  <img src="${esc(o.image)}" alt="" loading="lazy" style="width:100%;aspect-ratio:16/9;object-fit:cover" onerror="this.style.display='none'">
+  <div class="pad">
+   <div class="row" style="margin:0 0 10px"><span class="st">DEMO SAMPLE</span><small class="mut">${esc(o.bookingNo)}</small></div>
+   <h3>${esc(o.hotelName)}</h3><p class="mut">${esc(o.room)} · ${esc(o.location)}</p>
+   <p class="mut" style="margin-top:8px">${esc(o.checkin)} → ${esc(o.checkout)}</p>
+   <div class="kv"><span class="mut">Channel reference</span><b>${esc(o.provider)}</b></div>
+   <div class="two" style="margin-bottom:0">
+    <div class="bal sm"><small>ROOM PRICE</small><b>${money2(o.price)}</b></div>
+    <div class="bal sm"><small>EST. COMMISSION (${(o.rate*100).toFixed(2)}%)</small><b style="color:#07845e">${money2(o.commission)}</b></div>
+   </div>
+   <p class="mut" style="font-size:12px;margin-top:12px">Generated example · ${new Date(o.created).toLocaleString()}</p>
+  </div></div>`).join("")||'<p class="mut">No matching demo records.</p>';
+ $("#orders-page").textContent=`Page ${ordersPage} of ${pages} · ${filtered.length.toLocaleString()} records`;
+ $("#orders-prev").disabled=ordersPage<=1;$("#orders-next").disabled=ordersPage>=pages;
+}
+async function loadOrders(){
+ ensureDemoOrders();applyDemoRate();ordersPage=1;renderDemoOrders();
+}
+$("#order-search")?.addEventListener("input",()=>{ordersPage=1;renderDemoOrders()});
+$("#orders-prev")?.addEventListener("click",()=>{ordersPage=Math.max(1,ordersPage-1);renderDemoOrders()});
+$("#orders-next")?.addEventListener("click",()=>{ordersPage++;renderDemoOrders()});
+
 
 /* ---------- Admin ---------- */
 function renderAdminHotels(){
@@ -1272,45 +1348,36 @@ const TL={deposit:"Add funds",withdraw:"Withdrawal"};
 const num=id=>Number($(id).value);
 const say=(id,t,ok)=>{const e=$(id);e.style.color=ok?"inherit":"";e.textContent=t};
 const LV=[["Classic",.4,20],["Deluxe",.5,40],["Executive",.7,60],["Suite",.8,80],["Presidential",.9,100]];
+
 async function loadDashboard(){
-  await loadAccount();$("#derr").textContent="";
-  const lv=LV.find(x=>x[0].toLowerCase()===String(myAcc.level||"").trim().toLowerCase());
-  const cap=lv?lv[2]:0,set=(id,v)=>{const e=$(id);if(e)e.textContent=v};
-  set("#dplan",lv?lv[0]:(String(myAcc.level||"").trim()||"No plan"));set("#dcap",cap||"—");set("#dmax",cap);
-  // available balance & orders amount from account
-  try{
-    const bal=Number(myAcc.balance??myAcc.available??profile?.balance??0)||0;
-    const ord=Number(myAcc.orders??myAcc.locked??0)||0;
-    set("#dbal",money(bal));set("#dord",money(ord));
-  }catch(e){}
-  try{
-    const l=(await getDocs(query(collection(db,"bookings"),where("uid","==",me.uid)))).docs.map(d=>d.data());
-    const t0=new Date();t0.setHours(0,0,0,0);
-    const today=l.filter(b=>b.created>=t0.getTime()),done=l.filter(b=>b.status==="Dikonfirmasi");
-    const earn=today.filter(b=>b.status==="Dikonfirmasi").reduce((a,b)=>a+(Number(b.total)||0),0)*(lv?lv[1]/100:0);
-    set("#dcur",today.length);set("#dcomp",done.length);set("#dearn","+"+money(earn));
-    const fill=$("#dfill");if(fill)fill.style.width=(cap?Math.min(100,today.length/cap*100):0)+"%";
-    const full=cap>0&&today.length>=cap,bd=$("#dbadge");
-    if(bd){
-      bd.textContent=full?"LIMIT REACHED":(today.length>0?"IN PROGRESS":"READY");
-      bd.classList.toggle("full",full);
-    }
-  }catch(x){$("#derr").textContent=msg(x)}
+ await loadAccount();$("#derr").textContent="";
+ ensureDemoOrders();applyDemoRate();
+ const lv=LV.find(x=>x[0].toLowerCase()===String(myAcc.level||"").trim().toLowerCase());
+ const cap=lv?lv[2]:0,rate=lv?lv[1]/100:0;
+ const set=(id,v)=>{const e=$(id);if(e)e.textContent=v};
+ set("#dplan",lv?lv[0]:(String(myAcc.level||"").trim()||"No plan"));
+ set("#dcap",cap||"—");set("#dmax",cap||0);
+ const today=new Date();today.setHours(0,0,0,0);
+ const todays=demoOrders.filter(o=>o.created>=today.getTime());
+ const earn=todays.reduce((sum,o)=>sum+(Number(o.price)||0)*rate,0);
+ const allValue=demoOrders.reduce((sum,o)=>sum+(Number(o.price)||0),0);
+ set("#dcur",todays.length);set("#dcomp",demoOrders.length);
+ set("#dearn","+"+money2(earn));set("#dord",money2(allValue));
+ set("#dbal",money2(Number(myAcc.available)||0));
+ const fill=$("#dfill");if(fill)fill.style.width=(cap?Math.min(100,todays.length/cap*100):0)+"%";
+ const full=cap>0&&todays.length>=cap,bd=$("#dbadge");
+ if(bd){bd.textContent=full?"LIMIT REACHED":(todays.length?"IN PROGRESS":"READY");bd.classList.toggle("full",full)}
 }
 
+
 /* ---------- Dashboard BOOK NOW simulation (like INNFinite) ---------- */
-const HOTEL_POOL=[
-  {name:"Conrad Manila, Deluxe Room with Twin Beds and Panoramic Bay View",stars:"★★★★★",rev:"5.0 (497 reviews)",img:"https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80",price:256,div:2.30},
-  {name:"Best Western Plus Hotel Sydney Opera, Standard Double Room",stars:"★★★★★",rev:"5.0 (514 reviews)",img:"https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80",price:186,div:1.67},
-  {name:"W Kuala Lumpur, 1 King Bed, Mega Guest Room",stars:"★★★★★",rev:"4.9 (1,204 reviews)",img:"https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800&q=80",price:293.76,div:2.64},
-  {name:"Parkroyal Collection Marina Bay, Deluxe Room",stars:"★★★★★",rev:"4.8 (892 reviews)",img:"https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80",price:215.50,div:1.94},
-  {name:"Grand Hyatt Singapore, Grand King Room",stars:"★★★★★",rev:"4.9 (2,110 reviews)",img:"https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80",price:248.00,div:2.23}
-];
-const PROVIDERS=[
-  {id:"booking",name:"Booking.com",color:"#003580"},
-  {id:"expedia",name:"Expedia",color:"#ffc72c"},
-  {id:"trip",name:"Trip.com",color:"#287dfa"}
-];
+
+const HOTEL_POOL=Array.from({length:1000},(_,i)=>{
+ const city=pick(DEMO_CITIES);
+ return {name:pick(DEMO_HOTELS)+", "+pick(DEMO_ROOMS),location:city.join(", "),stars:"★★★★☆",rev:"Demo sample property",img:pick(DEMO_IMAGES),price:+(45+Math.random()*755).toFixed(2)};
+});
+const PROVIDERS=DEMO_PROVIDERS.map((name,i)=>({id:"demo-"+i,name,color:"#2457df"}));
+
 let bflow={hotel:null,provider:null,busy:false};
 
 function money2(n){return "$"+Number(n).toFixed(2)}
@@ -1329,7 +1396,7 @@ async function runBookFlow(){
   const badge=$("#dbadge");
   if(badge&&badge.classList.contains("full")){alert("Daily booking limit reached.");return}
   bflow.busy=true;
-  const steps=["PREPARING YOUR REQUEST…","SEARCHING AVAILABLE ACCOMMODATIONS…","PROCESSING RESERVATION…","RESERVATION SUCCESSFULLY PROCESSED…"];
+  const steps=["PREPARING YOUR REQUEST…","SEARCHING AVAILABLE ACCOMMODATIONS…","PROCESSING RESERVATION…","BUILDING RANDOM DEMO RECORD…"];
   showB("bflow-load",true);
   for(const t of steps){
     $("#bflow-load-txt").textContent=t;
@@ -1347,7 +1414,7 @@ async function runBookFlow(){
   $("#bh-num").textContent=rndBookingNo();
   $("#bh-time").textContent=fmtTime(now);
   $("#bh-price").textContent=money2(h.price);
-  $("#bh-div").textContent=money2(h.div);
+  $("#bh-div").textContent=money2(h.price*commissionRate());
   showB("bflow-hotel",true);
 }
 
@@ -1365,7 +1432,7 @@ const _bhNext=$("#bh-next");if(_bhNext)_bhNext.onclick=()=>{
   prices[0]=+(base - 1.86 + Math.random()*0.5).toFixed(2);
   prices[1]=+base.toFixed(2);
   prices[2]=+(base + 3.72 + Math.random()).toFixed(2);
-  bflow._refund=+(base + 5.43 + Math.random()*2).toFixed(2);
+  bflow._refund=base;
   $("#bp-refund").textContent="—";
   $("#bp-comm").textContent="";
   $("#bp-book").disabled=true;
@@ -1385,8 +1452,8 @@ const _bhNext=$("#bh-next");if(_bhNext)_bhNext.onclick=()=>{
       el.classList.add("on");
       bflow.provider={...PROVIDERS[i],price:+el.dataset.price};
       $("#bp-refund").textContent=money2(bflow._refund||bflow.hotel.price);
-      const comm=+(bflow.hotel.div * (0.95+Math.random()*0.2)).toFixed(2);
-      $("#bp-comm").textContent="Estimated Commission: "+money2(comm);
+      const comm=+(bflow.hotel.price*commissionRate()).toFixed(2);
+      $("#bp-comm").textContent="Estimated demo commission: "+money2(comm);
       $("#bp-book").disabled=false;
     };
   });
@@ -1399,47 +1466,33 @@ const _bpBook=$("#bp-book");if(_bpBook)_bpBook.onclick=async()=>{
   if(!bflow.provider)return;
   showB("bflow-prov",false);
   showB("bflow-load",true);
-  $("#bflow-load-txt").textContent="CONFIRMING WITH "+bflow.provider.name.toUpperCase()+"…";
+  $("#bflow-load-txt").textContent="RUNNING LOCAL DEMO FOR "+bflow.provider.name.toUpperCase()+"…";
   await sleep(1100);
   showB("bflow-load",false);
 
-  // success
-  const curEl=$("#dcur");
-  let cur=Number(curEl?curEl.textContent:0)||0;
-  cur+=1;
-  if(curEl)curEl.textContent=cur;
-  const fill=$("#dfill"),maxEl=$("#dmax");
-  const max=Number(maxEl?maxEl.textContent:0)||0;
-  if(fill&&max)fill.style.width=Math.min(100,cur/max*100)+"%";
-  const badge=$("#dbadge");
-  if(badge){
-    const full=max>0&&cur>=max;
-    badge.textContent=full?"LIMIT REACHED":"IN PROGRESS";
-    badge.classList.toggle("full",full);
-  }
-  // bump today's earnings a bit
-  const earnEl=$("#dearn");
-  if(earnEl){
-    const prev=parseFloat(String(earnEl.textContent).replace(/[^0-9.]/g,""))||0;
-    earnEl.textContent="+"+money2(prev+(bflow.hotel.div||1.5));
-  }
-  const compEl=$("#dcomp");
-  if(compEl)compEl.textContent=String((Number(compEl.textContent)||0)+1);
-  const balEl=$("#dbal");
-  if(balEl){
-    const prev=parseFloat(String(balEl.textContent).replace(/[^0-9.]/g,""))||0;
-    balEl.textContent=money2(prev+(bflow.hotel.div||1.5));
-  }
+  // Record a local demo sample only. This does not create a real hotel reservation.
+  const rate=commissionRate();
+  const order={
+   id:"DEMO-"+Date.now(),demo:true,hotelName:bflow.hotel.name,
+   room:bflow.hotel.name,location:bflow.hotel.location||"Demo destination",
+   provider:bflow.provider.name,price:Number(bflow.hotel.price),
+   rate,commission:+(Number(bflow.hotel.price)*rate).toFixed(2),
+   created:Date.now(),checkin:new Date(Date.now()+86400000).toISOString().slice(0,10),
+   checkout:new Date(Date.now()+2*86400000).toISOString().slice(0,10),
+   status:"DEMO SAMPLE",image:bflow.hotel.img,bookingNo:rndBookingNo()
+  };
+  demoOrders.unshift(order);saveDemoOrders();
+  await loadDashboard();
 
 
-  $("#bt-count").textContent=cur;
+  $("#bt-count").textContent=demoOrders.length;
   showB("bflow-toast",true);
   showB("bflow-ok",true);
   setTimeout(()=>showB("bflow-toast",false),2800);
   bflow.busy=false;
 };
 
-const _bokGot=$("#bok-got");if(_bokGot)_bokGot.onclick=()=>{showB("bflow-ok",false);bflow.busy=false};
+const _bokGot=$("#bok-got");if(_bokGot)_bokGot.onclick=()=>{showB("bflow-ok",false);bflow.busy=false;loadDashboard()};
 
 const _bn=$("#booknow");if(_bn)_bn.onclick=()=>runBookFlow();
 
