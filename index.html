@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="velora-build" content="navfix-2026-11-09-v2"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Velora – Booking Hotel</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
 <script>try{if(localStorage.getItem("velora_in")==="1")document.documentElement.className="in"}catch(e){}</script>
@@ -28,7 +28,7 @@ input:focus,textarea:focus,.btn:focus-visible{outline:2px solid var(--blue)}
 .err{color:#b91c1c;margin-top:14px;font-size:15px}
 .l{color:var(--blue);font-weight:600;cursor:pointer;text-decoration:underline}
 .st{font:700 12px Outfit;padding:4px 10px;border-radius:99px;background:var(--line)}
-nav{position:fixed;bottom:0;left:0;right:0;background:var(--navy);display:flex;padding:14px 4px calc(14px + env(safe-area-inset-bottom));z-index:99999;pointer-events:auto;touch-action:manipulation}
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--navy);display:flex;padding:14px 4px calc(14px + env(safe-area-inset-bottom));z-index:2147483000;pointer-events:auto;touch-action:manipulation;isolation:isolate}
 nav a{pointer-events:auto;cursor:pointer;touch-action:manipulation}
 nav a{flex:1;text-align:center;color:#8b97ab;font-weight:600;font-size:14px;cursor:pointer;pointer-events:auto}
 nav a.on{color:#fff;text-decoration:underline;text-decoration-color:var(--blue);text-decoration-thickness:3px;text-underline-offset:8px}
@@ -1190,21 +1190,38 @@ function nav(v){
   document.body.classList.add("ld");
   navT=setTimeout(()=>{navT=null;show(v)},300);
 }
-// Robust delegated navigation for desktop clicks and mobile taps.
-window.veloraNavigate=nav;
-document.querySelectorAll("nav a[data-v]").forEach(a=>{
-  a.removeAttribute("href");
-  a.setAttribute("role","button");
-  a.setAttribute("tabindex","0");
-  a.onclick=e=>{e.preventDefault();nav(a.dataset.v)};
-  a.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();nav(a.dataset.v)}};
-});
-document.addEventListener("click",e=>{
-  const a=e.target.closest("nav a[data-v]");
-  if(!a)return;
-  e.preventDefault();
-  nav(a.dataset.v);
-},true);
+// Mobile-safe bottom navigation: use pointerup (iOS/Android) and click fallback.
+window.veloraNavigate=function(v){
+  if(!VIEWS.includes(v))return;
+  try{show(v)}catch(err){console.error("Velora navigation error:",err)}
+};
+(function bindVeloraNavigation(){
+  const bar=document.querySelector("#app > nav, #app nav");
+  if(!bar)return;
+  bar.querySelectorAll("a[data-v]").forEach(a=>{
+    a.removeAttribute("href");
+    a.setAttribute("role","button");
+    a.setAttribute("tabindex","0");
+    a.style.pointerEvents="auto";
+    a.style.webkitTapHighlightColor="transparent";
+    a.addEventListener("pointerup",e=>{
+      e.preventDefault();
+      e.stopPropagation();
+      window.veloraNavigate(a.dataset.v);
+    },{passive:false});
+    a.addEventListener("click",e=>{
+      e.preventDefault();
+      e.stopPropagation();
+      window.veloraNavigate(a.dataset.v);
+    });
+    a.addEventListener("keydown",e=>{
+      if(e.key==="Enter"||e.key===" "){
+        e.preventDefault();
+        window.veloraNavigate(a.dataset.v);
+      }
+    });
+  });
+})();
 $("#aback").onclick=()=>nav(lastV);
 
 /* ---------- Hotel ---------- */
