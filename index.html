@@ -632,6 +632,73 @@ html.in:not(.rdy) #app{visibility:hidden}
       <div class="card dnote"><h4>Platform Rules Notice</h4><p>When processing reservations, details are securely submitted to merchant servers. Each Partnership tier includes a daily activity limit. Users can unlock enhanced privileges by advancing to higher Partnership tiers.</p></div>
       <p class="err" id="derr"></p>
     </section>
+    
+    <section id="v-pricing" hidden>
+      <div class="dhead">
+        <h2>Investment Plans</h2>
+        <p class="mut">Choose a partnership tier and grow your returns with every verified booking. Transparent rewards, daily mission limits, and full control from your dashboard.</p>
+      </div>
+      <div class="card dlv">
+        <div class="eyebrow">PRICING</div>
+        <h3>Partnerships</h3>
+        <p class="mut">Select a plan that matches your goals. Higher tiers unlock more daily bookings and better reward rates.</p>
+        <div id="plevels">
+          <div class="lvrow" data-lv="Classic">
+            <div class="pbadge bronze">CLASSIC</div>
+            <div class="pinfo">
+              <b>CLASSIC</b>
+              <div class="pmeta">DAILY MISSION : 20</div>
+              <div class="pprice">USD 100.00</div>
+              <div class="prew">0.40% Booking Reward</div>
+            </div>
+            <button class="btn" data-go="support">PURCHASE</button>
+          </div>
+          <div class="lvrow" data-lv="Deluxe">
+            <div class="pbadge silver">DELUXE</div>
+            <div class="pinfo">
+              <b>DELUXE</b>
+              <div class="pmeta">DAILY MISSION : 40</div>
+              <div class="pprice">USD 300.00</div>
+              <div class="prew">0.50% Booking Reward</div>
+            </div>
+            <button class="btn" data-go="support">PURCHASE</button>
+          </div>
+          <div class="lvrow" data-lv="Executive">
+            <div class="pbadge gold">EXECUTIVE</div>
+            <div class="pinfo">
+              <b>EXECUTIVE</b>
+              <div class="pmeta">DAILY MISSION : 60</div>
+              <div class="pprice">USD 600.00</div>
+              <div class="prew">0.70% Booking Reward</div>
+            </div>
+            <button class="btn" data-go="support">PURCHASE</button>
+          </div>
+          <div class="lvrow" data-lv="Suite">
+            <div class="pbadge navy">SUITE</div>
+            <div class="pinfo">
+              <b>SUITE</b>
+              <div class="pmeta">DAILY MISSION : 80</div>
+              <div class="pprice">USD 1,000.00</div>
+              <div class="prew">0.80% Booking Reward</div>
+            </div>
+            <button class="btn" data-go="support">PURCHASE</button>
+          </div>
+          <div class="lvrow" data-lv="Presidential">
+            <div class="pbadge maroon">PRESIDENTIAL</div>
+            <div class="pinfo">
+              <b>PRESIDENTIAL</b>
+              <div class="pmeta">DAILY MISSION : 100</div>
+              <div class="pprice">USD 3,000.00</div>
+              <div class="prew">0.90% Booking Reward</div>
+            </div>
+            <button class="btn" data-go="support">PURCHASE</button>
+          </div>
+        </div>
+      </div>
+      <div class="card dnote"><h4>Platform Rules Notice</h4><p>When processing reservations, details are securely submitted to merchant servers. Each Partnership tier includes a daily activity limit. Users can unlock enhanced privileges by advancing to higher Partnership tiers.</p></div>
+      <button class="btn w" data-go="dashboard" style="margin-top:8px">GO TO DASHBOARD</button>
+    </section>
+
     <section id="v-wallet" hidden>
       <button class="btn g back" data-go="profile">← Partner's Lounge</button><h2>Wallet</h2>
       <div class="two"><div class="bal sm"><small>TOTAL BALANCE</small><b id="wtotal">$0.00</b></div><div class="bal sm"><small>AVAILABLE</small><b id="wavail">$0.00</b></div></div>
@@ -757,7 +824,7 @@ html.in:not(.rdy) #app{visibility:hidden}
         <div class="fb"><svg viewBox="0 0 56 56" aria-hidden="true"><path d="M8 14L28 46" fill="none" stroke="#1D9E75" stroke-width="7" stroke-linecap="round"/><path d="M28 46L48 14" fill="none" stroke="#7F77DD" stroke-width="7" stroke-linecap="round"/><circle cx="28" cy="9" r="3.6" fill="#EF9F27"/></svg><div><b>VELORA</b><small>BOOKING HOTEL</small></div></div>
         <p>The world’s leading hotel commerce platform, empowering hotels to reach, convert, and retain guests borderlessly.</p>
         <div class="fc">
-          <div><h4>Product</h4><button data-scroll="platform">Features</button><button data-go="channel">Channel</button><button data-go="dashboard">Pricing</button></div>
+          <div><h4>Product</h4><button data-scroll="platform">Features</button><button data-go="channel">Channel</button><button data-go="pricing">Pricing</button></div>
           <div><h4>Company</h4><button data-go="about">About Us</button><button data-go="support">Support</button><a href="#">FAQ</a></div>
         </div>
         <hr>
@@ -779,7 +846,7 @@ html.in:not(.rdy) #app{visibility:hidden}
 (function(){try{
   var h=document.documentElement;if(h.className.indexOf("in")<0)return;
   var c={};try{c=JSON.parse(localStorage.getItem("velora_cache")||"{}")}catch(e){}
-  var V=["home","orders","admin","profile","dashboard","wallet","addfunds","withdraw","history","support","editprofile","about","channel"];
+  var V=["home","orders","admin","profile","dashboard","pricing","wallet","addfunds","withdraw","history","support","editprofile","about","channel"];
   var M={wallet:"profile",addfunds:"profile",withdraw:"profile",history:"profile",editprofile:"profile"};
   var v=location.hash.slice(1)||localStorage.getItem("velora_view")||"";
   if(V.indexOf(v)<0||(v==="admin"&&!c.adm))v="home";
@@ -953,7 +1020,7 @@ async function loadAccount(){
 }
 
 /* ---------- Navigation ---------- */
-const VIEWS=["home","orders","admin","profile","dashboard","wallet","addfunds","withdraw","history","support","editprofile","about","channel"];
+const VIEWS=["home","orders","admin","profile","dashboard","pricing","wallet","addfunds","withdraw","history","support","editprofile","about","channel"];
 const SUBT={about:"About Us",channel:"Channel"};
 const NAVMAP={wallet:"profile",addfunds:"profile",withdraw:"profile",history:"profile",editprofile:"profile"};
 let unsub=null,lastV="home";
@@ -978,6 +1045,14 @@ function show(v){
   if(v==="orders")loadOrders();
   if(v==="profile")loadAccount();
   if(v==="dashboard")loadDashboard();
+
+  if(v==="pricing"){
+    try{
+      const lv=(myAcc&&myAcc.level)?String(myAcc.level).trim():"";
+      document.querySelectorAll("#plevels .lvrow").forEach(r=>r.classList.toggle("cur",!!lv&&r.dataset.lv===lv));
+    }catch(e){}
+  }
+
   if(v==="wallet"){loadAccount();fillWallet()}
   if(v==="addfunds"){$("#ferr").textContent="";loadAccount()}
   if(v==="withdraw"){$("#xerr").textContent="";loadAccount()}
