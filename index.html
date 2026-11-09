@@ -28,8 +28,9 @@ input:focus,textarea:focus,.btn:focus-visible{outline:2px solid var(--blue)}
 .err{color:#b91c1c;margin-top:14px;font-size:15px}
 .l{color:var(--blue);font-weight:600;cursor:pointer;text-decoration:underline}
 .st{font:700 12px Outfit;padding:4px 10px;border-radius:99px;background:var(--line)}
-nav{position:fixed;bottom:0;left:0;right:0;background:var(--navy);display:flex;padding:14px 4px calc(14px + env(safe-area-inset-bottom));z-index:9}
-nav a{flex:1;text-align:center;color:#8b97ab;font-weight:600;font-size:14px;cursor:pointer}
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--navy);display:flex;padding:14px 4px calc(14px + env(safe-area-inset-bottom));z-index:99999;pointer-events:auto;touch-action:manipulation}
+nav a{pointer-events:auto;cursor:pointer;touch-action:manipulation}
+nav a{flex:1;text-align:center;color:#8b97ab;font-weight:600;font-size:14px;cursor:pointer;pointer-events:auto}
 nav a.on{color:#fff;text-decoration:underline;text-decoration-color:var(--blue);text-decoration-thickness:3px;text-underline-offset:8px}
 .prof{text-align:center}
 .av{width:84px;height:84px;border-radius:50%;margin:4px auto 10px;padding:5px;background:#3b6cf033;display:grid;place-items:center}
@@ -1189,7 +1190,21 @@ function nav(v){
   document.body.classList.add("ld");
   navT=setTimeout(()=>{navT=null;show(v)},300);
 }
-document.querySelectorAll("nav a").forEach(a=>a.onclick=()=>nav(a.dataset.v));
+// Robust delegated navigation for desktop clicks and mobile taps.
+window.veloraNavigate=nav;
+document.querySelectorAll("nav a[data-v]").forEach(a=>{
+  a.removeAttribute("href");
+  a.setAttribute("role","button");
+  a.setAttribute("tabindex","0");
+  a.onclick=e=>{e.preventDefault();nav(a.dataset.v)};
+  a.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();nav(a.dataset.v)}};
+});
+document.addEventListener("click",e=>{
+  const a=e.target.closest("nav a[data-v]");
+  if(!a)return;
+  e.preventDefault();
+  nav(a.dataset.v);
+},true);
 $("#aback").onclick=()=>nav(lastV);
 
 /* ---------- Hotel ---------- */
