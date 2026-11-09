@@ -220,7 +220,7 @@ body{padding-bottom:100px}
 .dmc .eb{font:700 15px ui-monospace,Menlo,monospace;letter-spacing:.2em;color:var(--blue);margin-bottom:10px}
 .dprog{background:var(--bg);border-radius:12px;padding:18px;margin:16px 0}
 .dprow{display:flex;justify-content:space-between;align-items:center}
-.dbadge{background:#16a34a;color:#fff;font:700 13px ui-monospace,Menlo,monospace;letter-spacing:.12em;padding:8px 14px;border-radius:999px}
+.dbadge{background:var(--blue);color:#fff;font:700 13px ui-monospace,Menlo,monospace;letter-spacing:.12em;padding:8px 14px;border-radius:999px}
 .dbadge.full{background:#b42318}
 .dcount{margin-top:12px;font-size:34px;font-weight:700;letter-spacing:-1px}
 .dcount small{font-size:16px;color:var(--mut);font-weight:500;letter-spacing:0}
@@ -557,7 +557,10 @@ html.in:not(.rdy) #app{visibility:hidden}
     </section>
     <section id="v-dashboard" hidden>
       <div class="dhead"><h2>Connect Every Stay.</h2><p class="mut">Grow your earnings through verified bookings, transparent commission rates, and trusted hospitality partners.</p></div>
-      <div class="card dplan"><b id="dplan">No plan</b><span>Daily Bookings Capacity: <b id="dcap">—</b></span></div>
+      <div class="card dplan">
+        <div class="dplan-badge">♛</div>
+        <div class="dplan-txt"><b id="dplan">No plan</b><span>Daily Bookings Capacity: <b id="dcap">—</b></span></div>
+      </div>
       <div class="card dmc">
         <div class="eb">MISSION CONTROL</div>
         <p class="mut">One dashboard. Every booking. Complete control.</p>
@@ -572,64 +575,15 @@ html.in:not(.rdy) #app{visibility:hidden}
         <div class="st"><small>COMPLETED BOOKINGS</small><b id="dcomp">0</b></div>
         <div class="st"><small>AVAILABLE BALANCE</small><b id="dbal">$0.00</b></div>
       </div>
-      <div class="card dlv">
-        <div class="eyebrow">INVESTMENT PLANS</div>
-        <h3>Partnerships</h3>
-        <p class="mut">Choose a plan and grow your returns with every booking.</p>
-        <div id="dlevels">
-          <div class="lvrow" data-lv="Classic">
-            <div class="pbadge bronze">CLASSIC</div>
-            <div class="pinfo">
-              <b>CLASSIC</b>
-              <div class="pmeta">DAILY MISSION : 20</div>
-              <div class="pprice">USD 100.00</div>
-              <div class="prew">0.40% Booking Reward</div>
-            </div>
-            <button class="btn" data-go="support">PURCHASE</button>
-          </div>
-          <div class="lvrow" data-lv="Deluxe">
-            <div class="pbadge silver">DELUXE</div>
-            <div class="pinfo">
-              <b>DELUXE</b>
-              <div class="pmeta">DAILY MISSION : 40</div>
-              <div class="pprice">USD 300.00</div>
-              <div class="prew">0.50% Booking Reward</div>
-            </div>
-            <button class="btn" data-go="support">PURCHASE</button>
-          </div>
-          <div class="lvrow" data-lv="Executive">
-            <div class="pbadge gold">EXECUTIVE</div>
-            <div class="pinfo">
-              <b>EXECUTIVE</b>
-              <div class="pmeta">DAILY MISSION : 60</div>
-              <div class="pprice">USD 600.00</div>
-              <div class="prew">0.70% Booking Reward</div>
-            </div>
-            <button class="btn" data-go="support">PURCHASE</button>
-          </div>
-          <div class="lvrow" data-lv="Suite">
-            <div class="pbadge navy">SUITE</div>
-            <div class="pinfo">
-              <b>SUITE</b>
-              <div class="pmeta">DAILY MISSION : 80</div>
-              <div class="pprice">USD 1,000.00</div>
-              <div class="prew">0.80% Booking Reward</div>
-            </div>
-            <button class="btn" data-go="support">PURCHASE</button>
-          </div>
-          <div class="lvrow" data-lv="Presidential">
-            <div class="pbadge maroon">PRESIDENTIAL</div>
-            <div class="pinfo">
-              <b>PRESIDENTIAL</b>
-              <div class="pmeta">DAILY MISSION : 100</div>
-              <div class="pprice">USD 3,000.00</div>
-              <div class="prew">0.90% Booking Reward</div>
-            </div>
-            <button class="btn" data-go="support">PURCHASE</button>
-          </div>
-        </div>
+      <div class="card dlevels-list">
+        <div class="mcl-title">MERCHANT COMMISSION LEVELS</div>
+        <div class="mcl-row"><b>Classic</b><span>Profits of 0.4% per booking - 20 bookings</span></div>
+        <div class="mcl-row"><b>Deluxe</b><span>Profits of 0.5% per booking - 40 bookings</span></div>
+        <div class="mcl-row"><b>Executive</b><span>Profits of 0.7% per booking - 60 bookings</span></div>
+        <div class="mcl-row"><b>Suite</b><span>Profits of 0.8% per booking - 80 bookings</span></div>
+        <div class="mcl-row"><b>Presidential</b><span>Profits of 0.9% per booking - 100 bookings</span></div>
       </div>
-      <div class="card dnote"><h4>Platform Rules Notice</h4><p>When processing reservations, details are securely submitted to merchant servers. Each Partnership tier includes a daily activity limit. Users can unlock enhanced privileges by advancing to higher Partnership tiers.</p></div>
+      <div class="card dnote"><h4>PLATFORM RULES NOTICE</h4><p>When processing reservations, details are securely submitted to merchant servers. Each Partnership tier includes a daily activity limit. Users can unlock enhanced privileges by advancing to higher Partnership tiers.</p></div>
       <p class="err" id="derr"></p>
     </section>
     
@@ -1166,29 +1120,39 @@ async function loadDashboard(){
   const lv=LV.find(x=>x[0].toLowerCase()===String(myAcc.level||"").trim().toLowerCase());
   const cap=lv?lv[2]:0,set=(id,v)=>{const e=$(id);if(e)e.textContent=v};
   set("#dplan",lv?lv[0]:(String(myAcc.level||"").trim()||"No plan"));set("#dcap",cap||"—");set("#dmax",cap);
-  document.querySelectorAll("#dlevels .lvrow").forEach(r=>r.classList.toggle("cur",!!lv&&r.dataset.lv===lv[0]));
+  // available balance & orders amount from account
+  try{
+    const bal=Number(myAcc.balance??myAcc.available??profile?.balance??0)||0;
+    const ord=Number(myAcc.orders??myAcc.locked??0)||0;
+    set("#dbal",money(bal));set("#dord",money(ord));
+  }catch(e){}
   try{
     const l=(await getDocs(query(collection(db,"bookings"),where("uid","==",me.uid)))).docs.map(d=>d.data());
     const t0=new Date();t0.setHours(0,0,0,0);
     const today=l.filter(b=>b.created>=t0.getTime()),done=l.filter(b=>b.status==="Dikonfirmasi");
     const earn=today.filter(b=>b.status==="Dikonfirmasi").reduce((a,b)=>a+(Number(b.total)||0),0)*(lv?lv[1]/100:0);
     set("#dcur",today.length);set("#dcomp",done.length);set("#dearn","+"+money(earn));
-    $("#dfill").style.width=(cap?Math.min(100,today.length/cap*100):0)+"%";
-    const full=cap>0&&today.length>=cap,bd=$("#dbadge");bd.textContent=full?"LIMIT REACHED":"READY";bd.classList.toggle("full",full);
+    const fill=$("#dfill");if(fill)fill.style.width=(cap?Math.min(100,today.length/cap*100):0)+"%";
+    const full=cap>0&&today.length>=cap,bd=$("#dbadge");
+    if(bd){
+      bd.textContent=full?"LIMIT REACHED":(today.length>0?"IN PROGRESS":"READY");
+      bd.classList.toggle("full",full);
+    }
   }catch(x){$("#derr").textContent=msg(x)}
 }
 
 /* ---------- Dashboard BOOK NOW simulation (like INNFinite) ---------- */
 const HOTEL_POOL=[
+  {name:"Conrad Manila, Deluxe Room with Twin Beds and Panoramic Bay View",stars:"★★★★★",rev:"5.0 (497 reviews)",img:"https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80",price:256,div:2.30},
   {name:"Best Western Plus Hotel Sydney Opera, Standard Double Room",stars:"★★★★★",rev:"5.0 (514 reviews)",img:"https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80",price:186,div:1.67},
   {name:"W Kuala Lumpur, 1 King Bed, Mega Guest Room",stars:"★★★★★",rev:"4.9 (1,204 reviews)",img:"https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800&q=80",price:293.76,div:2.64},
-  {name:"Parkroyal Collection Marina Bay, Deluxe Room",stars:"★★★★★",rev:"4.8 (892 reviews)",img:"https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80",price:215.50,div:1.94},
-  {name:"Grand Hyatt Singapore, Grand King Room",stars:"★★★★★",rev:"4.9 (2,110 reviews)",img:"https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80",price:248.00,div:2.23}
+  {name:"Parkroyal Collection Marina Bay, Deluxe Room",stars:"★★★★★",rev:"4.8 (892 reviews)",img:"https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80",price:215.50,div:1.94},
+  {name:"Grand Hyatt Singapore, Grand King Room",stars:"★★★★★",rev:"4.9 (2,110 reviews)",img:"https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80",price:248.00,div:2.23}
 ];
 const PROVIDERS=[
-  {id:"airbnb",name:"Airbnb",logo:"https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg"},
-  {id:"expedia",name:"Expedia",logo:"https://upload.wikimedia.org/wikipedia/commons/5/5b/Expedia_Logo.svg"},
-  {id:"trip",name:"Trip.com",logo:"https://upload.wikimedia.org/wikipedia/commons/6/6a/Trip.com_logo.svg"}
+  {id:"booking",name:"Booking.com",color:"#003580"},
+  {id:"expedia",name:"Expedia",color:"#ffc72c"},
+  {id:"trip",name:"Trip.com",color:"#287dfa"}
 ];
 let bflow={hotel:null,provider:null,busy:false};
 
@@ -1244,16 +1208,15 @@ const _bhNext=$("#bh-next");if(_bhNext)_bhNext.onclick=()=>{
   prices[0]=+(base - 1.86 + Math.random()*0.5).toFixed(2);
   prices[1]=+base.toFixed(2);
   prices[2]=+(base + 3.72 + Math.random()).toFixed(2);
-  const refund=+(base + 5.43 + Math.random()*2).toFixed(2);
-  $("#bp-refund").textContent=money2(refund);
+  bflow._refund=+(base + 5.43 + Math.random()*2).toFixed(2);
+  $("#bp-refund").textContent="—";
   $("#bp-comm").textContent="";
   $("#bp-book").disabled=true;
   bflow.provider=null;
   $("#bp-list").innerHTML=PROVIDERS.map((p,i)=>`
     <div class="prov-row" data-pi="${i}">
       <div style="display:flex;align-items:center;gap:10px">
-        <img src="${p.logo}" alt="" onerror="this.style.display='none'">
-        <span class="pname">${p.name}</span>
+        <span class="pname" style="color:${p.color||'var(--ink)'}">${p.name}</span>
       </div>
       <span class="pprice">${money2(prices[i])}</span>
     </div>`).join("");
@@ -1264,6 +1227,7 @@ const _bhNext=$("#bh-next");if(_bhNext)_bhNext.onclick=()=>{
       document.querySelectorAll("#bp-list .prov-row").forEach(x=>x.classList.remove("on"));
       el.classList.add("on");
       bflow.provider={...PROVIDERS[i],price:+el.dataset.price};
+      $("#bp-refund").textContent=money2(bflow._refund||bflow.hotel.price);
       const comm=+(bflow.hotel.div * (0.95+Math.random()*0.2)).toFixed(2);
       $("#bp-comm").textContent="Estimated Commission: "+money2(comm);
       $("#bp-book").disabled=false;
@@ -1304,6 +1268,12 @@ const _bpBook=$("#bp-book");if(_bpBook)_bpBook.onclick=async()=>{
   }
   const compEl=$("#dcomp");
   if(compEl)compEl.textContent=String((Number(compEl.textContent)||0)+1);
+  const balEl=$("#dbal");
+  if(balEl){
+    const prev=parseFloat(String(balEl.textContent).replace(/[^0-9.]/g,""))||0;
+    balEl.textContent=money2(prev+(bflow.hotel.div||1.5));
+  }
+
 
   $("#bt-count").textContent=cur;
   showB("bflow-toast",true);
