@@ -237,12 +237,26 @@ body{padding-bottom:100px}
 .dstats b{font-size:34px;letter-spacing:-1.5px;display:block;line-height:1}
 .dstats .g b{color:#0f8a55}
 .dlv{padding:24px 22px}
-.dlv h3{font-size:19px;letter-spacing:-.5px;margin-bottom:18px;text-transform:uppercase}
-.lvrow{padding:16px 0;border-top:1px solid var(--line)}
-.lvrow:first-of-type{border-top:0;padding-top:0}
-.lvrow b{display:block;color:var(--blue);font-size:22px;margin-bottom:8px;letter-spacing:-.5px}
-.lvrow span{font-size:19px}
-.lvrow.cur b::after{content:"CURRENT";margin-left:10px;font:700 11px ui-monospace,Menlo,monospace;letter-spacing:.14em;background:var(--blue);color:#fff;padding:3px 8px;border-radius:99px;vertical-align:middle}
+.dlv .eyebrow{font:700 13px ui-monospace,Menlo,monospace;letter-spacing:.25em;color:var(--blue);text-transform:uppercase;margin-bottom:6px}
+.dlv .eyebrow::before{content:"// ";color:var(--mut);letter-spacing:0}
+.dlv h3{font-size:32px;letter-spacing:-1px;margin:4px 0 8px;text-transform:none;font-weight:800}
+.dlv > .mut{font-size:17px;line-height:1.5;margin-bottom:22px}
+.lvrow{display:flex;flex-wrap:wrap;align-items:flex-start;gap:14px 16px;padding:18px;margin-bottom:14px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 16px #0b12200a}
+.lvrow:last-child{margin-bottom:0}
+.lvrow .pbadge{flex:none;width:64px;height:64px;border-radius:14px;display:grid;place-items:center;font:800 11px Outfit;letter-spacing:.04em;color:#fff;text-align:center;line-height:1.15;box-shadow:0 4px 12px #0002}
+.lvrow .pbadge.bronze{background:linear-gradient(145deg,#c47b3a,#8a4f1f);border:2px solid #e8b87a}
+.lvrow .pbadge.silver{background:linear-gradient(145deg,#9ca3af,#6b7280);border:2px solid #d1d5db}
+.lvrow .pbadge.gold{background:linear-gradient(145deg,#eab308,#a16207);border:2px solid #fde047}
+.lvrow .pbadge.navy{background:linear-gradient(145deg,#1e3a5f,#0f172a);border:2px solid #3b6cf0}
+.lvrow .pbadge.maroon{background:linear-gradient(145deg,#7f1d1d,#450a0a);border:2px solid #f87171}
+.lvrow .pinfo{flex:1;min-width:140px}
+.lvrow .pinfo b{display:block;color:var(--ink);font-size:18px;font-weight:800;letter-spacing:.02em;margin-bottom:6px}
+.lvrow .pmeta{font:700 12px ui-monospace,Menlo,monospace;letter-spacing:.08em;color:var(--blue);margin-bottom:4px}
+.lvrow .pprice{font:800 20px Outfit;color:var(--blue);letter-spacing:-.5px;margin-bottom:2px}
+.lvrow .prew{font-size:14px;color:var(--mut)}
+.lvrow .btn{margin-left:auto;align-self:flex-end;padding:11px 22px;font-size:14px;border-radius:999px;letter-spacing:.04em}
+.lvrow.cur{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue),0 6px 20px #3b6cf033}
+.lvrow.cur .pinfo b::after{content:"CURRENT";margin-left:8px;font:700 10px ui-monospace,Menlo,monospace;letter-spacing:.12em;background:var(--blue);color:#fff;padding:3px 8px;border-radius:99px;vertical-align:middle}
 .dnote{padding:22px}
 .dnote h4{font-size:16px;letter-spacing:-.3px;margin-bottom:12px;text-transform:uppercase}
 .dnote p{color:var(--mut);font-size:17px;line-height:1.6}
@@ -531,7 +545,63 @@ html.in:not(.rdy) #app{visibility:hidden}
         <div class="st"><small>COMPLETED BOOKINGS</small><b id="dcomp">0</b></div>
         <div class="st"><small>AVAILABLE BALANCE</small><b id="dbal">$0.00</b></div>
       </div>
-      <div class="card dlv"><h3>Merchant Commission Levels</h3><div id="dlevels"><div class="lvrow" data-lv="Classic"><b>Classic</b><span>Profits of 0.4% per booking - 20 bookings</span></div><div class="lvrow" data-lv="Deluxe"><b>Deluxe</b><span>Profits of 0.5% per booking - 40 bookings</span></div><div class="lvrow" data-lv="Executive"><b>Executive</b><span>Profits of 0.7% per booking - 60 bookings</span></div><div class="lvrow" data-lv="Suite"><b>Suite</b><span>Profits of 0.8% per booking - 80 bookings</span></div><div class="lvrow" data-lv="Presidential"><b>Presidential</b><span>Profits of 0.9% per booking - 100 bookings</span></div></div></div>
+      <div class="card dlv">
+        <div class="eyebrow">INVESTMENT PLANS</div>
+        <h3>Partnerships</h3>
+        <p class="mut">Choose a plan and grow your returns with every booking.</p>
+        <div id="dlevels">
+          <div class="lvrow" data-lv="Classic">
+            <div class="pbadge bronze">CLASSIC</div>
+            <div class="pinfo">
+              <b>CLASSIC</b>
+              <div class="pmeta">DAILY MISSION : 20</div>
+              <div class="pprice">USD 100.00</div>
+              <div class="prew">0.40% Booking Reward</div>
+            </div>
+            <button class="btn" data-go="support">PURCHASE</button>
+          </div>
+          <div class="lvrow" data-lv="Deluxe">
+            <div class="pbadge silver">DELUXE</div>
+            <div class="pinfo">
+              <b>DELUXE</b>
+              <div class="pmeta">DAILY MISSION : 40</div>
+              <div class="pprice">USD 300.00</div>
+              <div class="prew">0.50% Booking Reward</div>
+            </div>
+            <button class="btn" data-go="support">PURCHASE</button>
+          </div>
+          <div class="lvrow" data-lv="Executive">
+            <div class="pbadge gold">EXECUTIVE</div>
+            <div class="pinfo">
+              <b>EXECUTIVE</b>
+              <div class="pmeta">DAILY MISSION : 60</div>
+              <div class="pprice">USD 600.00</div>
+              <div class="prew">0.70% Booking Reward</div>
+            </div>
+            <button class="btn" data-go="support">PURCHASE</button>
+          </div>
+          <div class="lvrow" data-lv="Suite">
+            <div class="pbadge navy">SUITE</div>
+            <div class="pinfo">
+              <b>SUITE</b>
+              <div class="pmeta">DAILY MISSION : 80</div>
+              <div class="pprice">USD 1,000.00</div>
+              <div class="prew">0.80% Booking Reward</div>
+            </div>
+            <button class="btn" data-go="support">PURCHASE</button>
+          </div>
+          <div class="lvrow" data-lv="Presidential">
+            <div class="pbadge maroon">PRESIDENTIAL</div>
+            <div class="pinfo">
+              <b>PRESIDENTIAL</b>
+              <div class="pmeta">DAILY MISSION : 100</div>
+              <div class="pprice">USD 3,000.00</div>
+              <div class="prew">0.90% Booking Reward</div>
+            </div>
+            <button class="btn" data-go="support">PURCHASE</button>
+          </div>
+        </div>
+      </div>
       <div class="card dnote"><h4>Platform Rules Notice</h4><p>When processing reservations, details are securely submitted to merchant servers. Each Partnership tier includes a daily activity limit. Users can unlock enhanced privileges by advancing to higher Partnership tiers.</p></div>
       <p class="err" id="derr"></p>
     </section>
@@ -660,7 +730,7 @@ html.in:not(.rdy) #app{visibility:hidden}
         <div class="fb"><svg viewBox="0 0 56 56" aria-hidden="true"><path d="M8 14L28 46" fill="none" stroke="#1D9E75" stroke-width="7" stroke-linecap="round"/><path d="M28 46L48 14" fill="none" stroke="#7F77DD" stroke-width="7" stroke-linecap="round"/><circle cx="28" cy="9" r="3.6" fill="#EF9F27"/></svg><div><b>VELORA</b><small>BOOKING HOTEL</small></div></div>
         <p>The world’s leading hotel commerce platform, empowering hotels to reach, convert, and retain guests borderlessly.</p>
         <div class="fc">
-          <div><h4>Product</h4><button data-scroll="platform">Features</button><button data-go="channel">Channel</button><a href="#">Pricing</a></div>
+          <div><h4>Product</h4><button data-scroll="platform">Features</button><button data-go="channel">Channel</button><button data-go="dashboard">Pricing</button></div>
           <div><h4>Company</h4><button data-go="about">About Us</button><button data-go="support">Support</button><a href="#">FAQ</a></div>
         </div>
         <hr>
