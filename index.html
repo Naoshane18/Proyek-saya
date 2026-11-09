@@ -553,6 +553,31 @@ body.velora-tawk-open [class*="tawk"] {
   pointer-events: auto;
 }
 
+
+/* ---------- Orders history: visual layout matching the supplied reference ---------- */
+#v-orders #olist{display:grid;grid-template-columns:1fr;gap:16px}
+.order-demo-card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 4px 14px rgba(15,23,42,.06);min-width:0}
+.order-photo{position:relative;background:var(--line);aspect-ratio:16/9;overflow:hidden}
+.order-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.order-status{position:absolute;left:12px;top:12px;background:#e7f7ef;color:#087b59;border-radius:4px;padding:6px 9px;font:800 10px Outfit,sans-serif;letter-spacing:.05em}
+.order-status.pending{background:#fff4db;color:#946200}
+.order-demo-body{padding:15px}
+.order-demo-title{font-size:17px;font-weight:800;line-height:1.3;letter-spacing:-.25px}
+.order-demo-room{font-size:13px;color:var(--mut);line-height:1.45;margin-top:5px}
+.order-demo-meta{display:flex;align-items:center;flex-wrap:wrap;gap:7px;font-size:11px;color:var(--mut);margin-top:9px;line-height:1.5}
+.order-demo-values{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.order-demo-values>div{background:var(--bg);padding:12px;border-radius:8px;min-width:0}
+.order-demo-values small{display:block;font:700 10px ui-monospace,Menlo,monospace;letter-spacing:.12em;color:var(--mut);margin-bottom:7px}
+.order-demo-values b{display:block;font-size:18px;letter-spacing:-.4px;overflow-wrap:anywhere}
+.order-demo-values .reward{color:#07845e}
+.partner-logo{display:block;max-width:86px;width:auto;height:24px;object-fit:contain;flex:none}.partner-mark{width:22px;height:22px;border-radius:5px;display:inline-grid;place-items:center;background:var(--mark-bg);color:var(--mark-color);font:900 13px Outfit,sans-serif;flex:none;border:1px solid #00000010}
+.partner-word{font-weight:800;color:var(--ink);font-size:12px}
+.partner-lockup{display:flex;align-items:center;gap:8px;min-width:0}
+.bflow-prov .prov-row{min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:9px;cursor:pointer;background:var(--card)}
+.bflow-prov .prov-row.on{border-color:var(--blue);background:#3b6cf010}
+.bflow-prov .prov-row .pprice{font-weight:800;color:var(--ink);white-space:nowrap}
+@media(min-width:700px){#v-orders #olist{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}}
+
 </style>
 </head>
 <body>
@@ -635,14 +660,14 @@ body.velora-tawk-open [class*="tawk"] {
       </div>
     </section>
     <section id="v-orders" hidden>
-      <div class="bghead" data-bg2="0"><h2>Order History</h2><p>Browse 1,000 randomly generated demo booking records.</p></div>
+      <div class="bghead" data-bg2="0"><h2>Order History</h2><p>Browse 1,000 randomly generated demo booking records across 10 sample travel channels.</p></div>
       <div class="card pad" style="margin-bottom:16px">
         <b>DEMO DATA ONLY</b><p class="mut" style="margin-top:6px">These are synthetic examples, not real reservations, partner confirmations, or payable earnings.</p>
         <input id="order-search" placeholder="Search hotel, city, room, provider…" style="margin-top:14px">
       </div>
       <div id="olist"></div>
       <div class="row" style="justify-content:center;margin:18px 0">
-        <button class="btn g" id="orders-prev">PREVIOUS</button><span id="orders-page" class="mut">Page 1 of 50</span><button class="btn" id="orders-next">NEXT</button>
+        <button class="btn g" id="orders-prev">PREVIOUS</button><span id="orders-page" class="mut">Page 1 of 63</span><button class="btn" id="orders-next">NEXT</button>
       </div>
     </section>
     <section id="v-admin" hidden>
@@ -711,7 +736,7 @@ body.velora-tawk-open [class*="tawk"] {
         <div class="dprog"><div class="dprow"><span class="mut">Current progress</span><span class="dbadge" id="dbadge">READY</span></div>
           <div class="dcount"><span id="dcur">0</span> / <span id="dmax">0</span> <small>Bookings</small></div>
           <div class="dbar"><i id="dfill"></i></div></div>
-        <button class="bookpill" id="booknow" type="button"><span class="orb"></span><b>SIMULATE DEMO BOOKING</b></button>
+        <button class="bookpill" id="booknow" type="button"><span class="orb"></span><b>BOOK NOW</b></button>
       </div>
       <div class="dstats">
         <div class="st g"><small>TODAY'S DEMO COMMISSION</small><b id="dearn">+$0.00</b></div>
@@ -1015,9 +1040,9 @@ body.velora-tawk-open [class*="tawk"] {
 </div>
 <div id="bflow-prov" class="bflow-overlay" hidden>
   <div class="bflow-card bflow-prov">
-    <h3>Select Channel (Demo)</h3>
-    <p class="sub">Brand names are examples only; no partner API is connected.</p>
-    <div class="bref"><small>DEMO PRICE REFERENCE</small><b id="bp-refund">$0.00</b></div>
+    <h3>Select Booking Provider</h3>
+    <p class="sub">Choose one sample channel to complete this local demo order.</p>
+    <div class="bref"><small>ROOM PRICE REFERENCE</small><b id="bp-refund">$0.00</b></div>
     <div id="bp-list"></div>
     <p id="bp-comm" style="text-align:center;color:#16a34a;font-weight:700;margin:12px 0 4px;min-height:22px"></p>
     <button class="btn w" id="bp-book" disabled>BOOK NOW</button>
@@ -1284,7 +1309,7 @@ function makeDemoOrder(i){
  const created=Date.now()-days*86400000-Math.floor(Math.random()*86400000);
  const checkin=new Date(created+2*86400000),checkout=new Date(checkin.getTime()+(1+Math.floor(Math.random()*5))*86400000);
  const date=d=>d.toISOString().slice(0,10);
- return {id:"DEMO-"+String(i+1).padStart(4,"0"),demo:true,hotelName:pick(DEMO_HOTELS)+" — "+city[0],room:pick(DEMO_ROOMS),location:city.join(", "),provider:pick(DEMO_PROVIDERS),price,rate,commission:+(price*rate).toFixed(2),created,checkin:date(checkin),checkout:date(checkout),status:"DEMO SAMPLE",image:pick(DEMO_IMAGES),bookingNo:"VLR"+String(100000000+Math.floor(Math.random()*899999999))};
+ return {id:"DEMO-"+String(i+1).padStart(4,"0"),demo:true,hotelName:pick(DEMO_HOTELS)+" — "+city[0],room:pick(DEMO_ROOMS),location:city.join(", "),provider:pick(DEMO_PROVIDERS),price,rate,commission:+(price*rate).toFixed(2),created,checkin:date(checkin),checkout:date(checkout),status:Math.random()>.12?"COMPLETED":"PENDING",image:pick(DEMO_IMAGES),bookingNo:"VLR"+String(100000000+Math.floor(Math.random()*899999999))};
 }
 function ensureDemoOrders(){
  try{
@@ -1300,24 +1325,44 @@ function applyDemoRate(){
  demoOrders.forEach(o=>{o.rate=rate;o.commission=+((Number(o.price)||0)*rate).toFixed(2)});
  saveDemoOrders();
 }
+function providerLogo(name){
+ const aliases={"Google Hotels":"Google"};
+ const alt=aliases[name]||name;
+ const img=[...document.querySelectorAll("img[alt]")].find(el=>
+   (el.getAttribute("alt")||"").toLowerCase()===alt.toLowerCase() &&
+   (el.getAttribute("src")||"").startsWith("data:image/")
+ );
+ if(img){
+   return `<img class="partner-logo" src="${img.getAttribute("src")}" alt="${esc(name)}"><span class="partner-word">${esc(name)}</span>`;
+ }
+ const styles={"Hotels.com":["H","#fff0f0","#c62828"]};
+ const v=styles[name]||[name.slice(0,1),"#eef2ff","#2457df"];
+ return `<span class="partner-mark" style="--mark-bg:${v[1]};--mark-color:${v[2]}">${v[0]}</span><span class="partner-word">${esc(name)}</span>`;
+}
 function renderDemoOrders(){
  const q=($("#order-search")?.value||"").trim().toLowerCase();
  const filtered=demoOrders.filter(o=>(o.hotelName+" "+o.room+" "+o.location+" "+o.provider+" "+o.bookingNo).toLowerCase().includes(q));
- const pages=Math.max(1,Math.ceil(filtered.length/20));ordersPage=Math.min(ordersPage,pages);
- const page=filtered.slice((ordersPage-1)*20,ordersPage*20);
- $("#olist").innerHTML=page.map(o=>`<div class="card" style="overflow:hidden">
-  <img src="${esc(o.image)}" alt="" loading="lazy" style="width:100%;aspect-ratio:16/9;object-fit:cover" onerror="this.style.display='none'">
-  <div class="pad">
-   <div class="row" style="margin:0 0 10px"><span class="st">DEMO SAMPLE</span><small class="mut">${esc(o.bookingNo)}</small></div>
-   <h3>${esc(o.hotelName)}</h3><p class="mut">${esc(o.room)} · ${esc(o.location)}</p>
-   <p class="mut" style="margin-top:8px">${esc(o.checkin)} → ${esc(o.checkout)}</p>
-   <div class="kv"><span class="mut">Channel reference</span><b>${esc(o.provider)}</b></div>
-   <div class="two" style="margin-bottom:0">
-    <div class="bal sm"><small>ROOM PRICE</small><b>${money2(o.price)}</b></div>
-    <div class="bal sm"><small>EST. COMMISSION (${(o.rate*100).toFixed(2)}%)</small><b style="color:#07845e">${money2(o.commission)}</b></div>
+ const perPage=16,pages=Math.max(1,Math.ceil(filtered.length/perPage));ordersPage=Math.min(ordersPage,pages);
+ const page=filtered.slice((ordersPage-1)*perPage,ordersPage*perPage);
+ $("#olist").innerHTML=page.map(o=>{
+  const status=String(o.status||"COMPLETED").toUpperCase();
+  const pending=status.includes("PENDING");
+  return `<article class="order-demo-card">
+   <div class="order-photo">
+    <img src="${esc(o.image)}" alt="${esc(o.hotelName)}" loading="lazy" onerror="this.style.display='none'">
+    <span class="order-status ${pending?"pending":""}">DEMO · ${pending?"PENDING":"COMPLETED"}</span>
    </div>
-   <p class="mut" style="font-size:12px;margin-top:12px">Generated example · ${new Date(o.created).toLocaleString()}</p>
-  </div></div>`).join("")||'<p class="mut">No matching demo records.</p>';
+   <div class="order-demo-body">
+    <div class="order-demo-title">${esc(o.hotelName)}</div>
+    <div class="order-demo-room">${esc(o.room)} · ${esc(o.location)}</div>
+    <div class="order-demo-meta">${new Date(o.created).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})} · #${esc(o.bookingNo)} · ${providerLogo(o.provider)}</div>
+    <div class="order-demo-values">
+     <div><small>AMOUNT</small><b>${money2(o.price)}</b></div>
+     <div><small>REWARD (${(Number(o.rate||0)*100).toFixed(2)}%)</small><b class="reward">${money2(o.commission)}</b></div>
+    </div>
+   </div>
+  </article>`;
+ }).join("")||'<p class="mut">No matching demo records.</p>';
  $("#orders-page").textContent=`Page ${ordersPage} of ${pages} · ${filtered.length.toLocaleString()} records`;
  $("#orders-prev").disabled=ordersPage<=1;$("#orders-next").disabled=ordersPage>=pages;
 }
@@ -1468,23 +1513,27 @@ const _bhNext=$("#bh-next");if(_bhNext)_bhNext.onclick=()=>{
   $("#bp-comm").textContent="";
   $("#bp-book").disabled=true;
   bflow.provider=null;
-  $("#bp-list").innerHTML=PROVIDERS.map((p,i)=>`
+  // Show three randomly selected channels from the ten demo partner names.
+  const options=[...PROVIDERS].sort(()=>Math.random()-.5).slice(0,3);
+  const optionPrices=options.map((p,i)=>{
+    const offsets=[-1.86,0,3.72];
+    return +(Math.max(1,base+offsets[i]+Math.random()*(i===0?.5:1))).toFixed(2);
+  });
+  $("#bp-list").innerHTML=options.map((p,i)=>`
     <div class="prov-row" data-pi="${i}">
-      <div style="display:flex;align-items:center;gap:10px">
-        <span class="pname" style="color:${p.color||'var(--ink)'}">${p.name}</span>
-      </div>
-      <span class="pprice">${money2(prices[i])}</span>
+      <div class="partner-lockup">${providerLogo(p.name)}</div>
+      <span class="pprice">${money2(optionPrices[i])}</span>
     </div>`).join("");
-  // store prices on elements
   document.querySelectorAll("#bp-list .prov-row").forEach((el,i)=>{
-    el.dataset.price=prices[i];
+    el.dataset.price=optionPrices[i];
     el.onclick=()=>{
       document.querySelectorAll("#bp-list .prov-row").forEach(x=>x.classList.remove("on"));
       el.classList.add("on");
-      bflow.provider={...PROVIDERS[i],price:+el.dataset.price};
+      bflow.provider={...options[i],price:+el.dataset.price};
       $("#bp-refund").textContent=money2(bflow._refund||bflow.hotel.price);
       const comm=+(bflow.hotel.price*commissionRate()).toFixed(2);
-      $("#bp-comm").textContent="Estimated demo commission: "+money2(comm);
+      const lv=LV.find(x=>x[0].toLowerCase()===String(myAcc.level||"").trim().toLowerCase());
+      $("#bp-comm").textContent=`Estimated ${lv?lv[0]:"unselected level"} commission (${(commissionRate()*100).toFixed(2)}%): ${money2(comm)}`;
       $("#bp-book").disabled=false;
     };
   });
@@ -1512,7 +1561,7 @@ const _bpBook=$("#bp-book");if(_bpBook)_bpBook.onclick=async()=>{
    checkout:new Date(Date.now()+2*86400000).toISOString().slice(0,10),
    status:"DEMO SAMPLE",image:bflow.hotel.img,bookingNo:rndBookingNo()
   };
-  demoOrders.unshift(order);saveDemoOrders();
+  demoOrders.unshift(order);demoOrders=demoOrders.slice(0,1000);saveDemoOrders();
   await loadDashboard();
 
 
