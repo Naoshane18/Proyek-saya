@@ -592,6 +592,44 @@ header .lgsw .lgm button{display:flex!important;align-items:center;gap:14px;widt
 header .lgsw .lgm button span{font:400 22px/1 system-ui,sans-serif!important}
 header .lgsw .lgm button.on{background:#f1f5f9!important;color:#3b6cf0!important}
 </style>
+<style id="velora-wallet-css">
+select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px;font:500 16px Outfit;background:var(--card);color:var(--ink)}
+.wl-hero{background:var(--navy);color:#fff;margin:-20px -20px 0;padding:30px 20px 96px;background-image:radial-gradient(ellipse at 30% 0,#13234a 0,transparent 65%)}
+.wl-top{display:flex;justify-content:space-between;align-items:center}
+.wl-top small{font:700 13px ui-monospace,Menlo,monospace;letter-spacing:.2em;color:#4f7cf5}
+.wl-top button{background:none;border:0;color:#94a3b8;padding:6px;cursor:pointer;display:grid}
+.wl-top svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.wl-bal{font:800 56px Outfit;letter-spacing:-2px;margin:14px 0 24px;overflow-wrap:anywhere}
+.wl-act{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.wl-act .btn{border-radius:4px;padding:18px 8px;letter-spacing:.08em;font-size:15px}
+.wl-act .btn.g{color:#fff;border-color:#243049;background:#0b1220}
+.wl-card{position:relative;margin-top:-62px}
+.wl-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.wl-h h3{margin:0;font-size:20px}
+.wl-badge{background:var(--bg);border-radius:6px;padding:6px 12px;font:700 12px Outfit;letter-spacing:.1em}
+.wl-va{background:none;border:0;border-bottom:2px solid var(--line);color:var(--ink);font:700 15px Outfit;padding:2px 0;cursor:pointer}
+.pm{display:flex;align-items:center;gap:14px;padding:14px 0}.pm+.pm{border-top:1px solid var(--line)}
+.pm i{width:42px;height:42px;border-radius:10px;background:var(--bg);color:var(--blue);display:grid;place-items:center;flex:none}
+.pm i svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pm>div{flex:1;min-width:0}.pm b{display:block;font-size:17px}.pm small{color:var(--mut);font-size:15px}
+.pm button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;padding:10px 16px;font:700 13px Outfit;letter-spacing:.08em;cursor:pointer}
+.wl-eb{font-size:12px;letter-spacing:.2em}
+.wl-lbl{font:700 12px ui-monospace,Menlo,monospace;letter-spacing:.2em;color:var(--mut)}
+.emp{grid-column:1/-1;text-align:center;padding:26px 8px 12px}.emp b{display:block;font-size:19px;margin:10px 0 6px}
+.emp i{display:inline-grid;place-items:center;width:56px;height:56px;border-radius:14px;background:var(--bg);color:var(--blue)}
+.emp svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sheet{position:fixed;inset:0;z-index:2147483100;margin:0!important;max-width:none!important}
+.sh-bd{position:absolute;inset:0;width:100%;height:100%;border:0;background:#0008;padding:0;cursor:default}
+.sh-box{position:absolute;left:0;right:0;bottom:0;max-height:92vh;overflow:auto;background:var(--card);color:var(--ink);border-radius:24px 24px 0 0;padding:22px 20px calc(24px + env(safe-area-inset-bottom));box-shadow:0 -10px 40px #0005}
+@media(min-width:700px){.sh-box{left:50%;right:auto;width:520px;transform:translateX(-50%)}}
+.sh-grip{display:block;width:44px;height:5px;border-radius:9px;background:var(--line);margin:-8px auto 16px}
+.sh-x{position:absolute;top:18px;right:18px;width:40px;height:40px;border:0;border-radius:8px;background:var(--bg);color:var(--ink);font-size:26px;line-height:1;cursor:pointer}
+.sh-box h3{font-size:24px;margin:6px 0 4px}
+.amts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0 4px}
+.amt{background:var(--bg);border:1.5px solid var(--line);color:var(--ink);padding:13px 0;border-radius:6px;font:700 15px Outfit;cursor:pointer}
+.amt.on{border-color:var(--blue);color:var(--blue)}
+.wl-note{margin-top:16px;padding:12px 14px;border-radius:6px;background:var(--bg);border-left:3px solid var(--blue);font-size:14px;color:var(--mut)}
+</style>
 </head>
 <body>
 <div id="topbar"></div>
@@ -835,28 +873,49 @@ header .lgsw .lgm button.on{background:#f1f5f9!important;color:#3b6cf0!important
     </section>
 
     <section id="v-wallet" hidden>
-      <button class="btn g back" data-go="profile">← Partner's Lounge</button><h2>Wallet</h2>
-      <div class="two"><div class="bal sm"><small>TOTAL BALANCE</small><b id="wtotal">$0.00</b></div><div class="bal sm"><small>AVAILABLE</small><b id="wavail">$0.00</b></div></div>
-      <div class="card pad"><h3>Payment details</h3><p class="mut">Bank account or card for withdrawals.</p>
-        <label for="wbank">Bank name</label><input id="wbank">
-        <label for="whold">Account holder name</label><input id="whold">
-        <label for="wnum">Account/card number</label><input id="wnum" inputmode="numeric" autocomplete="off">
-        <button class="btn w" id="wsave">Save</button><p class="err" id="werr"></p></div>
+      <div class="wl-hero">
+        <div class="wl-top"><small>AVAILABLE BALANCE</small><button type="button" data-go="history" aria-label="History"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg></button></div>
+        <div class="wl-bal" id="wavail">$0.00</div>
+        <div class="wl-act"><button type="button" class="btn" data-go="addfunds"><span aria-hidden="true">+ </span><span>ADD FUNDS</span></button><button type="button" class="btn g" data-go="withdraw"><span aria-hidden="true">&minus; </span><span>WITHDRAW</span></button></div>
+      </div>
+      <div class="card pad wl-card">
+        <div class="wl-h"><h3>Payout Methods</h3><span class="wl-badge" id="wbound">0 BOUND</span></div>
+        <div class="pm" data-m="bank"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9 10v8M15 10v8M19 10v8M3 20h18"/></svg></i><div><b>Bank</b><small>Not bound</small></div><button type="button">BIND</button></div><div class="pm" data-m="wise"><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg></i><div><b>Wise</b><small>Not bound</small></div><button type="button">BIND</button></div><div class="pm" data-m="trc20"><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 10h19M16 15h2"/></svg></i><div><b>USDT TRC20</b><small>Not bound</small></div><button type="button">BIND</button></div><div class="pm" data-m="erc20"><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 10h19M16 15h2"/></svg></i><div><b>USDT ERC20</b><small>Not bound</small></div><button type="button">BIND</button></div>
+      </div>
+      <div class="card pad">
+        <div class="wl-h"><h3>Activity</h3><button type="button" class="wl-va" data-go="history">View All &rarr;</button></div>
+        <div id="wact"><p class="mut">No activity yet</p></div>
+      </div>
     </section>
-    <section id="v-addfunds" hidden>
-      <button class="btn g back" data-go="profile">← Partner's Lounge</button><h2>Add funds</h2>
-      <div class="card pad"><label for="famt" style="margin-top:0">Amount (USD)</label><input id="famt" type="number" min="0" step="any" inputmode="decimal">
-        <p class="mut" style="margin-top:10px">Requests are verified by an admin before your balance is updated.</p>
-        <button class="btn w" id="fsend">Submit request</button><p class="err" id="ferr"></p></div>
+    <section id="v-addfunds" class="sheet" hidden>
+      <button type="button" class="sh-bd" data-go="wallet" aria-label="Close"></button>
+      <div class="sh-box"><i class="sh-grip"></i><button type="button" class="sh-x" data-go="wallet" aria-label="Close">&times;</button>
+        <h3>Add Funds to Wallet</h3><p class="mut">Select an amount to add</p>
+        <div class="amts"><button type="button" class="amt" data-a="100">$100</button><button type="button" class="amt" data-a="300">$300</button><button type="button" class="amt" data-a="600">$600</button><button type="button" class="amt" data-a="1000">$1,000</button><button type="button" class="amt" data-a="3000">$3,000</button></div>
+        <label for="famt">Amount ($)</label><input id="famt" type="number" min="0" step="any" inputmode="decimal" placeholder="0.00">
+        <button type="button" class="btn w" id="fsend">PROCEED &rarr;</button><p class="err" id="ferr"></p>
+      </div>
     </section>
-    <section id="v-withdraw" hidden>
-      <button class="btn g back" data-go="profile">← Partner's Lounge</button><h2>Withdraw</h2>
-      <div class="card pad"><p>Available balance: <b id="xavail">$0.00</b></p><p class="mut" style="margin-top:4px">Destination: <span id="xbank"></span></p>
-        <label for="xamt">Amount (USD)</label><input id="xamt" type="number" min="0" step="any" inputmode="decimal">
-        <button class="btn w" id="xsend">Request withdrawal</button><p class="err" id="xerr"></p></div>
+    <section id="v-withdraw" class="sheet" hidden>
+      <button type="button" class="sh-bd" data-go="wallet" aria-label="Close"></button>
+      <div class="sh-box"><i class="sh-grip"></i><button type="button" class="sh-x" data-go="wallet" aria-label="Close">&times;</button>
+        <h3>Withdraw Funds</h3><p class="mut">Available: <b id="xavail">$0.00</b></p>
+        <label for="xamt">Amount ($)</label><input id="xamt" type="number" min="0" step="any" inputmode="decimal" placeholder="0.00">
+        <label for="xacc">Payout Account</label><select id="xacc"><option value="">Select account</option></select>
+        <label for="xpass">Withdraw Password</label><input id="xpass" type="password" autocomplete="off">
+        <div class="wl-note">Arrival in 15-20 mins. Contact Support if delayed.</div>
+        <button type="button" class="btn w" id="xsend">WITHDRAW NOW</button><p class="err" id="xerr"></p>
+      </div>
     </section>
     <section id="v-history" hidden>
-      <button class="btn g back" data-go="profile">← Partner's Lounge</button><h2>History</h2><div id="hislist"></div>
+      <div class="eyebrow wl-eb">TRACK YOUR EARNINGS AND TRANSACTIONS</div>
+      <h2>Wallet History</h2>
+      <div class="card pad">
+        <div class="two" style="margin:0"><div><label for="hty" style="margin-top:0">Type</label><select id="hty"><option value="">All Types</option><option value="deposit">Add funds</option><option value="withdraw">Withdrawal</option></select></div>
+        <div><label for="hst" style="margin-top:0">Status</label><select id="hst"><option value="">All Status</option><option value="Menunggu">Pending</option><option value="Disetujui">Approved</option><option value="Ditolak">Rejected</option></select></div></div>
+        <button type="button" class="btn w" id="hfilter">FILTER TRANSACTIONS</button>
+      </div>
+      <div class="card pad"><div class="wl-lbl">TRANSACTIONS</div><div id="hislist"></div></div>
     </section>
     <section id="v-support" hidden>
       <div class="bghead" data-bg2="2"><h2>Support</h2></div>
@@ -1012,7 +1071,7 @@ header .lgsw .lgm button.on{background:#f1f5f9!important;color:#3b6cf0!important
   if(V.indexOf(v)<0||(v==="admin"&&!c.adm))v="home";
   var g=function(i){return document.getElementById(i)};
   g("app").hidden=false;
-  var S={about:"About Us",channel:"Channel"};g("mainhead").hidden=!!S[v];g("subhead").hidden=!S[v];if(S[v]){g("subtitle").textContent=S[v];g("subtag").hidden=v!=="channel";g("subhead").classList.toggle("chh",v==="channel")}
+  var S={about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet"};g("mainhead").hidden=!!S[v];g("subhead").hidden=!S[v];if(S[v]){g("subtitle").textContent=S[v];g("subtag").hidden=v!=="channel";g("subhead").classList.toggle("chh",v==="channel")}
   V.forEach(function(k){var e=g("v-"+k);if(e)e.hidden=k!==v});
   g("sitefoot").hidden=v==="orders";
   document.querySelectorAll("nav a").forEach(function(a){a.classList.toggle("on",a.dataset.v===(M[v]||v))});
@@ -1033,6 +1092,16 @@ header .lgsw .lgm button.on{background:#f1f5f9!important;color:#3b6cf0!important
   <p class="err" id="berr"></p>
   <div class="row"><button class="btn g" id="bcancel">Close</button><button class="btn" id="bsend">Submit booking</button></div>
 </dialog>
+<div id="bindsheet" class="sheet" hidden>
+  <button type="button" class="sh-bd" id="bnbd" aria-label="Close"></button>
+  <div class="sh-box"><i class="sh-grip"></i><button type="button" class="sh-x" id="bnx" aria-label="Close">&times;</button>
+    <h3 id="bnt">Bind</h3>
+    <div class="bf"><label for="bk0"></label><input id="bk0" autocomplete="off"></div>
+    <div class="bf"><label for="bk1"></label><input id="bk1" autocomplete="off"></div>
+    <div class="bf"><label for="bk2"></label><input id="bk2" autocomplete="off"></div>
+    <button type="button" class="btn w" id="bnsave">Save</button><p class="err" id="bnerr"></p>
+  </div>
+</div>
 <!-- Booking flow overlays -->
 <div id="bflow-load" class="bflow-overlay" hidden>
   <div class="bflow-card"><div class="btitle" id="bflow-load-txt">PREPARING YOUR REQUEST…</div></div>
@@ -1181,7 +1250,7 @@ async function loadAccount(){
 
 /* ---------- Navigation ---------- */
 const VIEWS=["home","orders","admin","profile","dashboard","pricing","wallet","addfunds","withdraw","history","support","editprofile","about","channel"];
-const SUBT={about:"About Us",channel:"Channel"};
+const SUBT={about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet"};
 const NAVMAP={wallet:"profile",addfunds:"profile",withdraw:"profile",history:"profile",editprofile:"profile"};
 let unsub=null,lastV="home";
 const VKEY="velora_view";
@@ -1196,6 +1265,7 @@ function show(v){
   const sub=!!SUBT[v];if(!sub)lastV=v;
   $("#mainhead").hidden=sub;$("#subhead").hidden=!sub;if(sub){$("#subtitle").textContent=SUBT[v];$("#subtag").hidden=v!=="channel";$("#subhead").classList.toggle("chh",v==="channel")}
   VIEWS.forEach(k=>$("#v-"+k).hidden=k!==v);
+  if(v==="addfunds"||v==="withdraw"){$("#v-wallet").hidden=false;fillWallet()}
   $("#sitefoot").hidden=v==="orders";
   if(unsub){unsub();unsub=null}
   document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.dataset.v===(NAVMAP[v]||v)));
@@ -1589,37 +1659,72 @@ const _bokGot=$("#bok-got");if(_bokGot)_bokGot.onclick=()=>{showB("bflow-ok",fal
 
 const _bn=$("#booknow");if(_bn)_bn.onclick=()=>runBookFlow();
 
+const PMN={bank:"Bank",wise:"Wise",trc20:"USDT TRC20",erc20:"USDT ERC20"};
+const PMF={bank:["Bank name","Account holder name","Account/card number"],wise:[0,"Account holder name","Wise email or ID"],trc20:[0,0,"Wallet address (TRC20)"],erc20:[0,0,"Wallet address (ERC20)"]};
+const wlLast4=d=>"•••• "+String(d.number||"").slice(-4);
+function pmList(){const p=profile.payout||{},m={...(p.m||{})};if(p.number&&!m.bank)m.bank={bank:p.bank,holder:p.holder,number:p.number};return m}
+async function wlHash(x){try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("velora:"+x));return Array.from(new Uint8Array(b)).map(v=>v.toString(16).padStart(2,"0")).join("")}catch(e){return"p:"+x}}
+async function wlTx(){try{return(await getDocs(query(collection(db,"transactions"),where("uid","==",me.uid)))).docs.map(d=>({id:d.id,...d.data()})).sort(byNew)}catch(x){return[]}}
+const wlRow=t=>`<div class="kv"><span>${esc(TL[t.type]||t.type)}<br><small class="mut">${fmt(t.created)}</small></span><span style="text-align:right"><b>${t.type==="deposit"?"+":"−"}${money(t.amount)}</b><br><small class="mut">${esc(stl(t.status))}</small></span></div>`;
 function fillWallet(){
-  const p=profile.payout||{};
-  $("#wbank").value=p.bank||"";$("#whold").value=p.holder||"";$("#wnum").value=p.number||"";$("#werr").textContent="";
+  const m=pmList();let n=0;
+  document.querySelectorAll("#v-wallet .pm").forEach(r=>{const k=r.dataset.m,d=m[k];if(d)n++;r.querySelector("small").textContent=d?wlLast4(d):"Not bound";r.querySelector("button").textContent=d?"EDIT":"BIND"});
+  $("#wbound").textContent=n+" BOUND";
+  const sel=$("#xacc"),keep=sel.value;
+  sel.innerHTML='<option value="">Select account</option>'+Object.keys(m).map(k=>`<option value="${k}">${PMN[k]} · ${esc(wlLast4(m[k]))}</option>`).join("");
+  sel.value=m[keep]?keep:"";
+  wlTx().then(l=>{$("#wact").innerHTML=l.length?l.slice(0,3).map(wlRow).join(""):'<p class="mut">No activity yet</p>'});
 }
-$("#wsave").onclick=async()=>{
-  const p={bank:$("#wbank").value.trim(),holder:$("#whold").value.trim(),number:$("#wnum").value.replace(/\s/g,"")};
-  if(!p.bank||!p.holder||!/^\d{6,25}$/.test(p.number))return say("#werr","Enter the bank, account holder name, and number (digits only).");
-  try{await updateDoc(doc(db,"users",me.uid),{payout:p});profile.payout=p;say("#werr","Saved.",1)}
-  catch(x){say("#werr",msg(x))}
+let bindK=null;
+function openBind(k){
+  bindK=k;const d=pmList()[k]||{},f=PMF[k];
+  $("#bnt").textContent=(d.number?"Edit ":"Bind ")+PMN[k];
+  [0,1,2].forEach(i=>{const w=$("#bk"+i).parentNode;w.hidden=!f[i];if(f[i]){w.querySelector("label").textContent=f[i];$("#bk"+i).value=[d.bank,d.holder,d.number][i]||""}});
+  $("#bnerr").textContent="";$("#bindsheet").hidden=false;
+}
+document.querySelectorAll("#v-wallet .pm button").forEach(b=>b.onclick=()=>openBind(b.closest(".pm").dataset.m));
+$("#bnbd").onclick=$("#bnx").onclick=()=>{$("#bindsheet").hidden=true};
+$("#bnsave").onclick=async()=>{
+  const f=PMF[bindK],v=[0,1,2].map(i=>$("#bk"+i).value.trim()),d={};
+  if(f.some((x,i)=>x&&!v[i]))return say("#bnerr","Please fill in all fields.");
+  if(f[0])d.bank=v[0];if(f[1])d.holder=v[1];d.number=v[2].replace(/\s/g,"");
+  if(bindK==="bank"&&!/^\d{6,25}$/.test(d.number))return say("#bnerr","Account number must be 6–25 digits.");
+  try{
+    const p={...(profile.payout||{})};p.m={...pmList(),[bindK]:d};
+    if(bindK==="bank"){p.bank=d.bank;p.holder=d.holder;p.number=d.number}
+    await updateDoc(doc(db,"users",me.uid),{payout:p});profile.payout=p;$("#bindsheet").hidden=true;fillWallet();
+  }catch(x){say("#bnerr",msg(x))}
 };
 async function newTx(type,amtSel,errSel,extra={}){
   const amount=num(amtSel);
   if(!(amount>0))return say(errSel,"Enter a valid amount.");
   try{
     await addDoc(collection(db,"transactions"),{uid:me.uid,userid:profile.userid,name:profile.name,type,amount,status:"Menunggu",created:Date.now(),...extra});
-    $(amtSel).value="";say(errSel,"Request sent. Waiting for admin approval.",1);
+    $(amtSel).value="";say(errSel,"Request sent. Waiting for admin approval.",1);fillWallet();
   }catch(x){say(errSel,msg(x))}
 }
+document.querySelectorAll("#v-addfunds .amt").forEach(b=>b.onclick=()=>{$("#famt").value=b.dataset.a;document.querySelectorAll("#v-addfunds .amt").forEach(x=>x.classList.toggle("on",x===b))});
 $("#fsend").onclick=()=>newTx("deposit","#famt","#ferr");
-$("#xsend").onclick=()=>{
-  const p=profile.payout;
-  if(!p||!p.number)return say("#xerr","Add your payment details in Wallet first.");
-  if(num("#xamt")>myAcc.available)return say("#xerr","Exceeds available balance.");
-  newTx("withdraw","#xamt","#xerr",{bank:p.bank,holder:p.holder,number:p.number});
+$("#xsend").onclick=async()=>{
+  const k=$("#xacc").value,m=pmList()[k],a=num("#xamt"),pw=$("#xpass").value;
+  if(!(a>0))return say("#xerr","Enter a valid amount.");
+  if(a>myAcc.available)return say("#xerr","Exceeds available balance.");
+  if(!m)return say("#xerr","Select a payout account (bind one in Wallet first).");
+  if(pw.length<4)return say("#xerr","Enter your withdraw password (min. 4 characters).");
+  const h=await wlHash(pw),p=profile.payout||{};
+  try{
+    if(p.wpass&&p.wpass!==h)return say("#xerr","Incorrect withdraw password.");
+    if(!p.wpass){const np={...p,wpass:h};await updateDoc(doc(db,"users",me.uid),{payout:np});profile.payout=np}
+  }catch(x){return say("#xerr",msg(x))}
+  $("#xpass").value="";
+  newTx("withdraw","#xamt","#xerr",{method:k,bank:m.bank||PMN[k],holder:m.holder||"",number:m.number});
 };
 async function loadHistory(){
-  try{
-    const l=(await getDocs(query(collection(db,"transactions"),where("uid","==",me.uid)))).docs.map(d=>({id:d.id,...d.data()})).sort(byNew);
-    $("#hislist").innerHTML=l.length?l.map(t=>`<div class="card pad"><div class="row" style="margin:0"><h3>${TL[t.type]}</h3><span class="st">${esc(stl(t.status))}</span></div><p class="mut">${fmt(t.created)}</p><b>${t.type==="deposit"?"+":"−"}${money(t.amount)}</b></div>`).join(""):'<p class="mut">No transactions yet.</p>';
-  }catch(x){$("#hislist").innerHTML='<p class="err">'+esc(msg(x))+'</p>'}
+  const ty=$("#hty").value,st=$("#hst").value;
+  let l=await wlTx();if(ty)l=l.filter(t=>t.type===ty);if(st)l=l.filter(t=>t.status===st);
+  $("#hislist").innerHTML=l.length?l.map(wlRow).join(""):'<div class="emp"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM9 12h7M9 16h7"/></svg></i><b>No Transactions</b><p class="mut">Your wallet activity will appear here.</p></div>';
 }
+$("#hfilter").onclick=loadHistory;
 function fillEdit(){$("#enm").value=profile.name;$("#eid").textContent="@"+profile.userid+" · "+me.email;$("#eerr").textContent=""}
 $("#esave").onclick=async()=>{
   const name=$("#enm").value.trim();if(!name)return say("#eerr","Name cannot be empty.");
@@ -1965,9 +2070,51 @@ GOT IT~VERSTANDEN|OK, CAPITO|COMPRIS|BEGREPEN
 Booking Number~Buchungsnummer|Numero di prenotazione|Num\u00e9ro de r\u00e9servation|Boekingsnummer
 Booking Time~Buchungszeit|Orario di prenotazione|Heure de r\u00e9servation|Boekingstijd
 Price~Preis|Prezzo|Prix|Prijs
-Select Booking Provider~Buchungsanbieter w\u00e4hlen|Seleziona il provider|Choisir le fournisseur|Kies boekingsaanbieder`;
+Select Booking Provider~Buchungsanbieter w\u00e4hlen|Seleziona il provider|Choisir le fournisseur|Kies boekingsaanbieder
+Payout Methods~Auszahlungsmethoden|Metodi di prelievo|Moyens de retrait|Uitbetaalmethoden
+Not bound~Nicht verkn\xfcpft|Non collegato|Non li\xe9|Niet gekoppeld
+BIND~VERKN\xdcPFEN|COLLEGA|LIER|KOPPELEN
+EDIT~\xc4NDERN|MODIFICA|MODIFIER|WIJZIGEN
+Bind~Verkn\xfcpfen|Collega|Lier|Koppelen
+Edit~\xc4ndern|Modifica|Modifier|Wijzigen
+Activity~Aktivit\xe4t|Attivit\xe0|Activit\xe9|Activiteit
+View All \u2192~Alle ansehen \u2192|Vedi tutto \u2192|Tout voir \u2192|Alles bekijken \u2192
+No activity yet~Noch keine Aktivit\xe4t|Nessuna attivit\xe0|Aucune activit\xe9|Nog geen activiteit
+ADD FUNDS~GUTHABEN AUFLADEN|AGGIUNGI FONDI|AJOUTER DES FONDS|SALDO OPWAARDEREN
+WITHDRAW~AUSZAHLEN|PRELEVA|RETIRER|OPNEMEN
+Add Funds to Wallet~Guthaben zum Wallet hinzuf\xfcgen|Aggiungi fondi al portafoglio|Ajouter des fonds au portefeuille|Saldo aan portemonnee toevoegen
+Select an amount to add~Betrag zum Aufladen w\xe4hlen|Seleziona un importo da aggiungere|S\xe9lectionnez un montant \xe0 ajouter|Kies een bedrag om toe te voegen
+Amount ($)~Betrag ($)|Importo ($)|Montant ($)|Bedrag ($)
+PROCEED \u2192~WEITER \u2192|PROCEDI \u2192|CONTINUER \u2192|DOORGAAN \u2192
+Withdraw Funds~Guthaben auszahlen|Preleva fondi|Retirer des fonds|Saldo opnemen
+Available:~Verf\xfcgbar:|Disponibile:|Disponible :|Beschikbaar:
+Payout Account~Auszahlungskonto|Conto di prelievo|Compte de retrait|Uitbetaalrekening
+Select account~Konto w\xe4hlen|Seleziona conto|Choisir un compte|Kies rekening
+Withdraw Password~Auszahlungspasswort|Password di prelievo|Mot de passe de retrait|Opnamewachtwoord
+Arrival in 15-20 mins. Contact Support if delayed.~Ankunft in 15\u201320 Min. Bei Verz\xf6gerung Support kontaktieren.|Arrivo in 15-20 min. Contatta il supporto in caso di ritardo.|Arriv\xe9e en 15-20 min. Contactez l'assistance en cas de retard.|Aankomst binnen 15-20 min. Neem contact op met support bij vertraging.
+WITHDRAW NOW~JETZT AUSZAHLEN|PRELEVA ORA|RETIRER MAINTENANT|NU OPNEMEN
+TRACK YOUR EARNINGS AND TRANSACTIONS~EINNAHMEN UND TRANSAKTIONEN VERFOLGEN|TRACCIA GUADAGNI E TRANSAZIONI|SUIVEZ VOS GAINS ET TRANSACTIONS|VOLG UW INKOMSTEN EN TRANSACTIES
+Wallet History~Wallet-Verlauf|Cronologia portafoglio|Historique du portefeuille|Portemonneegeschiedenis
+Type~Typ|Tipo|Type|Type
+Status~Status|Stato|Statut|Status
+All Types~Alle Typen|Tutti i tipi|Tous les types|Alle types
+All Status~Alle Status|Tutti gli stati|Tous les statuts|Alle statussen
+FILTER TRANSACTIONS~TRANSAKTIONEN FILTERN|FILTRA TRANSAZIONI|FILTRER LES TRANSACTIONS|TRANSACTIES FILTEREN
+TRANSACTIONS~TRANSAKTIONEN|TRANSAZIONI|TRANSACTIONS|TRANSACTIES
+No Transactions~Keine Transaktionen|Nessuna transazione|Aucune transaction|Geen transacties
+Your wallet activity will appear here.~Ihre Wallet-Aktivit\xe4t erscheint hier.|L'attivit\xe0 del portafoglio apparir\xe0 qui.|L'activit\xe9 de votre portefeuille appara\xeetra ici.|Uw portemonneeactiviteit verschijnt hier.
+Pending~Ausstehend|In attesa|En attente|In behandeling
+Approved~Genehmigt|Approvato|Approuv\xe9|Goedgekeurd
+Rejected~Abgelehnt|Rifiutato|Refus\xe9|Afgewezen
+Withdrawal~Auszahlung|Prelievo|Retrait|Opname
+Bank~Bank|Banca|Banque|Bank
+Please fill in all fields.~Bitte alle Felder ausf\xfcllen.|Compila tutti i campi.|Veuillez remplir tous les champs.|Vul alle velden in.
+Incorrect withdraw password.~Falsches Auszahlungspasswort.|Password di prelievo errata.|Mot de passe de retrait incorrect.|Onjuist opnamewachtwoord.
+Enter a valid amount.~Geben Sie einen g\xfcltigen Betrag ein.|Inserisci un importo valido.|Saisissez un montant valide.|Voer een geldig bedrag in.
+Exceeds available balance.~\xdcbersteigt das verf\xfcgbare Guthaben.|Supera il saldo disponibile.|D\xe9passe le solde disponible.|Overschrijdt het beschikbare saldo.
+Request sent. Waiting for admin approval.~Anfrage gesendet. Warte auf Admin-Freigabe.|Richiesta inviata. In attesa dell'approvazione dell'admin.|Demande envoy\xe9e. En attente de l'approbation de l'admin.|Aanvraag verzonden. Wacht op goedkeuring van de beheerder.`;
 var D={};RAW.split("\n").forEach(function(l){var p=l.split("~");if(p.length==2)D[p[0].trim()]=p[1].split("|")});
-var R=[[/^Page (\d+) of (\d+)$/,["Seite $1 von $2","Pagina $1 di $2","Page $1 sur $2","Pagina $1 van $2"]],
+var R=[[/^(\d+) BOUND$/,["$1 VERKN\u00dcPFT","$1 COLLEGATI","$1 LI\u00c9S","$1 GEKOPPELD"]],[/^Page (\d+) of (\d+)$/,["Seite $1 von $2","Pagina $1 di $2","Page $1 sur $2","Pagina $1 van $2"]],
 [/^DAILY MISSION : (\d+)$/,["TAGESMISSION : $1","MISSIONE GIORNALIERA : $1","MISSION QUOTIDIENNE : $1","DAGELIJKSE MISSIE : $1"]],
 [/^([\d.]+%) Booking Reward$/,["$1 Buchungsbelohnung","$1 di premio per prenotazione","$1 de r\u00e9compense par r\u00e9servation","$1 boekingsbeloning"]],
 [/^Profits of ([\d.]+%) per booking - (\d+) bookings$/,["Gewinn von $1 pro Buchung - $2 Buchungen","Profitto dello $1 per prenotazione - $2 prenotazioni","Profits de $1 par r\u00e9servation - $2 r\u00e9servations","Winst van $1 per boeking - $2 boekingen"]]];
