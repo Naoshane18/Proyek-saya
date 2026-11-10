@@ -659,6 +659,26 @@ body.velora-tawk-open [class*="tawk"] {
 #auth.su .row{justify-content:flex-start;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:14px}
 #auth.su #swap{text-decoration:none;color:var(--mut);font-weight:500}
 #auth.su #swap b{color:var(--ink);font-weight:700}
+
+/* ---- Login (tampilan luar) – rapi ---- */
+#auth .card{border-radius:14px}
+#auth h2{font-size:28px;letter-spacing:-.8px;margin:0 0 6px}
+#auth #asub{font-size:15px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+#auth #af>#gl label,#auth #af>#loginPassLabel{font-size:12px;font-weight:700;margin:16px 0 7px}
+#auth #af #id,#auth #af #passLogin{height:48px;padding:0 14px;border:1px solid var(--line);border-radius:7px;font:500 14px Outfit,system-ui,sans-serif;background:var(--card);color:var(--ink);transition:border-color .15s,box-shadow .15s}
+#auth #af #id:focus,#auth #af #passLogin:focus{outline:0;border-color:#1f5cff;box-shadow:0 0 0 3px rgba(31,92,255,.15)}
+#auth #af #id::placeholder,#auth #af #passLogin::placeholder{color:var(--mut);opacity:.75}
+#auth #af>#gl{margin:0}
+#auth #loginPassWrap[hidden]{display:none!important}
+#auth #gs:not([hidden])~.fp{display:none!important}
+#auth .fp{text-align:right;margin-top:10px;font-size:13px}
+#auth .fp .l{text-decoration:none;color:var(--ink);font-weight:600}
+#auth #af .btn{height:50px;padding:0 20px;border-radius:7px;background:#1f5cff;font-size:13px;letter-spacing:.1em;box-shadow:0 8px 20px rgba(31,92,255,.28);margin-top:18px}
+#auth .err{margin-top:12px;text-align:center}
+#auth .err:empty{display:none}
+#auth .row{justify-content:flex-start;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:14px}
+#auth #swap{text-decoration:none;color:var(--mut);font-weight:500}
+#auth #swap b{color:var(--ink);font-weight:700}
 </style>
 <style id="velora-i18n-css">
 #subhead .entag{display:none!important}
@@ -719,11 +739,11 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
   <div class="bgflow" data-bg></div>
   <header><svg viewBox="0 0 56 56" aria-hidden="true"><path d="M8 14L28 46" fill="none" stroke="#1D9E75" stroke-width="7" stroke-linecap="round"/><path d="M28 46L48 14" fill="none" stroke="#7F77DD" stroke-width="7" stroke-linecap="round"/><circle cx="28" cy="9" r="3.6" fill="#EF9F27"/></svg><div class="bt"><b>VELORA</b><small>BOOKING HOTEL</small></div></header>
   <div class="wrap"><div class="card pad" id="acard">
-    <p class="eyebrow" id="aeye" hidden><i>//</i>Join Velora</p>
+    <p class="eyebrow" id="aeye"><i>//</i><span id="aeyet">Member Access</span></p>
     <h2 id="atitle">Log in</h2>
     <p class="mut" id="asub">Log in to browse hotels and book rooms.</p>
     <form id="af">
-      <div id="gl"><label for="id">User ID or email</label><input id="id" autocomplete="username" autocapitalize="none"></div>
+      <div id="gl"><label for="id">User ID or email</label><input id="id" autocomplete="username" autocapitalize="none" placeholder="Enter your User ID or email"></div>
       <div id="gs" hidden>
         <label for="name">Full Name</label><input id="name" autocomplete="name" placeholder="Enter your full name">
         <label for="uid">Username</label><input id="uid" autocapitalize="none" placeholder="Enter your username">
@@ -749,11 +769,12 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
         <input id="captchaInput" autocomplete="off" autocapitalize="characters" placeholder="Enter verification code">
         <label class="reg-terms"><input id="termsAgree" type="checkbox"><span>I agree to the <a href="#" id="termsLink">Terms &amp; Agreements</a></span></label>
       </div>
-      <label for="passLogin" id="loginPassLabel">Password</label><input id="passLogin" name="password" type="password" autocomplete="current-password" placeholder="Enter your password">
+      <label for="passLogin" id="loginPassLabel">Password</label><div class="reg-pass" id="loginPassWrap"><input id="passLogin" name="password" type="password" autocomplete="current-password" placeholder="Enter your password"><button type="button" data-eye="passLogin" aria-label="Show password"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="sl" d="M4 4l16 16"/></svg></button></div>
+      <div class="fp"><a class="l" id="forgot">Forgot password?</a></div>
       <button class="btn w" id="abtn">Log in</button>
     </form>
     <p class="err" id="aerr"></p>
-    <p class="row"><a class="l" id="forgot">Forgot password?</a><a class="l" id="swap">Create new account</a></p>
+    <p class="row"><a class="l" id="swap">Create new account</a></p>
   </div></div>
 </div>
 
@@ -1308,11 +1329,11 @@ function drawCaptcha(){
 function setMode(m){
   mode=m;const isSignup=m==="signup";
   $("#gl").hidden=isSignup;$("#gs").hidden=!isSignup;$("#aerr").textContent="";
-  $("#auth").classList.toggle("su",isSignup);$("#aeye").hidden=!isSignup;
+  $("#auth").classList.toggle("su",isSignup);$("#aeyet").textContent=isSignup?"Join Velora":"Member Access";$("#loginPassWrap").hidden=isSignup;
   $("#atitle").textContent=isSignup?"Create Account":"Log in";
   $("#asub").textContent=isSignup?"Join us and start your journey today.":"Log in to browse hotels and book rooms.";
   $("#abtn").textContent=isSignup?"Create Account →":"Log in";
-  if(isSignup)$("#swap").innerHTML='Already have an account? <b>Sign In →</b>';else $("#swap").textContent="Don't have an account? Sign Up →";
+  if(isSignup)$("#swap").innerHTML='Already have an account? <b>Sign In →</b>';else $("#swap").innerHTML='Don\'t have an account? <b>Sign Up →</b>';
   $("#forgot").hidden=isSignup;
   $("#loginPassLabel").hidden=isSignup;$("#passLogin").hidden=isSignup;
   $("#passLogin").required=!isSignup;
