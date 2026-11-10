@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="velora-build" content="navfix-2026-11-09-v3"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="velora-build" content="dashboard-orders-flow-2026-11-10-v4"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Velora – Booking Hotel</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
 <script>try{if(localStorage.getItem("velora_in")==="1")document.documentElement.className="in"}catch(e){}</script>
@@ -573,6 +573,10 @@ body.velora-tawk-open [class*="tawk"] {
 }
 
 
+/* Orders interactions: detail/booking action */
+#v-orders .order-book-btn,#v-orders .order-detail-btn{margin-top:14px;border-radius:8px;min-height:46px}
+#v-orders .order-demo-card{transition:transform .18s,box-shadow .18s}
+#v-orders .order-demo-card:focus-within{box-shadow:0 0 0 2px var(--blue),0 8px 20px #0b122018}
 /* ---------- Orders history: visual layout matching the supplied reference ---------- */
 #v-orders #olist{display:grid;grid-template-columns:1fr;gap:16px}
 .order-demo-card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 4px 14px rgba(15,23,42,.06);min-width:0}
@@ -1660,6 +1664,7 @@ function renderDemoOrders(){
      <div><small>AMOUNT</small><b>${money2(o.price)}</b></div>
      <div><small>REWARD (${(Number(o.rate||0)*100).toFixed(2)}%)</small><b class="reward">${money2(o.commission)}</b></div>
     </div>
+    ${pending?`<button type="button" class="btn w order-book-btn" data-order-open="${esc(o.id)}">BOOK NOW</button>`:`<button type="button" class="btn g w order-detail-btn" data-order-open="${esc(o.id)}">VIEW DETAILS</button>`}
    </div>
   </article>`;
  }).join("")||'<p class="mut">No matching demo records.</p>';
@@ -1672,6 +1677,11 @@ async function loadOrders(){
 $("#order-search")?.addEventListener("input",()=>{ordersPage=1;renderDemoOrders()});
 $("#orders-prev")?.addEventListener("click",()=>{ordersPage=Math.max(1,ordersPage-1);renderDemoOrders()});
 $("#orders-next")?.addEventListener("click",()=>{ordersPage++;renderDemoOrders()});
+$("#olist")?.addEventListener("click",ev=>{
+ const btn=ev.target.closest("[data-order-open]");
+ if(!btn)return;
+ openDemoOrder(btn.getAttribute("data-order-open"));
+});
 
 
 /* ---------- Admin ---------- */
@@ -1735,13 +1745,14 @@ async function loadDashboard(){
  set("#dplan",lv?lv[0]:(String(myAcc.level||"").trim()||"No plan"));
  set("#dcap",cap||"—");set("#dmax",cap||0);
  const today=new Date();today.setHours(0,0,0,0);
- const todays=demoOrders.filter(o=>o.created>=today.getTime());
- const earn=todays.reduce((sum,o)=>sum+(Number(o.price)||0)*rate,0);
+ const todays=demoOrders.filter(o=>o.created>=today.getTime() && String(o.status||"").toUpperCase().includes("COMPLETED"));
+ const earn=todays.reduce((sum,o)=>sum+(Number(o.commission)||((Number(o.price)||0)*rate)),0);
  const allValue=demoOrders.reduce((sum,o)=>sum+(Number(o.price)||0),0);
- set("#dcur",todays.length);set("#dcomp",demoOrders.length);
+ const completed=demoOrders.filter(o=>String(o.status||"").toUpperCase().includes("COMPLETED")).length;
+ set("#dcur",Math.min(todays.length,cap||todays.length));set("#dcomp",completed);
  set("#dearn","+"+money2(earn));set("#dord",money2(allValue));
  set("#dbal",money2(Number(myAcc.available)||0));
- const fill=$("#dfill");if(fill)fill.style.width=(cap?Math.min(100,todays.length/cap*100):0)+"%";
+ const fill=$("#dfill");if(fill)fill.style.width=(cap?Math.min(100,Math.min(todays.length,cap)/cap*100):0)+"%";
  const full=cap>0&&todays.length>=cap,bd=$("#dbadge");
  if(bd){bd.textContent=full?"LIMIT REACHED":(todays.length?"IN PROGRESS":"READY");bd.classList.toggle("full",full)}
 }
@@ -1767,11 +1778,27 @@ function fmtTime(d){
   return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")+" "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")+":"+String(d.getSeconds()).padStart(2,"0");
 }
 
+function openDemoOrder(orderId){
+  const order=demoOrders.find(o=>String(o.id)===String(orderId));
+  if(!order)return;
+  bflow.orderId=order.id;
+  bflow.hotel={name:order.hotelName+", "+order.room,location:order.location,stars:"★★★★★",rev:"Demo sample property",img:order.image,price:Number(order.price)||0};
+  $("#bh-img").src=order.image||"";
+  $("#bh-name").textContent=order.hotelName+" — "+order.room;
+  $("#bh-stars").textContent="★★★★★  Demo sample property";
+  $("#bh-num").textContent=order.bookingNo||"—";
+  $("#bh-time").textContent=fmtTime(new Date(order.created||Date.now()));
+  $("#bh-price").textContent=money2(order.price);
+  $("#bh-div").textContent=money2((Number(order.price)||0)*commissionRate());
+  showB("bflow-hotel",true);
+}
+
 async function runBookFlow(){
   if(bflow.busy)return;
   const badge=$("#dbadge");
   if(badge&&badge.classList.contains("full")){alert("Daily booking limit reached.");return}
   bflow.busy=true;
+  bflow.orderId=null;
   const steps=["PREPARING YOUR REQUEST…","SEARCHING AVAILABLE ACCOMMODATIONS…","PROCESSING RESERVATION…","BUILDING RANDOM DEMO RECORD…"];
   showB("bflow-load",true);
   for(const t of steps){
@@ -1861,9 +1888,21 @@ const _bpBook=$("#bp-book");if(_bpBook)_bpBook.onclick=async()=>{
    checkout:new Date(Date.now()+2*86400000).toISOString().slice(0,10),
    status:"DEMO SAMPLE",image:bflow.hotel.img,bookingNo:rndBookingNo()
   };
-  demoOrders.unshift(order);demoOrders=demoOrders.slice(0,1000);saveDemoOrders();
+  if(bflow.orderId){
+    const existing=demoOrders.find(o=>String(o.id)===String(bflow.orderId));
+    if(existing){
+      existing.provider=bflow.provider.name;
+      existing.status="COMPLETED";
+      existing.created=Date.now();
+      existing.rate=rate;
+      existing.commission=order.commission;
+    }else demoOrders.unshift(order);
+  }else demoOrders.unshift(order);
+  demoOrders=demoOrders.slice(0,1000);
+  saveDemoOrders();
+  bflow.orderId=null;
   await loadDashboard();
-
+  if(!$("#v-orders").hidden)renderDemoOrders();
 
   $("#bt-count").textContent=demoOrders.length;
   showB("bflow-toast",true);
