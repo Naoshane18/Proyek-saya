@@ -619,6 +619,46 @@ body.velora-tawk-open [class*="tawk"] {
 #auth #gs:not([hidden])~#loginPassLabel,#auth #gs:not([hidden])~#passLogin{display:none!important}
 #auth #passLogin{margin-top:0}
 #auth #af .btn{border-radius:5px;letter-spacing:.06em;text-transform:uppercase;font-size:13px}
+
+/* ---- Daftar (Create Account) – revisi tampilan ---- */
+#auth.su .card{border-radius:14px}
+#auth .eyebrow{font:600 11px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin:2px 0 10px}
+#auth .eyebrow i{font-style:normal;color:var(--mut);margin-right:4px}
+#auth.su h2{font-size:28px;letter-spacing:-.8px;margin:0 0 6px}
+#auth.su #asub{font-size:15px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+#auth #gs label{font-size:12px;font-weight:700;margin:16px 0 7px}
+#auth #gs input,#auth #gs .cc-btn{height:48px;padding:0 14px;border:1px solid var(--line);border-radius:7px;font:500 14px Outfit,system-ui,sans-serif;background:var(--card);color:var(--ink);transition:border-color .15s,box-shadow .15s}
+#auth #gs input::placeholder{color:var(--mut);opacity:.75}
+#auth #gs input:focus,#auth #gs .cc-btn:focus-visible,#auth #gs .cc-btn[aria-expanded="true"]{outline:0;border-color:#1f5cff;box-shadow:0 0 0 3px rgba(31,92,255,.15)}
+#auth .reg-phone{display:grid;grid-template-columns:104px 1fr;gap:8px;align-items:start}
+#auth .cc{position:relative}
+#auth .cc-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:6px;cursor:pointer;text-align:left}
+#auth .cc-btn .cf{font-size:18px;line-height:1}
+#auth .cc-btn .ck{flex:1;font-weight:600}
+#auth .cc-btn svg,#auth .reg-pass svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;color:var(--mut)}
+#auth .cc-panel{position:absolute;left:0;top:calc(100% + 6px);width:270px;max-width:calc(100vw - 72px);background:var(--card);border:1px solid var(--line);border-radius:9px;box-shadow:0 14px 34px rgba(15,23,42,.22);padding:8px;z-index:40}
+#auth #gs #ccSearch{height:40px;font-size:13px;border-radius:6px}
+#auth .cc-list{max-height:216px;overflow-y:auto;margin-top:6px;-webkit-overflow-scrolling:touch}
+#auth .cc-list button{display:flex;align-items:center;gap:10px;width:100%;padding:10px;border:0;border-radius:6px;background:transparent;color:var(--ink);font:500 14px Outfit,system-ui,sans-serif;text-align:left;cursor:pointer}
+#auth .cc-list button:hover,#auth .cc-list button.on{background:rgba(31,92,255,.1)}
+#auth .cc-list .cf{font-size:17px}
+#auth .cc-empty{padding:12px 10px;color:var(--mut);font-size:13px}
+#auth .reg-pass input{padding-right:46px!important}
+#auth .reg-pass button{top:0;right:0;width:46px;height:48px;display:flex;align-items:center;justify-content:center;color:var(--mut);cursor:pointer}
+#auth .reg-pass button svg{width:20px;height:20px}
+#auth .reg-pass button .sl{display:none}
+#auth .reg-pass button.on .sl{display:block}
+#auth .reg-captcha{gap:10px;margin:0 0 10px}
+#auth .reg-captcha canvas{flex:1;min-width:0;width:auto;height:48px;border:1px solid var(--line);border-radius:7px;background:#f8fafc}
+#auth .reg-captcha button{height:48px;width:48px;flex:none;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--ink);font-size:22px;cursor:pointer}
+#auth .reg-terms{margin:16px 0 0!important;font-size:13px!important}
+#auth .reg-terms input{width:16px!important;height:16px!important;padding:0;box-shadow:none}
+#auth .reg-terms a{color:#1f5cff}
+#auth.su #af .btn{height:50px;padding:0 20px;border-radius:7px;background:#1f5cff;font-size:13px;letter-spacing:.1em;box-shadow:0 8px 20px rgba(31,92,255,.28);margin-top:20px}
+#auth.su .err{margin-top:12px;text-align:center}
+#auth.su .row{justify-content:flex-start;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:14px}
+#auth.su #swap{text-decoration:none;color:var(--mut);font-weight:500}
+#auth.su #swap b{color:var(--ink);font-weight:700}
 </style>
 <style id="velora-i18n-css">
 #subhead .entag{display:none!important}
@@ -678,7 +718,8 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
 <div id="auth">
   <div class="bgflow" data-bg></div>
   <header><svg viewBox="0 0 56 56" aria-hidden="true"><path d="M8 14L28 46" fill="none" stroke="#1D9E75" stroke-width="7" stroke-linecap="round"/><path d="M28 46L48 14" fill="none" stroke="#7F77DD" stroke-width="7" stroke-linecap="round"/><circle cx="28" cy="9" r="3.6" fill="#EF9F27"/></svg><div class="bt"><b>VELORA</b><small>BOOKING HOTEL</small></div></header>
-  <div class="wrap"><div class="card pad">
+  <div class="wrap"><div class="card pad" id="acard">
+    <p class="eyebrow" id="aeye" hidden><i>//</i>Join Velora</p>
     <h2 id="atitle">Log in</h2>
     <p class="mut" id="asub">Log in to browse hotels and book rooms.</p>
     <form id="af">
@@ -689,25 +730,22 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
         <label for="email">Email Address</label><input id="email" type="email" autocomplete="email" placeholder="Enter your email address">
         <label for="phone">Phone Number</label>
         <div class="reg-phone">
-          <select id="countryCode" aria-label="Country calling code">
-            <option value="+1">🇺🇸 +1</option><option value="+60" selected>🇲🇾 +60</option><option value="+65">🇸🇬 +65</option>
-            <option value="+44">🇬🇧 +44</option><option value="+61">🇦🇺 +61</option><option value="+86">🇨🇳 +86</option>
-            <option value="+82">🇰🇷 +82</option><option value="+886">🇹🇼 +886</option><option value="+971">🇦🇪 +971</option>
-            <option value="+66">🇹🇭 +66</option><option value="+84">🇻🇳 +84</option><option value="+62">🇮🇩 +62</option>
-            <option value="+63">🇵🇭 +63</option><option value="+91">🇮🇳 +91</option><option value="+49">🇩🇪 +49</option>
-            <option value="+33">🇫🇷 +33</option><option value="+39">🇮🇹 +39</option><option value="+34">🇪🇸 +34</option>
-            <option value="+31">🇳🇱 +31</option><option value="+41">🇨🇭 +41</option><option value="+43">🇦🇹 +43</option>
-            <option value="+45">🇩🇰 +45</option><option value="+46">🇸🇪 +46</option><option value="+47">🇳🇴 +47</option>
-            <option value="+974">🇶🇦 +974</option><option value="+7">🇷🇺 +7</option><option value="+81">🇯🇵 +81</option>
-          </select>
+          <div class="cc" id="ccBox">
+            <input type="hidden" id="countryCode" value="+1">
+            <button type="button" class="cc-btn" id="ccBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Country calling code"><span class="cf" id="ccFlag">🇺🇸</span><span class="ck" id="ccCode">+1</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+            <div class="cc-panel" id="ccPanel" hidden>
+              <input type="text" id="ccSearch" placeholder="Search..." autocomplete="off" aria-label="Search country">
+              <div class="cc-list" id="ccList" role="listbox"></div>
+            </div>
+          </div>
           <input id="phone" type="tel" autocomplete="tel-national" placeholder="Enter your phone number">
         </div>
-        <label for="pass">Password</label><div class="reg-pass"><input id="pass" type="password" autocomplete="new-password" placeholder="Create a password"><button type="button" data-eye="pass" aria-label="Show password">◉</button></div>
-        <label for="confirmPass">Confirm Password</label><div class="reg-pass"><input id="confirmPass" type="password" autocomplete="new-password" placeholder="Confirm your password"><button type="button" data-eye="confirmPass" aria-label="Show password">◉</button></div>
-        <label for="withdrawPass">Withdraw Password</label><div class="reg-pass"><input id="withdrawPass" type="password" autocomplete="new-password" placeholder="Create a withdraw password"><button type="button" data-eye="withdrawPass" aria-label="Show password">◉</button></div>
-        <label for="confirmWithdrawPass">Confirm Withdraw Password</label><div class="reg-pass"><input id="confirmWithdrawPass" type="password" autocomplete="new-password" placeholder="Confirm your withdraw password"><button type="button" data-eye="confirmWithdrawPass" aria-label="Show password">◉</button></div>
+        <label for="pass">Password</label><div class="reg-pass"><input id="pass" type="password" autocomplete="new-password" placeholder="Create a password"><button type="button" data-eye="pass" aria-label="Show password"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="sl" d="M4 4l16 16"/></svg></button></div>
+        <label for="confirmPass">Confirm Password</label><div class="reg-pass"><input id="confirmPass" type="password" autocomplete="new-password" placeholder="Confirm your password"><button type="button" data-eye="confirmPass" aria-label="Show password"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="sl" d="M4 4l16 16"/></svg></button></div>
+        <label for="withdrawPass">Withdraw Password</label><div class="reg-pass"><input id="withdrawPass" type="password" autocomplete="new-password" placeholder="Create a withdraw password"><button type="button" data-eye="withdrawPass" aria-label="Show password"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="sl" d="M4 4l16 16"/></svg></button></div>
+        <label for="confirmWithdrawPass">Confirm Withdraw Password</label><div class="reg-pass"><input id="confirmWithdrawPass" type="password" autocomplete="new-password" placeholder="Confirm your withdraw password"><button type="button" data-eye="confirmWithdrawPass" aria-label="Show password"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="sl" d="M4 4l16 16"/></svg></button></div>
         <label>Verification Code</label>
-        <div class="reg-captcha"><canvas id="captchaCanvas" width="150" height="42" aria-label="Verification code image"></canvas><button type="button" id="refreshCaptcha" aria-label="Refresh verification code">↻</button></div>
+        <div class="reg-captcha"><canvas id="captchaCanvas" width="320" height="48" aria-label="Verification code image"></canvas><button type="button" id="refreshCaptcha" aria-label="Refresh verification code">↻</button></div>
         <input id="captchaInput" autocomplete="off" autocapitalize="characters" placeholder="Enter verification code">
         <label class="reg-terms"><input id="termsAgree" type="checkbox"><span>I agree to the <a href="#" id="termsLink">Terms &amp; Agreements</a></span></label>
       </div>
@@ -1258,19 +1296,23 @@ const isAdmin=()=>me&&me.email===ADMIN;
 let signupCaptcha="";
 function drawCaptcha(){
   const canvas=$("#captchaCanvas"); if(!canvas)return;
-  const ctx=canvas.getContext("2d"); signupCaptcha=Math.random().toString(36).slice(2,8).toUpperCase();
-  ctx.clearRect(0,0,150,42);ctx.fillStyle="#f8fafc";ctx.fillRect(0,0,150,42);
-  for(let i=0;i<7;i++){ctx.strokeStyle=`rgba(${40+i*13},${90+i*7},${160+i*5},.35)`;ctx.beginPath();ctx.moveTo(Math.random()*150,Math.random()*42);ctx.lineTo(Math.random()*150,Math.random()*42);ctx.stroke()}
-  ctx.font="bold 22px monospace";ctx.fillStyle="#172554";ctx.textBaseline="middle";ctx.fillText(signupCaptcha,18,22);
-  for(let i=0;i<30;i++){ctx.fillStyle="#64748b55";ctx.fillRect(Math.random()*150,Math.random()*42,2,2)}
+  const ctx=canvas.getContext("2d"),W=canvas.width,H=canvas.height;
+  signupCaptcha=Math.random().toString(36).replace(/[^a-z0-9]/g,"").slice(0,4).toUpperCase().padEnd(4,"X");
+  ctx.clearRect(0,0,W,H);ctx.fillStyle="#f8fafc";ctx.fillRect(0,0,W,H);
+  for(let i=0;i<7;i++){ctx.strokeStyle=`rgba(${40+i*13},${90+i*7},${160+i*5},.3)`;ctx.beginPath();ctx.moveTo(Math.random()*W,Math.random()*H);ctx.lineTo(Math.random()*W,Math.random()*H);ctx.stroke()}
+  ctx.font="bold 20px monospace";ctx.fillStyle="#172554";ctx.textBaseline="middle";ctx.textAlign="center";
+  const gap=W/(signupCaptcha.length+1);
+  [...signupCaptcha].forEach((ch,i)=>{ctx.save();ctx.translate(gap*(i+1),H/2+(Math.random()*6-3));ctx.rotate((Math.random()-.5)*.3);ctx.fillText(ch,0,0);ctx.restore()});
+  for(let i=0;i<40;i++){ctx.fillStyle="#64748b55";ctx.fillRect(Math.random()*W,Math.random()*H,2,2)}
 }
 function setMode(m){
   mode=m;const isSignup=m==="signup";
   $("#gl").hidden=isSignup;$("#gs").hidden=!isSignup;$("#aerr").textContent="";
+  $("#auth").classList.toggle("su",isSignup);$("#aeye").hidden=!isSignup;
   $("#atitle").textContent=isSignup?"Create Account":"Log in";
   $("#asub").textContent=isSignup?"Join us and start your journey today.":"Log in to browse hotels and book rooms.";
   $("#abtn").textContent=isSignup?"Create Account →":"Log in";
-  $("#swap").textContent=isSignup?"Already have an account? Log in":"Don't have an account? Sign Up →";
+  if(isSignup)$("#swap").innerHTML='Already have an account? <b>Sign In →</b>';else $("#swap").textContent="Don't have an account? Sign Up →";
   $("#forgot").hidden=isSignup;
   $("#loginPassLabel").hidden=isSignup;$("#passLogin").hidden=isSignup;
   $("#passLogin").required=!isSignup;
@@ -1283,7 +1325,38 @@ function setMode(m){
 $("#refreshCaptcha").onclick=drawCaptcha;
 document.querySelectorAll("[data-eye]").forEach(btn=>btn.addEventListener("click",()=>{
   const input=$("#"+btn.dataset.eye);input.type=input.type==="password"?"text":"password";
+  btn.classList.toggle("on",input.type==="text");
 }));
+/* Kode negara: dropdown dengan kolom pencarian */
+(function(){
+  const C=[["🇺🇸","United States","+1"],["🇲🇾","Malaysia","+60"],["🇸🇬","Singapore","+65"],["🇬🇧","United Kingdom","+44"],["🇦🇺","Australia","+61"],["🇨🇳","China","+86"],
+    ["🇰🇷","South Korea","+82"],["🇹🇼","Taiwan","+886"],["🇦🇪","United Arab Emirates","+971"],["🇹🇭","Thailand","+66"],["🇻🇳","Vietnam","+84"],["🇮🇩","Indonesia","+62"],
+    ["🇵🇭","Philippines","+63"],["🇮🇳","India","+91"],["🇩🇪","Germany","+49"],["🇫🇷","France","+33"],["🇮🇹","Italy","+39"],["🇪🇸","Spain","+34"],
+    ["🇨🇭","Switzerland","+41"],["🇳🇴","Norway","+47"],["🇷🇺","Russia","+7"],["🇯🇵","Japan","+81"],["🇳🇱","Netherlands","+31"],["🇶🇦","Qatar","+974"],
+    ["🇦🇹","Austria","+43"],["🇩🇰","Denmark","+45"],["🇸🇪","Sweden","+46"],["🇭🇰","Hong Kong","+852"]];
+  const box=$("#ccBox"),btn=$("#ccBtn"),panel=$("#ccPanel"),list=$("#ccList"),q=$("#ccSearch"),val=$("#countryCode");
+  let cur=0;
+  function render(){
+    const f=q.value.trim().toLowerCase(),r=C.filter(c=>!f||c[1].toLowerCase().includes(f)||c[2].includes(f));
+    list.innerHTML="";
+    if(!r.length){const d=document.createElement("div");d.className="cc-empty";d.textContent="No results";list.appendChild(d);return}
+    r.forEach(c=>{const b=document.createElement("button");b.type="button";b.setAttribute("role","option");
+      if(c[2]===val.value)b.classList.add("on");
+      const a=document.createElement("span");a.className="cf";a.textContent=c[0];
+      const t=document.createElement("span");t.textContent=c[1]+" ("+c[2]+")";
+      b.append(a,t);b.onclick=()=>pick(c);list.appendChild(b)});
+  }
+  function pick(c){val.value=c[2];$("#ccFlag").textContent=c[0];$("#ccCode").textContent=c[2];close()}
+  function open(){panel.hidden=false;btn.setAttribute("aria-expanded","true");q.value="";render()}
+  function close(){panel.hidden=true;btn.setAttribute("aria-expanded","false")}
+  btn.onclick=()=>panel.hidden?open():close();
+  q.addEventListener("input",render);
+  q.addEventListener("keydown",e=>{
+    if(e.key==="Enter"){e.preventDefault();const f=q.value.trim().toLowerCase(),r=C.filter(c=>!f||c[1].toLowerCase().includes(f)||c[2].includes(f));if(r[0])pick(r[0])}
+    if(e.key==="Escape")close();
+  });
+  document.addEventListener("click",e=>{if(!panel.hidden&&!box.contains(e.target))close()});
+})();
 $("#termsLink").onclick=e=>{e.preventDefault();$("#aerr").style.color="";$("#aerr").textContent="Please review the Terms & Agreements before creating your account.";};
 async function toEmail(id){
   id=id.trim();if(!id)throw Error("Enter your User ID or email.");
