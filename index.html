@@ -43,6 +43,25 @@ nav a.on{color:#fff;text-decoration:underline;text-decoration-color:var(--blue);
 .bal.sm{padding:14px 6px}.bal.sm b{font-size:20px}
 .bal.red{border-color:#b42318}.bal.red small,.bal.red b{color:#b42318}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 20px}
+/* ---------- Halaman Profile (gaya INNFinite) ---------- */
+.ph{background:linear-gradient(135deg,#16254a,#0b1220);color:#fff;border-radius:16px;padding:20px;margin-bottom:16px}
+.ph .who{display:flex;gap:14px;align-items:center;padding-bottom:16px;border-bottom:1px solid #ffffff1f}
+.ph .pa{width:52px;height:52px;border-radius:10px;background:#fff;color:#0f172a;display:grid;place-items:center;font:800 22px Outfit;flex:none}
+.ph h3{color:#fff;font-size:21px;margin:0;overflow-wrap:anywhere}
+.ph .em{color:#94a3b8;font-size:14px;margin-top:3px;overflow-wrap:anywhere}
+.ph .bb{display:grid;grid-template-columns:1fr 1fr;margin-top:16px}
+.ph .bb div+div{border-left:1px solid #ffffff1f;padding-left:20px}
+.ph .bb b{display:block;font-size:22px}.ph .bb span{color:#94a3b8;font-size:14px}
+.cap{font:700 11px ui-monospace,Menlo,monospace;letter-spacing:.18em;color:var(--mut);margin-bottom:4px}
+.ir{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 0;border-bottom:1px solid var(--line);font-size:16px}
+.ir:last-child{border-bottom:0}.ir>span{color:var(--mut)}.ir b{text-align:right;overflow-wrap:anywhere}
+.tag{background:#10b98126;color:#34d399;font:700 12px Outfit;letter-spacing:.06em;padding:6px 12px;border-radius:6px;font-style:normal}
+.si{display:flex;align-items:center;gap:14px;width:100%;background:none;border:0;padding:12px 0;color:var(--ink);font:700 16px Outfit;cursor:pointer;text-align:left}
+.si+.si{border-top:1px solid var(--line)}
+.si i{width:42px;height:42px;border-radius:10px;background:#3b6cf026;color:var(--blue);display:grid;place-items:center;flex:none}
+.si .t{flex:1}.si .ch{color:var(--mut);display:flex}
+.si svg,.lo svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.lo{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:var(--card);border:1px solid var(--line);color:#ef4444;border-radius:14px;padding:18px;font:700 16px Outfit;cursor:pointer;margin-bottom:28px}
 .lg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:15px;align-items:stretch}
 .lc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:left;color:var(--ink);font-family:Outfit;cursor:pointer;display:block}
 .lc i svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -949,12 +968,33 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
       </div>
     </section>
     <section id="v-editprofile" hidden>
-      <button class="btn g back" data-go="profile">← Partner's Lounge</button><h2>Edit profile</h2>
-      <div class="card pad"><p class="mut" id="eid"></p>
+      <div class="ph">
+        <div class="who"><div class="pa" id="epav"></div><div><h3 id="epname"></h3><div class="em" id="eemail"></div></div></div>
+        <div class="bb"><div><b id="ebal">$0.00</b><span>Available</span></div><div><b id="eearn">$0.00</b><span>Total balance</span></div></div>
+      </div>
+      <div class="card pad"><div class="cap">ACCOUNT INFORMATION</div>
+        <div class="ir"><span>User ID</span><b id="euid"></b></div>
+        <div class="ir"><span>Account level</span><b id="elv"></b></div>
+        <div class="ir"><span>Status</span><em class="tag">ACTIVE</em></div>
+        <div class="ir"><span>Member Since</span><b id="ems"></b></div>
+      </div>
+      <div class="card pad"><div class="cap">PERSONAL DETAILS</div>
+        <p class="mut" id="eid"></p>
         <label for="enm">Full name</label><input id="enm">
         <button class="btn w" id="esave">Save</button>
-        <button class="btn g w" id="epw" style="margin-top:12px">Send password reset link</button>
-        <p class="err" id="eerr"></p></div>
+        <p class="err" id="eerr"></p>
+      </div>
+      <div class="card pad"><div class="cap">SECURITY</div>
+        <button class="si" id="epw" style="color:var(--blue)"><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></i><span class="t">Update Password</span><span class="ch"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span></button>
+        <button class="si" id="ewp"><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h3"/></svg></i><span class="t">Withdraw Password</span><span class="ch"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span></button>
+        <div id="ewf" hidden>
+          <input id="ewo" type="password" placeholder="Current withdraw password" autocomplete="off" style="margin-top:12px" hidden>
+          <input id="ewn" type="password" placeholder="New withdraw password (min. 4 characters)" autocomplete="new-password" style="margin-top:12px">
+          <button class="btn w" id="ews">Save withdraw password</button>
+        </div>
+        <p class="err" id="eperr"></p>
+      </div>
+      <button class="lo" id="logout2"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg><span>Logout</span></button>
     </section>
     <section id="v-about" class="ab" hidden>
       <div class="ab-card ab-pad">
@@ -1071,7 +1111,7 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
   if(V.indexOf(v)<0||(v==="admin"&&!c.adm))v="home";
   var g=function(i){return document.getElementById(i)};
   g("app").hidden=false;
-  var S={about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet"};g("mainhead").hidden=!!S[v];g("subhead").hidden=!S[v];if(S[v]){g("subtitle").textContent=S[v];g("subtag").hidden=v!=="channel";g("subhead").classList.toggle("chh",v==="channel")}
+  var S={about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet",editprofile:"Profile"};g("mainhead").hidden=!!S[v];g("subhead").hidden=!S[v];if(S[v]){g("subtitle").textContent=S[v];g("subtag").hidden=v!=="channel";g("subhead").classList.toggle("chh",v==="channel")}
   V.forEach(function(k){var e=g("v-"+k);if(e)e.hidden=k!==v});
   g("sitefoot").hidden=v==="orders";
   document.querySelectorAll("nav a").forEach(function(a){a.classList.toggle("on",a.dataset.v===(M[v]||v))});
@@ -1214,6 +1254,7 @@ $("#af").onsubmit=async e=>{
   }catch(x){signingUp=false;er.textContent=msg(x)}
 };
 $("#logout").onclick=()=>{try{localStorage.removeItem(VKEY);history.replaceState(null,"",location.pathname)}catch(x){}signOut(auth)};
+$("#logout2").onclick=$("#logout").onclick;
 function reveal(){document.documentElement.className="";$("#auth").hidden=true;$("#app").hidden=false;try{localStorage.setItem("velora_in","1")}catch(x){}}
 onAuthStateChanged(auth,u=>{
   me=u;
@@ -1250,7 +1291,7 @@ async function loadAccount(){
 
 /* ---------- Navigation ---------- */
 const VIEWS=["home","orders","admin","profile","dashboard","pricing","wallet","addfunds","withdraw","history","support","editprofile","about","channel"];
-const SUBT={about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet"};
+const SUBT={about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet",editprofile:"Profile"};
 const NAVMAP={wallet:"profile",addfunds:"profile",withdraw:"profile",history:"profile",editprofile:"profile"};
 let unsub=null,lastV="home";
 const VKEY="velora_view";
@@ -1725,13 +1766,38 @@ async function loadHistory(){
   $("#hislist").innerHTML=l.length?l.map(wlRow).join(""):'<div class="emp"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM9 12h7M9 16h7"/></svg></i><b>No Transactions</b><p class="mut">Your wallet activity will appear here.</p></div>';
 }
 $("#hfilter").onclick=loadHistory;
-function fillEdit(){$("#enm").value=profile.name;$("#eid").textContent="@"+profile.userid+" · "+me.email;$("#eerr").textContent=""}
+function fillEdit(){
+  const shown=(profile.name&&profile.name.trim())||profile.userid||me.email||"";
+  $("#enm").value=profile.name||"";$("#eid").textContent="@"+profile.userid+" · "+me.email;$("#eerr").textContent="";$("#eperr").textContent="";
+  $("#epav").textContent=String(shown||"?").charAt(0).toUpperCase();$("#epname").textContent=shown;
+  const em=String(me.email||""),at=em.indexOf("@"),loc=at<0?em:em.slice(0,at);
+  $("#eemail").textContent=em?"******"+loc.slice(-4)+(at<0?"":em.slice(at)):"";
+  $("#ebal").textContent=money(myAcc.available);$("#eearn").textContent=money(myAcc.total);
+  $("#euid").textContent="@"+(profile.userid||"-");$("#elv").textContent=myAcc.level||"No plan yet";
+  let ct=null;try{ct=new Date(me.metadata.creationTime)}catch(x){}
+  $("#ems").textContent=ct&&!isNaN(ct)?ct.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"-";
+  $("#ewf").hidden=true;
+}
 $("#esave").onclick=async()=>{
   const name=$("#enm").value.trim();if(!name)return say("#eerr","Name cannot be empty.");
-  try{await updateDoc(doc(db,"users",me.uid),{name});profile.name=name;$("#pname").textContent=name;$("#pav").textContent=name.charAt(0).toUpperCase();say("#eerr","Saved.",1)}catch(x){say("#eerr",msg(x))}
+  try{await updateDoc(doc(db,"users",me.uid),{name});profile.name=name;$("#pname").textContent=name;$("#pav").textContent=name.charAt(0).toUpperCase();$("#epname").textContent=name;$("#epav").textContent=name.charAt(0).toUpperCase();say("#eerr","Saved.",1)}catch(x){say("#eerr",msg(x))}
 };
 $("#epw").onclick=async()=>{
-  try{await sendPasswordResetEmail(auth,me.email);say("#eerr","Password reset link sent to "+me.email+".",1)}catch(x){say("#eerr",msg(x))}
+  try{await sendPasswordResetEmail(auth,me.email);say("#eperr","Password reset link sent to "+me.email+".",1)}catch(x){say("#eperr",msg(x))}
+};
+$("#ewp").onclick=()=>{
+  const f=$("#ewf");f.hidden=!f.hidden;
+  $("#ewo").hidden=!(profile.payout&&profile.payout.wpass);$("#ewo").value="";$("#ewn").value="";$("#eperr").textContent="";
+};
+$("#ews").onclick=async()=>{
+  const p=profile.payout||{},n=$("#ewn").value;
+  if(n.length<4)return say("#eperr","Enter at least 4 characters.");
+  try{
+    if(p.wpass&&p.wpass!==await wlHash($("#ewo").value))return say("#eperr","Current withdraw password is incorrect.");
+    const np={...p,wpass:await wlHash(n)};
+    await updateDoc(doc(db,"users",me.uid),{payout:np});profile.payout=np;
+    $("#ewf").hidden=true;say("#eperr","Withdraw password saved.",1);
+  }catch(x){say("#eperr",msg(x))}
 };
 const bub=(m,mine)=>`<div class="msg${mine?" me":""}">${esc(m.text)}<small>${fmt(m.created)}</small></div>`;
 function startChat(){
