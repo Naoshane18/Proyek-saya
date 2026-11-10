@@ -579,6 +579,19 @@ body.velora-tawk-open [class*="tawk"] {
 @media(min-width:700px){#v-orders #olist{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}}
 
 </style>
+<style id="velora-i18n-css">
+#subhead .entag{display:none!important}
+#auth>header,header{z-index:30!important}
+header .lgsw{margin-left:auto;position:static;flex:none}
+header .lgsw .lgb{display:inline-flex!important;align-items:center;gap:8px;background:transparent!important;color:#fff!important;border:1px solid #243049!important;border-radius:7px!important;padding:9px 12px!important;font:700 15px Outfit,system-ui,sans-serif!important;cursor:pointer;line-height:1}
+header .lgsw .lgb svg{width:15px!important;height:15px!important;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+header .lgsw.open .lgb svg{transform:rotate(180deg)}
+header .lgsw .lgm{position:absolute;right:20px;top:calc(100% - 2px);width:min(280px,calc(100vw - 40px));background:#fff;border-radius:14px;box-shadow:0 14px 40px #0006;padding:8px;z-index:50}
+header .lgsw .lgm[hidden]{display:none!important}
+header .lgsw .lgm button{display:flex!important;align-items:center;gap:14px;width:100%;background:transparent!important;border:0!important;border-radius:8px!important;padding:14px 16px!important;color:#0f172a!important;font:500 18px Outfit,system-ui,sans-serif!important;text-align:left;cursor:pointer}
+header .lgsw .lgm button span{font:400 22px/1 system-ui,sans-serif!important}
+header .lgsw .lgm button.on{background:#f1f5f9!important;color:#3b6cf0!important}
+</style>
 </head>
 <body>
 <div id="topbar"></div>
@@ -1829,5 +1842,164 @@ var Tawk_LoadStart = new Date();
 </script>
 <!--End of Tawk.to Script-->
 
+<script id="velora-i18n">
+(function(){
+var LG=[["en","\uD83C\uDDFA\uD83C\uDDF8","English","EN"],["de","\uD83C\uDDE9\uD83C\uDDEA","Deutsch","DE"],["it","\uD83C\uDDEE\uD83C\uDDF9","Italiano","IT"],["fr","\uD83C\uDDEB\uD83C\uDDF7","Fran\u00e7ais","FR"],["nl","\uD83C\uDDF3\uD83C\uDDF1","Nederlands","NL"]];
+/* Format: English ~ Deutsch | Italiano | Fran\u00e7ais | Nederlands */
+var RAW=`Log in~Anmelden|Accedi|Se connecter|Inloggen
+Create account~Konto erstellen|Crea account|Cr\u00e9er un compte|Account aanmaken
+Log in to browse hotels and book rooms.~Melden Sie sich an, um Hotels zu durchsuchen und Zimmer zu buchen.|Accedi per cercare hotel e prenotare camere.|Connectez-vous pour parcourir les h\u00f4tels et r\u00e9server des chambres.|Log in om hotels te bekijken en kamers te boeken.
+Create an account to browse hotels and book rooms.~Erstellen Sie ein Konto, um Hotels zu durchsuchen und Zimmer zu buchen.|Crea un account per cercare hotel e prenotare camere.|Cr\u00e9ez un compte pour parcourir les h\u00f4tels et r\u00e9server des chambres.|Maak een account aan om hotels te bekijken en kamers te boeken.
+User ID or email~Benutzer-ID oder E-Mail|ID utente o email|Identifiant ou e-mail|Gebruikers-ID of e-mail
+Full name~Vollst\u00e4ndiger Name|Nome completo|Nom complet|Volledige naam
+User ID~Benutzer-ID|ID utente|Identifiant|Gebruikers-ID
+Email~E-Mail|Email|E-mail|E-mail
+Password~Passwort|Password|Mot de passe|Wachtwoord
+Forgot password?~Passwort vergessen?|Password dimenticata?|Mot de passe oubli\u00e9 ?|Wachtwoord vergeten?
+Create new account~Neues Konto erstellen|Crea nuovo account|Cr\u00e9er un nouveau compte|Nieuw account aanmaken
+Sign up~Registrieren|Registrati|S'inscrire|Registreren
+Already have an account? Log in~Bereits ein Konto? Anmelden|Hai gi\u00e0 un account? Accedi|D\u00e9j\u00e0 un compte ? Se connecter|Al een account? Log in
+About Us~\u00dcber uns|Chi siamo|\u00c0 propos|Over ons
+Open up every~\u00d6ffnen Sie jede|Apri ogni|Ouvrez toutes les|Ontsluit elke
+opportunity.~Chance.|opportunit\u00e0.|opportunit\u00e9s.|kans.
+A highly precise, high-performance hospitality commerce architecture. Consolidating your channels, bookings, and operations borderlessly.~Eine hochpr\u00e4zise, leistungsstarke Commerce-Architektur f\u00fcr die Hotellerie. B\u00fcndelt Ihre Kan\u00e4le, Buchungen und Abl\u00e4ufe grenzenlos.|Un'architettura commerciale per l'ospitalit\u00e0 precisa e ad alte prestazioni. Unisce canali, prenotazioni e operazioni senza confini.|Une architecture de commerce h\u00f4telier pr\u00e9cise et performante. Elle regroupe vos canaux, r\u00e9servations et op\u00e9rations sans fronti\u00e8res.|Een nauwkeurige, krachtige commerce-architectuur voor de hotelsector. Bundelt uw kanalen, boekingen en operaties grenzeloos.
+See how it works \u2192~So funktioniert es \u2192|Scopri come funziona \u2192|Voir comment \u00e7a marche \u2192|Zo werkt het \u2192
+Partner's Lounge~Partner-Lounge|Lounge Partner|Espace Partenaire|Partner Lounge
+\u2190 Partner's Lounge~\u2190 Partner-Lounge|\u2190 Lounge Partner|\u2190 Espace Partenaire|\u2190 Partner Lounge
+Sync Rate~Sync-Rate|Tasso di sync|Taux de synchro|Syncpercentage
+Commission~Provision|Commissione|Commission|Commissie
+Connected with~Verbunden mit|Connesso con|Connect\u00e9 avec|Verbonden met
+Hotels~Hotels|Hotel|H\u00f4tels|Hotels
+Platform~Plattform|Piattaforma|Plateforme|Platform
+Everything you need to reach, convert and grow.~Alles, was Sie brauchen, um Gäste zu erreichen, zu gewinnen und zu wachsen.|Tutto ci\u00f2 che serve per raggiungere, convertire e crescere.|Tout ce qu'il faut pour atteindre, convertir et cro\u00eetre.|Alles wat u nodig heeft om te bereiken, te converteren en te groeien.
+Hotel Channel Manager~Hotel-Channel-Manager|Channel Manager alberghiero|Channel Manager h\u00f4telier|Hotel Channel Manager
+Direct Booking Engine~Direktbuchungs-Engine|Motore di prenotazione diretta|Moteur de r\u00e9servation directe|Directe boekingsengine
+Hotel Website Builder~Hotel-Website-Baukasten|Costruttore di siti per hotel|Cr\u00e9ateur de site d'h\u00f4tel|Hotelwebsite-bouwer
+Metasearch Connectivity~Metasearch-Anbindung|Connettivit\u00e0 metasearch|Connectivit\u00e9 m\u00e9tamoteurs|Metasearch-connectiviteit
+Integrations~Integrationen|Integrazioni|Int\u00e9grations|Integraties
+Connect with us.~Verbinden Sie sich mit uns.|Connettiti con noi.|Connectez-vous avec nous.|Verbind met ons.
+Sell everywhere.~Verkaufen Sie \u00fcberall.|Vendi ovunque.|Vendez partout.|Verkoop overal.
+Ready to open up every opportunity?~Bereit, jede Chance zu nutzen?|Pronto ad aprire ogni opportunit\u00e0?|Pr\u00eat \u00e0 saisir toutes les opportunit\u00e9s ?|Klaar om elke kans te benutten?
+Join 41,000+ luxury properties and start growing your direct revenue today.~Schlie\u00dfen Sie sich \u00fcber 41.000 Luxusunterk\u00fcnften an und steigern Sie noch heute Ihre Direkteinnahmen.|Unisciti a oltre 41.000 strutture di lusso e inizia oggi a far crescere i tuoi ricavi diretti.|Rejoignez plus de 41 000 \u00e9tablissements de luxe et d\u00e9veloppez d\u00e8s aujourd'hui vos revenus directs.|Sluit u aan bij meer dan 41.000 luxe accommodaties en laat vandaag uw directe omzet groeien.
+Get started \u2192~Jetzt starten \u2192|Inizia ora \u2192|Commencer \u2192|Aan de slag \u2192
+Talk to sales~Vertrieb kontaktieren|Parla con le vendite|Contacter les ventes|Praat met sales
+Order History~Bestellverlauf|Cronologia ordini|Historique des commandes|Bestelgeschiedenis
+DEMO DATA ONLY~NUR DEMO-DATEN|SOLO DATI DEMO|DONN\u00c9ES DE D\u00c9MO UNIQUEMENT|ALLEEN DEMOGEGEVENS
+PREVIOUS~ZUR\u00dcCK|PRECEDENTE|PR\u00c9C\u00c9DENT|VORIGE
+NEXT~WEITER|SUCCESSIVO|SUIVANT|VOLGENDE
+Search by name or location~Nach Name oder Ort suchen|Cerca per nome o localit\u00e0|Rechercher par nom ou lieu|Zoek op naam of locatie
+Search hotel, city, room, provider\u2026~Hotel, Stadt, Zimmer, Anbieter suchen\u2026|Cerca hotel, citt\u00e0, camera, provider\u2026|Rechercher h\u00f4tel, ville, chambre, fournisseur\u2026|Zoek hotel, stad, kamer, aanbieder\u2026
+Orders~Bestellungen|Ordini|Commandes|Bestellingen
+Profile~Profil|Profilo|Profil|Profiel
+Dashboard~Dashboard|Dashboard|Tableau de bord|Dashboard
+Support~Support|Supporto|Assistance|Support
+Home~Startseite|Home|Accueil|Home
+Wallet~Wallet|Portafoglio|Portefeuille|Portemonnee
+Add funds~Guthaben aufladen|Aggiungi fondi|Ajouter des fonds|Saldo opwaarderen
+Withdraw~Auszahlen|Preleva|Retirer|Opnemen
+History~Verlauf|Cronologia|Historique|Geschiedenis
+Logout~Abmelden|Esci|D\u00e9connexion|Uitloggen
+Account level~Kontostufe|Livello account|Niveau du compte|Accountniveau
+No plan yet~Noch kein Tarif|Nessun piano ancora|Aucun forfait pour l'instant|Nog geen plan
+No plan~Kein Tarif|Nessun piano|Aucun forfait|Geen plan
+TOTAL ACCOUNT BALANCE~GESAMTKONTOSTAND|SALDO TOTALE DEL CONTO|SOLDE TOTAL DU COMPTE|TOTAAL REKENINGSALDO
+AVAILABLE BALANCE~VERF\u00dcGBARES GUTHABEN|SALDO DISPONIBILE|SOLDE DISPONIBLE|BESCHIKBAAR SALDO
+ORDERS AMOUNT~BESTELLBETRAG|IMPORTO ORDINI|MONTANT DES COMMANDES|BESTELBEDRAG
+TOTAL BALANCE~GESAMTGUTHABEN|SALDO TOTALE|SOLDE TOTAL|TOTAAL SALDO
+AVAILABLE~VERF\u00dcGBAR|DISPONIBILE|DISPONIBLE|BESCHIKBAAR
+Your private space to manage orders, wallet, account settings, and support.~Ihr privater Bereich f\u00fcr Bestellungen, Wallet, Kontoeinstellungen und Support.|Il tuo spazio privato per gestire ordini, portafoglio, impostazioni dell'account e assistenza.|Votre espace priv\u00e9 pour g\u00e9rer commandes, portefeuille, param\u00e8tres du compte et assistance.|Uw priv\u00e9ruimte voor bestellingen, portemonnee, accountinstellingen en support.
+Orders and balance at a glance.~Bestellungen und Guthaben auf einen Blick.|Ordini e saldo in un colpo d'occhio.|Commandes et solde en un coup d'\u0153il.|Bestellingen en saldo in één oogopslag.
+Manage your balance and payment details.~Verwalten Sie Guthaben und Zahlungsdaten.|Gestisci il saldo e i dati di pagamento.|G\u00e9rez votre solde et vos informations de paiement.|Beheer uw saldo en betaalgegevens.
+Top up your wallet.~Laden Sie Ihr Wallet auf.|Ricarica il tuo portafoglio.|Rechargez votre portefeuille.|Waardeer uw portemonnee op.
+Request a withdrawal to your bank card.~Auszahlung auf Ihre Bankkarte anfordern.|Richiedi un prelievo sulla tua carta bancaria.|Demandez un retrait sur votre carte bancaire.|Vraag een opname aan op uw bankkaart.
+View deposits, withdrawals, and transactions.~Einzahlungen, Auszahlungen und Transaktionen ansehen.|Visualizza depositi, prelievi e transazioni.|Consultez d\u00e9p\u00f4ts, retraits et transactions.|Bekijk stortingen, opnames en transacties.
+View and rate your orders.~Bestellungen ansehen und bewerten.|Visualizza e valuta i tuoi ordini.|Consultez et notez vos commandes.|Bekijk en beoordeel uw bestellingen.
+Edit your details and password.~Daten und Passwort bearbeiten.|Modifica i tuoi dati e la password.|Modifiez vos informations et mot de passe.|Wijzig uw gegevens en wachtwoord.
+Chat with our team anytime.~Chatten Sie jederzeit mit unserem Team.|Chatta con il nostro team in qualsiasi momento.|Discutez avec notre \u00e9quipe \u00e0 tout moment.|Chat altijd met ons team.
+Connect Every Stay.~Jeden Aufenthalt verbinden.|Collega ogni soggiorno.|Connectez chaque s\u00e9jour.|Verbind elk verblijf.
+MISSION CONTROL~MISSION CONTROL|CENTRO MISSIONI|CENTRE DE MISSIONS|MISSIECONTROLE
+BOOK NOW~JETZT BUCHEN|PRENOTA ORA|R\u00c9SERVER|NU BOEKEN
+Bookings~Buchungen|Prenotazioni|R\u00e9servations|Boekingen
+Current progress~Aktueller Fortschritt|Progresso attuale|Progression actuelle|Huidige voortgang
+READY~BEREIT|PRONTO|PR\u00caT|KLAAR
+Investment Plans~Anlagepl\u00e4ne|Piani di investimento|Plans d'investissement|Beleggingsplannen
+Partnerships~Partnerschaften|Partnership|Partenariats|Partnerschappen
+PRICING~PREISE|PREZZI|TARIFS|PRIJZEN
+PURCHASE~KAUFEN|ACQUISTA|ACHETER|KOPEN
+Classic~Classic|Classic|Classic|Classic
+Payment details~Zahlungsdaten|Dati di pagamento|Informations de paiement|Betaalgegevens
+Bank name~Bankname|Nome della banca|Nom de la banque|Banknaam
+Account holder name~Name des Kontoinhabers|Nome dell'intestatario|Nom du titulaire|Naam rekeninghouder
+Save~Speichern|Salva|Enregistrer|Opslaan
+Cancel~Abbrechen|Annulla|Annuler|Annuleren
+Close~Schlie\u00dfen|Chiudi|Fermer|Sluiten
+Back~Zur\u00fcck|Indietro|Retour|Terug
+Send~Senden|Invia|Envoyer|Verzenden
+Submit request~Anfrage senden|Invia richiesta|Envoyer la demande|Aanvraag indienen
+Request withdrawal~Auszahlung anfordern|Richiedi prelievo|Demander un retrait|Opname aanvragen
+Edit profile~Profil bearbeiten|Modifica profilo|Modifier le profil|Profiel bewerken
+Send password reset link~Link zum Zur\u00fccksetzen senden|Invia link di reimpostazione password|Envoyer le lien de r\u00e9initialisation|Link voor wachtwoordherstel versturen
+Chat with our team~Chatten Sie mit unserem Team|Chatta con il nostro team|Discutez avec notre \u00e9quipe|Chat met ons team
+START LIVE CHAT~LIVE-CHAT STARTEN|AVVIA LIVE CHAT|D\u00c9MARRER LE CHAT|LIVECHAT STARTEN
+CONNECTING~VERBINDE|CONNESSIONE|CONNEXION|VERBINDEN
+Need help with a reservation?~Hilfe bei einer Reservierung?|Hai bisogno di aiuto con una prenotazione?|Besoin d'aide pour une r\u00e9servation ?|Hulp nodig bij een reservering?
+Our support team is ready to help with your bookings and account questions.~Unser Support-Team hilft Ihnen bei Buchungen und Kontofragen.|Il nostro team \u00e8 pronto ad aiutarti con prenotazioni e domande sull'account.|Notre \u00e9quipe est pr\u00eate \u00e0 vous aider pour vos r\u00e9servations et questions de compte.|Ons supportteam helpt u graag met boekingen en accountvragen.
+We're here for~Wir sind f\u00fcr|Siamo qui per|Nous sommes l\u00e0 pour|Wij zijn er voor
+you~Sie da|te|vous|u
+Who we are.~Wer wir sind.|Chi siamo.|Qui nous sommes.|Wie wij zijn.
+Our Channel~Unser Kanal|Il nostro canale|Notre canal|Ons kanaal
+Famous hotels all over the world~Ber\u00fchmte Hotels auf der ganzen Welt|Hotel famosi in tutto il mondo|H\u00f4tels c\u00e9l\u00e8bres du monde entier|Beroemde hotels over de hele wereld
+Product~Produkt|Prodotto|Produit|Product
+Features~Funktionen|Funzionalit\u00e0|Fonctionnalit\u00e9s|Functies
+Channel~Kanal|Canale|Canal|Kanaal
+Pricing~Preise|Prezzi|Tarifs|Prijzen
+Company~Unternehmen|Azienda|Entreprise|Bedrijf
+Privacy Policy~Datenschutz|Informativa sulla privacy|Politique de confidentialit\u00e9|Privacybeleid
+Website Terms~Nutzungsbedingungen|Termini del sito|Conditions du site|Websitevoorwaarden
+\u00a9 2026 Velora. All rights reserved. Global Leader in Hotel Commerce.~\u00a9 2026 Velora. Alle Rechte vorbehalten. Weltweit f\u00fchrend im Hotel-Commerce.|\u00a9 2026 Velora. Tutti i diritti riservati. Leader globale nel commercio alberghiero.|\u00a9 2026 Velora. Tous droits r\u00e9serv\u00e9s. Leader mondial du commerce h\u00f4telier.|\u00a9 2026 Velora. Alle rechten voorbehouden. Wereldleider in hotelcommerce.
+Check-in~Check-in|Check-in|Arriv\u00e9e|Inchecken
+Check-out~Check-out|Check-out|D\u00e9part|Uitchecken
+Submit booking~Buchung senden|Invia prenotazione|Envoyer la r\u00e9servation|Boeking versturen
+Success!~Erfolgreich!|Successo!|Succ\u00e8s !|Gelukt!
+GOT IT~VERSTANDEN|OK, CAPITO|COMPRIS|BEGREPEN
+Booking Number~Buchungsnummer|Numero di prenotazione|Num\u00e9ro de r\u00e9servation|Boekingsnummer
+Booking Time~Buchungszeit|Orario di prenotazione|Heure de r\u00e9servation|Boekingstijd
+Price~Preis|Prezzo|Prix|Prijs
+Select Booking Provider~Buchungsanbieter w\u00e4hlen|Seleziona il provider|Choisir le fournisseur|Kies boekingsaanbieder`;
+var D={};RAW.split("\n").forEach(function(l){var p=l.split("~");if(p.length==2)D[p[0].trim()]=p[1].split("|")});
+var R=[[/^Page (\d+) of (\d+)$/,["Seite $1 von $2","Pagina $1 di $2","Page $1 sur $2","Pagina $1 van $2"]],
+[/^DAILY MISSION : (\d+)$/,["TAGESMISSION : $1","MISSIONE GIORNALIERA : $1","MISSION QUOTIDIENNE : $1","DAGELIJKSE MISSIE : $1"]],
+[/^([\d.]+%) Booking Reward$/,["$1 Buchungsbelohnung","$1 di premio per prenotazione","$1 de r\u00e9compense par r\u00e9servation","$1 boekingsbeloning"]],
+[/^Profits of ([\d.]+%) per booking - (\d+) bookings$/,["Gewinn von $1 pro Buchung - $2 Buchungen","Profitto dello $1 per prenotazione - $2 prenotazioni","Profits de $1 par r\u00e9servation - $2 r\u00e9servations","Winst van $1 per boeking - $2 boekingen"]]];
+var cur="en";try{cur=localStorage.getItem("velora_lang")||"en"}catch(e){}
+function ix(){for(var i=0;i<LG.length;i++)if(LG[i][0]==cur)return i;return 0}
+var N=function(s){return s.replace(/\s+/g," ").trim()};
+function tr(s,i){if(!i)return s;var d=D[s];if(d)return d[i-1];for(var k=0;k<R.length;k++)if(R[k][0].test(s))return s.replace(R[k][0],R[k][1][i-1]);return null}
+var W=new WeakMap();
+function doText(n){var r=W.get(n);if(!r||n.data!==r.t){r={o:n.data,t:n.data};W.set(n,r)}
+ var x=tr(N(r.o),ix()),out=x==null?r.o:r.o.replace(/\S[\s\S]*\S|\S/,x);r.t=out;if(n.data!==out)n.data=out}
+function doAttr(e){["placeholder","aria-label"].forEach(function(a){var v=e.getAttribute(a);if(v==null)return;e._o=e._o||{};var r=e._o[a];if(!r||v!==r.t)r=e._o[a]={o:v,t:v};var x=tr(N(r.o),ix()),out=x==null?r.o:x;r.t=out;if(v!==out)e.setAttribute(a,out)})}
+var SK=/^(SCRIPT|STYLE|TEXTAREA)$/;
+function walk(root){
+ if(root.nodeType==3){if(root.parentNode&&!SK.test(root.parentNode.nodeName))doText(root);return}
+ if(root.nodeType!=1||SK.test(root.nodeName))return;
+ if(root.hasAttribute("placeholder")||root.hasAttribute("aria-label"))doAttr(root);
+ root.querySelectorAll("[placeholder],[aria-label]").forEach(doAttr);
+ var w=document.createTreeWalker(root,4),n,a=[];while(n=w.nextNode())if(!SK.test(n.parentNode.nodeName))a.push(n);a.forEach(doText)}
+function sync(){document.querySelectorAll(".lgsw").forEach(function(w){w.querySelector(".lgc").textContent=LG[ix()][3];w.querySelectorAll(".lgm button").forEach(function(b){b.classList.toggle("on",b.dataset.l==cur)})})}
+function setLang(l){cur=l;try{localStorage.setItem("velora_lang",l)}catch(e){}document.documentElement.lang=l;walk(document.body);sync()}
+function build(){document.querySelectorAll("header").forEach(function(h){if(h.querySelector(".lgsw"))return;var w=document.createElement("div");w.className="lgsw";
+ w.innerHTML='<button type="button" class="lgb" aria-haspopup="true" aria-label="Language"><span class="lgc"></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button><div class="lgm" hidden>'+LG.map(function(x){return '<button type="button" data-l="'+x[0]+'"><span>'+x[1]+'</span>'+x[2]+'</button>'}).join("")+'</div>';h.appendChild(w)});sync()}
+function closeAll(){document.querySelectorAll(".lgsw").forEach(function(w){w.classList.remove("open");w.querySelector(".lgm").hidden=true})}
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".lgsw button");
+ if(!b){closeAll();return}
+ var w=b.closest(".lgsw");
+ if(b.classList.contains("lgb")){var o=w.classList.contains("open");closeAll();if(!o){w.classList.add("open");w.querySelector(".lgm").hidden=false}return}
+ setLang(b.dataset.l);closeAll()},true);
+function init(){build();document.documentElement.lang=cur;walk(document.body);
+ new MutationObserver(function(ms){ms.forEach(function(m){if(m.type=="childList")m.addedNodes.forEach(walk);else if(m.type=="characterData")walk(m.target);else doAttr(m.target)})}).observe(document.body,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:["placeholder","aria-label"]})}
+if(document.readyState=="loading")document.addEventListener("DOMContentLoaded",init);else init();
+})();
+</script>
 </body>
 </html>
