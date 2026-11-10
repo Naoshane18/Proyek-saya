@@ -597,6 +597,28 @@ body.velora-tawk-open [class*="tawk"] {
 .bflow-prov .prov-row .pprice{font-weight:800;color:var(--ink);white-space:nowrap}
 @media(min-width:700px){#v-orders #olist{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}}
 
+
+/* ==============================
+   REGISTRATION FORM STYLES
+   ============================== */
+#auth #gs label{font-size:12px;font-weight:700;margin:13px 0 6px;color:var(--ink)}
+#auth #gs input,#auth #gs select{height:42px;padding:10px 12px;border:1px solid #cbd5e1;border-radius:5px;font:400 13px Outfit,system-ui,sans-serif;background:#fff;color:#334155}
+#auth #gs input:focus,#auth #gs select:focus{outline:1.5px solid #3b6cf0}
+#auth .reg-phone{display:grid;grid-template-columns:82px 1fr;gap:8px}
+#auth .reg-phone select{padding:8px 5px}
+#auth .reg-pass{position:relative}
+#auth .reg-pass input{padding-right:42px!important}
+#auth .reg-pass button{position:absolute;right:5px;top:4px;width:34px;height:34px;border:0;background:transparent;color:#64748b;font-size:17px}
+#auth .reg-captcha{display:flex;align-items:center;gap:10px;margin:0 0 8px}
+#auth .reg-captcha canvas{width:150px;height:42px;border:1px solid #94a3b8;background:#fff}
+#auth .reg-captcha button{height:42px;width:42px;border:1px solid #cbd5e1;background:#fff;border-radius:5px;font-size:25px;color:#475569}
+#auth .reg-terms{display:flex!important;align-items:center;gap:8px;margin:14px 0 2px!important;font-size:12px!important;font-weight:400!important}
+#auth .reg-terms input{width:15px!important;height:15px!important;margin:0;flex:none}
+#auth .reg-terms a{color:#2457df;text-decoration:underline}
+#auth #gs[hidden]{display:none!important}
+#auth #gs:not([hidden])~#loginPassLabel,#auth #gs:not([hidden])~#passLogin{display:none!important}
+#auth #passLogin{margin-top:0}
+#auth #af .btn{border-radius:5px;letter-spacing:.06em;text-transform:uppercase;font-size:13px}
 </style>
 <style id="velora-i18n-css">
 #subhead .entag{display:none!important}
@@ -662,11 +684,34 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
     <form id="af">
       <div id="gl"><label for="id">User ID or email</label><input id="id" autocomplete="username" autocapitalize="none"></div>
       <div id="gs" hidden>
-        <label for="name">Full name</label><input id="name" autocomplete="name">
-        <label for="uid">User ID</label><input id="uid" autocapitalize="none" placeholder="lowercase letters, numbers, _">
-        <label for="email">Email</label><input id="email" type="email" autocomplete="email">
+        <label for="name">Full Name</label><input id="name" autocomplete="name" placeholder="Enter your full name">
+        <label for="uid">Username</label><input id="uid" autocapitalize="none" placeholder="Enter your username">
+        <label for="email">Email Address</label><input id="email" type="email" autocomplete="email" placeholder="Enter your email address">
+        <label for="phone">Phone Number</label>
+        <div class="reg-phone">
+          <select id="countryCode" aria-label="Country calling code">
+            <option value="+1">🇺🇸 +1</option><option value="+60" selected>🇲🇾 +60</option><option value="+65">🇸🇬 +65</option>
+            <option value="+44">🇬🇧 +44</option><option value="+61">🇦🇺 +61</option><option value="+86">🇨🇳 +86</option>
+            <option value="+82">🇰🇷 +82</option><option value="+886">🇹🇼 +886</option><option value="+971">🇦🇪 +971</option>
+            <option value="+66">🇹🇭 +66</option><option value="+84">🇻🇳 +84</option><option value="+62">🇮🇩 +62</option>
+            <option value="+63">🇵🇭 +63</option><option value="+91">🇮🇳 +91</option><option value="+49">🇩🇪 +49</option>
+            <option value="+33">🇫🇷 +33</option><option value="+39">🇮🇹 +39</option><option value="+34">🇪🇸 +34</option>
+            <option value="+31">🇳🇱 +31</option><option value="+41">🇨🇭 +41</option><option value="+43">🇦🇹 +43</option>
+            <option value="+45">🇩🇰 +45</option><option value="+46">🇸🇪 +46</option><option value="+47">🇳🇴 +47</option>
+            <option value="+974">🇶🇦 +974</option><option value="+7">🇷🇺 +7</option><option value="+81">🇯🇵 +81</option>
+          </select>
+          <input id="phone" type="tel" autocomplete="tel-national" placeholder="Enter your phone number">
+        </div>
+        <label for="pass">Password</label><div class="reg-pass"><input id="pass" type="password" autocomplete="new-password" placeholder="Create a password"><button type="button" data-eye="pass" aria-label="Show password">◉</button></div>
+        <label for="confirmPass">Confirm Password</label><div class="reg-pass"><input id="confirmPass" type="password" autocomplete="new-password" placeholder="Confirm your password"><button type="button" data-eye="confirmPass" aria-label="Show password">◉</button></div>
+        <label for="withdrawPass">Withdraw Password</label><div class="reg-pass"><input id="withdrawPass" type="password" autocomplete="new-password" placeholder="Create a withdraw password"><button type="button" data-eye="withdrawPass" aria-label="Show password">◉</button></div>
+        <label for="confirmWithdrawPass">Confirm Withdraw Password</label><div class="reg-pass"><input id="confirmWithdrawPass" type="password" autocomplete="new-password" placeholder="Confirm your withdraw password"><button type="button" data-eye="confirmWithdrawPass" aria-label="Show password">◉</button></div>
+        <label>Verification Code</label>
+        <div class="reg-captcha"><canvas id="captchaCanvas" width="150" height="42" aria-label="Verification code image"></canvas><button type="button" id="refreshCaptcha" aria-label="Refresh verification code">↻</button></div>
+        <input id="captchaInput" autocomplete="off" autocapitalize="characters" placeholder="Enter verification code">
+        <label class="reg-terms"><input id="termsAgree" type="checkbox"><span>I agree to the <a href="#" id="termsLink">Terms &amp; Agreements</a></span></label>
       </div>
-      <label for="pass">Password</label><input id="pass" type="password" autocomplete="current-password">
+      <label for="passLogin" id="loginPassLabel">Password</label><input id="passLogin" name="password" type="password" autocomplete="current-password" placeholder="Enter your password">
       <button class="btn w" id="abtn">Log in</button>
     </form>
     <p class="err" id="aerr"></p>
@@ -825,7 +870,7 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
       <div class="card dnote"><h4>PLATFORM RULES NOTICE</h4><p>When processing reservations, details are securely submitted to merchant servers. Each Partnership tier includes a daily activity limit. Users can unlock enhanced privileges by advancing to higher Partnership tiers.</p></div>
       <p class="err" id="derr"></p>
     </section>
-    
+
     <section id="v-pricing" hidden>
       <div class="dhead">
         <h2>Investment Plans</h2>
@@ -1207,17 +1252,39 @@ const msg=x=>M[x.code]||x.message||"Something went wrong, please try again.";
 let me=null,profile=null,hotels=[],mode="login",signingUp=false,editId=null,cur=null;
 const isAdmin=()=>me&&me.email===ADMIN;
 
-/* ---------- Auth ---------- */
-function setMode(m){
-  mode=m;const s=m==="signup";
-  $("#gl").hidden=s;$("#gs").hidden=!s;$("#aerr").textContent="";
-  $("#atitle").textContent=s?"Create account":"Log in";
-  $("#asub").textContent=s?"Create an account to browse hotels and book rooms.":"Log in to browse hotels and book rooms.";
-  $("#abtn").textContent=s?"Sign up":"Log in";
-  $("#swap").textContent=s?"Already have an account? Log in":"Create new account";
-  $("#forgot").hidden=s;
-  $("#pass").autocomplete=s?"new-password":"current-password";
+/* ==============================
+   AUTHENTICATION / REGISTRATION
+   ============================== */
+let signupCaptcha="";
+function drawCaptcha(){
+  const canvas=$("#captchaCanvas"); if(!canvas)return;
+  const ctx=canvas.getContext("2d"); signupCaptcha=Math.random().toString(36).slice(2,8).toUpperCase();
+  ctx.clearRect(0,0,150,42);ctx.fillStyle="#f8fafc";ctx.fillRect(0,0,150,42);
+  for(let i=0;i<7;i++){ctx.strokeStyle=`rgba(${40+i*13},${90+i*7},${160+i*5},.35)`;ctx.beginPath();ctx.moveTo(Math.random()*150,Math.random()*42);ctx.lineTo(Math.random()*150,Math.random()*42);ctx.stroke()}
+  ctx.font="bold 22px monospace";ctx.fillStyle="#172554";ctx.textBaseline="middle";ctx.fillText(signupCaptcha,18,22);
+  for(let i=0;i<30;i++){ctx.fillStyle="#64748b55";ctx.fillRect(Math.random()*150,Math.random()*42,2,2)}
 }
+function setMode(m){
+  mode=m;const isSignup=m==="signup";
+  $("#gl").hidden=isSignup;$("#gs").hidden=!isSignup;$("#aerr").textContent="";
+  $("#atitle").textContent=isSignup?"Create Account":"Log in";
+  $("#asub").textContent=isSignup?"Join us and start your journey today.":"Log in to browse hotels and book rooms.";
+  $("#abtn").textContent=isSignup?"Create Account →":"Log in";
+  $("#swap").textContent=isSignup?"Already have an account? Log in":"Don't have an account? Sign Up →";
+  $("#forgot").hidden=isSignup;
+  $("#loginPassLabel").hidden=isSignup;$("#passLogin").hidden=isSignup;
+  $("#passLogin").required=!isSignup;
+  $("#passLogin").autocomplete=isSignup?"off":"current-password";
+  if(isSignup){
+    $("#captchaInput").value="";
+    drawCaptcha();
+  }
+}
+$("#refreshCaptcha").onclick=drawCaptcha;
+document.querySelectorAll("[data-eye]").forEach(btn=>btn.addEventListener("click",()=>{
+  const input=$("#"+btn.dataset.eye);input.type=input.type==="password"?"text":"password";
+}));
+$("#termsLink").onclick=e=>{e.preventDefault();$("#aerr").style.color="";$("#aerr").textContent="Please review the Terms & Agreements before creating your account.";};
 async function toEmail(id){
   id=id.trim();if(!id)throw Error("Enter your User ID or email.");
   if(id.includes("@"))return id;
@@ -1232,27 +1299,42 @@ $("#forgot").onclick=async()=>{
 };
 $("#af").onsubmit=async e=>{
   e.preventDefault();const er=$("#aerr");er.style.color="";er.textContent="";
-  const pass=$("#pass").value;
+  const pass=mode==="login"?$("#passLogin").value:$("#pass").value;
   try{
     if(mode==="login"){
       if(!pass)throw Error("Enter your password.");
       await signInWithEmailAndPassword(auth,await toEmail($("#id").value),pass);
     }else{
       const name=$("#name").value.trim(),uid=$("#uid").value.trim().toLowerCase(),email=$("#email").value.trim();
-      if(!name||!email)throw Error("Please fill in your name and email.");
-      if(!/^[a-z0-9_]{4,20}$/.test(uid))throw Error("User ID must be 4-20 characters: lowercase letters, numbers, or _.");
+      const phone=$("#phone").value.trim(),countryCode=$("#countryCode").value;
+      const confirmPass=$("#confirmPass").value,withdrawPass=$("#withdrawPass").value,confirmWithdraw=$("#confirmWithdrawPass").value;
+      const captcha=$("#captchaInput").value.trim().toUpperCase();
+      if(!name||!uid||!email||!phone)throw Error("Please complete your name, username, email address and phone number.");
+      if(!/^[a-z0-9_]{4,20}$/.test(uid))throw Error("Username must be 4-20 characters: lowercase letters, numbers or _.");
+      if(!/^\S+@\S+\.\S+$/.test(email))throw Error("Enter a valid email address.");
       if(pass.length<6)throw Error("Password must be at least 6 characters.");
-      if((await getDoc(doc(db,"usernames",uid))).exists())throw Error("User ID is already taken.");
+      if(pass!==confirmPass)throw Error("Password and Confirm Password do not match.");
+      if(withdrawPass.length<4)throw Error("Withdraw password must be at least 4 characters.");
+      if(withdrawPass!==confirmWithdraw)throw Error("Withdraw Password and Confirm Withdraw Password do not match.");
+      if(captcha!==signupCaptcha)throw Error("Verification code is incorrect. Please try again.");
+      if(!$("#termsAgree").checked)throw Error("Please agree to the Terms & Agreements.");
+      if((await getDoc(doc(db,"usernames",uid))).exists())throw Error("Username is already taken.");
       signingUp=true;
       const c=await createUserWithEmailAndPassword(auth,email,pass);
       try{
+        const digest=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(withdrawPass));
+        const withdrawPasswordHash=Array.from(new Uint8Array(digest)).map(x=>x.toString(16).padStart(2,"0")).join("");
         await setDoc(doc(db,"usernames",uid),{email,uid:c.user.uid});
-        await setDoc(doc(db,"users",c.user.uid),{name,userid:uid,email});
+        await setDoc(doc(db,"users",c.user.uid),{
+          name,userid:uid,email,phone,countryCode,
+          withdrawPasswordHash,createdAt:new Date().toISOString()
+        });
       }catch(x){await deleteUser(c.user);throw x}
       signingUp=false;enter();
     }
-  }catch(x){signingUp=false;er.textContent=msg(x)}
+  }catch(x){signingUp=false;er.textContent=msg(x);if(mode==="signup")drawCaptcha()}
 };
+setMode("login");
 $("#logout").onclick=()=>{try{localStorage.removeItem(VKEY);history.replaceState(null,"",location.pathname)}catch(x){}signOut(auth)};
 $("#logout2").onclick=$("#logout").onclick;
 function reveal(){document.documentElement.className="";$("#auth").hidden=true;$("#app").hidden=false;try{localStorage.setItem("velora_in","1")}catch(x){}}
