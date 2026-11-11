@@ -548,6 +548,16 @@ html.in:not(.rdy) #app{visibility:hidden}
 .me-slide.is-busy{opacity:.6;pointer-events:none}
 .me-slide.is-reset .me-slide__fill{transition:width .25s}
 
+
+/* ---------- KPI cards (Today's earnings, Orders, Completed, Available balance) ---------- */
+#v-dashboard .lx-kpi{text-align:left;font-family:inherit;cursor:default}
+#v-dashboard .lx-kpi__value{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums}
+#v-dashboard .lx-kpi__value.is-pos{color:#07845e}
+#v-dashboard button.lx-kpi--link{cursor:pointer;width:100%;color:inherit;transition:transform .15s,box-shadow .15s}
+#v-dashboard button.lx-kpi--link:hover{box-shadow:0 6px 16px rgba(15,23,42,.12)}
+#v-dashboard button.lx-kpi--link:active{transform:scale(.98)}
+#v-dashboard button.lx-kpi--link:focus-visible{outline:2px solid #3b6cf0;outline-offset:2px}
+
 /* VELORA support page + Tawk.to launcher */
 .velora-support-intro{padding:4px 0 20px}
 .velora-support-kicker{font:800 12px Outfit,sans-serif;letter-spacing:3px;color:var(--blue);margin-bottom:12px}
@@ -933,11 +943,11 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
           <div class="dbar"><i id="dfill"></i></div></div>
         <div class="me-slide" id="booknow" data-slide-to-book><span class="me-slide__fill" aria-hidden="true"></span><span class="me-slide__label" aria-hidden="true">Book Now</span><input type="range" class="me-slide__input" id="bookslide" min="0" max="100" step="1" value="0" aria-label="Book Now"></div>
       </div>
-      <div class="dstats">
-        <div class="st g"><small>TODAY'S DEMO COMMISSION</small><b id="dearn">+$0.00</b></div>
-        <div class="st"><small>ORDERS AMOUNT</small><b id="dord">$0.00</b></div>
-        <div class="st"><small>DEMO BOOKINGS</small><b id="dcomp">0</b></div>
-        <div class="st"><small>AVAILABLE BALANCE</small><b id="dbal">$0.00</b></div>
+      <div class="dstats me-kpis">
+        <div class="st g lx-kpi"><small class="lx-kpi__label">TODAY'S DEMO COMMISSION</small><b class="lx-kpi__value is-pos" id="dearn">+$0.00</b></div>
+        <div class="st lx-kpi"><small class="lx-kpi__label">ORDERS AMOUNT</small><b class="lx-kpi__value" id="dord">$0.00</b></div>
+        <div class="st lx-kpi"><small class="lx-kpi__label">DEMO BOOKINGS</small><b class="lx-kpi__value" id="dcomp">0</b></div>
+        <button type="button" class="st lx-kpi lx-kpi--link" data-go="wallet"><small class="lx-kpi__label">AVAILABLE BALANCE</small><b class="lx-kpi__value" id="dbal">$0.00</b></button>
       </div>
       <div class="card dlevels-list">
         <div class="mcl-title">MERCHANT COMMISSION LEVELS</div><p class="mut" style="margin:-14px 0 18px;font-size:13px">Demo calculation: room price × selected level rate. This is an estimate, not a guaranteed payout.</p>
