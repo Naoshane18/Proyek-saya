@@ -884,16 +884,11 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
     <section id="v-orders" hidden>
       <p class="ord-eyebrow">MANAGE AND TRACK YOUR HOTEL BOOKINGS</p>
       <h2 class="ord-title">Order History</h2>
-      <p class="mut ord-note">Demo records only — not real reservations or payable earnings.</p>
-      <div id="olist"></div>
-      <div class="card ord-empty" id="oempty" hidden>
+      <div class="card ord-empty" id="oempty">
         <span class="ord-empty__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg></span>
         <h3>No Order History</h3>
         <p>Your rated and unrated bookings will appear here.</p>
         <button type="button" class="ord-empty__btn" data-go="home">FIND HOTELS <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-      </div>
-      <div class="row" id="opager" style="justify-content:center;margin:18px 0">
-        <button class="btn g" id="orders-prev">PREVIOUS</button><span id="orders-page" class="mut">Page 1 of 63</span><button class="btn" id="orders-next">NEXT</button>
       </div>
     </section>
     <section id="v-admin" hidden>
@@ -1691,49 +1686,10 @@ function providerLogo(name){
  const v=styles[name]||[name.slice(0,1),"#eef2ff","#2457df"];
  return `<span class="partner-mark" style="--mark-bg:${v[1]};--mark-color:${v[2]}">${v[0]}</span><span class="partner-word">${esc(name)}</span>`;
 }
-function renderDemoOrders(){
- const q=($("#order-search")?.value||"").trim().toLowerCase();
- const filtered=demoOrders.filter(o=>(o.hotelName+" "+o.room+" "+o.location+" "+o.provider+" "+o.bookingNo).toLowerCase().includes(q));
- const perPage=16,pages=Math.max(1,Math.ceil(filtered.length/perPage));ordersPage=Math.min(ordersPage,pages);
- const page=filtered.slice((ordersPage-1)*perPage,ordersPage*perPage);
- $("#olist").innerHTML=page.map(o=>{
-  const status=String(o.status||"COMPLETED").toUpperCase();
-  const pending=status.includes("PENDING");
-  return `<article class="order-demo-card">
-   <div class="order-photo">
-    <img src="${esc(o.image)}" alt="${esc(o.hotelName)}" loading="lazy" onerror="this.style.display='none'">
-    <span class="order-status ${pending?"pending":""}">DEMO · ${pending?"PENDING":"COMPLETED"}</span>
-   </div>
-   <div class="order-demo-body">
-    <div class="order-demo-title">${esc(o.hotelName)}</div>
-    <div class="order-demo-room">${esc(o.room)} · ${esc(o.location)}</div>
-    <div class="order-demo-meta">${new Date(o.created).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})} · #${esc(o.bookingNo)} · ${providerLogo(o.provider)}</div>
-    <div class="order-demo-values">
-     <div><small>AMOUNT</small><b>${money2(o.price)}</b></div>
-     <div><small>REWARD (${(Number(o.rate||0)*100).toFixed(2)}%)</small><b class="reward">${money2(o.commission)}</b></div>
-    </div>
-    ${pending?`<button type="button" class="btn w order-book-btn" data-order-open="${esc(o.id)}">BOOK NOW</button>`:`<button type="button" class="btn g w order-detail-btn" data-order-open="${esc(o.id)}">VIEW DETAILS</button>`}
-   </div>
-  </article>`;
- }).join("")||'<p class="mut">No matching demo records.</p>';
- const empty=filtered.length===0;
- const oe=$("#oempty"),op=$("#opager");if(oe)oe.hidden=!empty;if(op)op.hidden=empty;
- if(empty)$("#olist").innerHTML="";
- $("#orders-page").textContent=`Page ${ordersPage} of ${pages} · ${filtered.length.toLocaleString()} records`;
- $("#orders-prev").disabled=ordersPage<=1;$("#orders-next").disabled=ordersPage>=pages;
-}
+function renderDemoOrders(){} /* daftar order dihapus: halaman Orders hanya menampilkan tampilan kosong */
 async function loadOrders(){
  ensureDemoOrders();applyDemoRate();ordersPage=1;renderDemoOrders();
 }
-$("#order-search")?.addEventListener("input",()=>{ordersPage=1;renderDemoOrders()});
-$("#orders-prev")?.addEventListener("click",()=>{ordersPage=Math.max(1,ordersPage-1);renderDemoOrders()});
-$("#orders-next")?.addEventListener("click",()=>{ordersPage++;renderDemoOrders()});
-$("#olist")?.addEventListener("click",ev=>{
- const btn=ev.target.closest("[data-order-open]");
- if(!btn)return;
- openDemoOrder(btn.getAttribute("data-order-open"));
-});
-
 
 /* ---------- Admin ---------- */
 function renderAdminHotels(){
