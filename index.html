@@ -1563,9 +1563,12 @@ function nav(v){
   navT=setTimeout(()=>{navT=null;show(v)},300);
 }
 // Mobile-safe bottom navigation: use pointerup (iOS/Android) and click fallback.
+let _lastNavV="",_lastNavT=0;
 window.veloraNavigate=function(v){
   if(!VIEWS.includes(v))return;
-  try{show(v)}catch(err){console.error("Velora navigation error:",err)}
+  /* pointerup + click bisa terpanggil dua kali pada satu ketukan: abaikan yang kedua */
+  const t=Date.now();if(v===_lastNavV&&t-_lastNavT<500)return;_lastNavV=v;_lastNavT=t;
+  try{nav(v)}catch(err){console.error("Velora navigation error:",err);try{show(v)}catch(e){}}
 };
 (function bindVeloraNavigation(){
   const bar=document.querySelector("#app > nav, #app nav");
