@@ -559,19 +559,21 @@ html.in:not(.rdy) #app{visibility:hidden}
 #v-dashboard button.lx-kpi--link:focus-visible{outline:2px solid #3b6cf0;outline-offset:2px}
 
 
-/* ---------- Orders: kartu ringkasan KPI (sama dengan Dashboard) ---------- */
-#v-orders .ok-kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 16px}
-#v-orders .ok-kpi{min-width:0;min-height:132px;display:flex;flex-direction:column;justify-content:center;text-align:left;font-family:inherit;color:#111827;background:#fff;border:1px solid #dce4ef;border-radius:15px;padding:18px 15px;box-shadow:0 3px 8px rgba(15,23,42,.06)}
-#v-orders .ok-kpi small{display:block;color:#64748b;font:700 10px/1.35 ui-monospace,Menlo,monospace;letter-spacing:.13em;margin:0 0 16px;overflow-wrap:anywhere}
-#v-orders .ok-kpi b{display:block;font:800 clamp(24px,7vw,34px)/1 Outfit,system-ui,sans-serif;letter-spacing:-1.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums}
-#v-orders .ok-kpi b.is-pos{color:#07845e}
-#v-orders button.ok-kpi{cursor:pointer;width:100%}
-#v-orders button.ok-kpi:active{transform:scale(.98)}
-#v-orders button.ok-kpi:focus-visible{outline:2px solid #3b6cf0;outline-offset:2px}
-#v-orders .card.pad{border-radius:15px;padding:18px}
-#v-orders #order-search{width:100%}
-#v-orders #olist .card{border-radius:15px;box-shadow:0 3px 8px rgba(15,23,42,.05)}
-@media(min-width:700px){#v-orders .ok-kpis{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}}
+/* ---------- Orders: tampilan mengikuti INNFinite ---------- */
+#v-orders .ord-eyebrow{font:700 13px ui-monospace,Menlo,monospace;letter-spacing:.2em;color:#2457df;text-transform:uppercase;margin:6px 0 10px;line-height:1.5}
+#v-orders .ord-eyebrow::before{content:"// ";color:var(--mut);letter-spacing:0}
+#v-orders .ord-title{font-size:34px;font-weight:800;letter-spacing:-1.2px;line-height:1.1;margin:0 0 8px}
+#v-orders .ord-note{font-size:13px;margin:0 0 18px}
+#v-orders .ord-empty{text-align:center;padding:36px 24px 40px;border-radius:15px;box-shadow:0 3px 8px rgba(15,23,42,.06)}
+#v-orders .ord-empty__icon{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:18px;background:var(--bg);margin-bottom:18px}
+#v-orders .ord-empty__icon svg{width:28px;height:28px;fill:none;stroke:#2457df;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#v-orders .ord-empty h3{font-size:22px;font-weight:800;letter-spacing:-.5px;margin:0 0 8px}
+#v-orders .ord-empty p{color:var(--mut);font-size:17px;line-height:1.6;max-width:260px;margin:0 auto 26px}
+#v-orders .ord-empty__btn{display:inline-flex;align-items:center;gap:10px;border:0;border-radius:8px;background:#2563eb;color:#fff;font:800 15px Outfit,system-ui,sans-serif;letter-spacing:.06em;padding:17px 30px;cursor:pointer;box-shadow:0 10px 24px rgba(37,99,235,.28)}
+#v-orders .ord-empty__btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+#v-orders .ord-empty__btn:active{transform:scale(.98)}
+#v-orders .ord-empty__btn:focus-visible{outline:2px solid #3b6cf0;outline-offset:3px}
+#v-orders #olist .card,#v-orders #olist .order-demo-card{border-radius:15px;box-shadow:0 3px 8px rgba(15,23,42,.05)}
 
 /* VELORA support page + Tawk.to launcher */
 .velora-support-intro{padding:4px 0 20px}
@@ -880,19 +882,17 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
       </div>
     </section>
     <section id="v-orders" hidden>
-      <div class="bghead" data-bg2="0"><h2>Order History</h2><p>Browse 1,000 randomly generated demo booking records across 10 sample travel channels.</p></div>
-      <div class="ok-kpis me-kpis">
-        <div class="ok-kpi lx-kpi"><small class="lx-kpi__label">TODAY'S DEMO COMMISSION</small><b class="lx-kpi__value is-pos" id="okearn">+$0.00</b></div>
-        <div class="ok-kpi lx-kpi"><small class="lx-kpi__label">ORDERS AMOUNT</small><b class="lx-kpi__value" id="okord">$0.00</b></div>
-        <div class="ok-kpi lx-kpi"><small class="lx-kpi__label">DEMO BOOKINGS</small><b class="lx-kpi__value" id="okcomp">0</b></div>
-        <button type="button" class="ok-kpi lx-kpi lx-kpi--link" data-go="wallet"><small class="lx-kpi__label">AVAILABLE BALANCE</small><b class="lx-kpi__value" id="okbal">$0.00</b></button>
-      </div>
-      <div class="card pad" style="margin-bottom:16px">
-        <b>DEMO DATA ONLY</b><p class="mut" style="margin-top:6px">These are synthetic examples, not real reservations, partner confirmations, or payable earnings.</p>
-        <input id="order-search" placeholder="Search hotel, city, room, provider…" style="margin-top:14px">
-      </div>
+      <p class="ord-eyebrow">MANAGE AND TRACK YOUR HOTEL BOOKINGS</p>
+      <h2 class="ord-title">Order History</h2>
+      <p class="mut ord-note">Demo records only — not real reservations or payable earnings.</p>
       <div id="olist"></div>
-      <div class="row" style="justify-content:center;margin:18px 0">
+      <div class="card ord-empty" id="oempty" hidden>
+        <span class="ord-empty__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg></span>
+        <h3>No Order History</h3>
+        <p>Your rated and unrated bookings will appear here.</p>
+        <button type="button" class="ord-empty__btn" data-go="home">FIND HOTELS <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+      <div class="row" id="opager" style="justify-content:center;margin:18px 0">
         <button class="btn g" id="orders-prev">PREVIOUS</button><span id="orders-page" class="mut">Page 1 of 63</span><button class="btn" id="orders-next">NEXT</button>
       </div>
     </section>
@@ -1519,7 +1519,7 @@ async function loadAccount(){
 
 /* ---------- Navigation ---------- */
 const VIEWS=["home","orders","admin","profile","dashboard","pricing","wallet","addfunds","withdraw","history","support","editprofile","about","channel"];
-const SUBT={about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet",editprofile:"Profile"};
+const SUBT={orders:"Order History",about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet",editprofile:"Profile"};
 const NAVMAP={wallet:"profile",addfunds:"profile",withdraw:"profile",history:"profile",editprofile:"profile"};
 let unsub=null,lastV="home";
 const VKEY="velora_view";
@@ -1532,7 +1532,7 @@ function savedView(){
 function show(v){
   try{localStorage.setItem(VKEY,v);history.replaceState(null,"","#"+v)}catch(x){}
   const sub=!!SUBT[v];if(!sub)lastV=v;
-  $("#mainhead").hidden=sub;$("#subhead").hidden=!sub;if(sub){$("#subtitle").textContent=SUBT[v];$("#subtag").hidden=v!=="channel";$("#subhead").classList.toggle("chh",v==="channel")}
+  $("#mainhead").hidden=sub;$("#subhead").hidden=!sub;if(sub){$("#subtitle").textContent=SUBT[v];$("#subtag").hidden=v!=="channel"&&v!=="orders";$("#subhead").classList.toggle("chh",v==="channel")}
   VIEWS.forEach(k=>$("#v-"+k).hidden=k!==v);
   if(v==="addfunds"||v==="withdraw"){$("#v-wallet").hidden=false;fillWallet()}
   $("#sitefoot").hidden=v==="orders";
@@ -1716,25 +1716,14 @@ function renderDemoOrders(){
    </div>
   </article>`;
  }).join("")||'<p class="mut">No matching demo records.</p>';
+ const empty=filtered.length===0;
+ const oe=$("#oempty"),op=$("#opager");if(oe)oe.hidden=!empty;if(op)op.hidden=empty;
+ if(empty)$("#olist").innerHTML="";
  $("#orders-page").textContent=`Page ${ordersPage} of ${pages} · ${filtered.length.toLocaleString()} records`;
  $("#orders-prev").disabled=ordersPage<=1;$("#orders-next").disabled=ordersPage>=pages;
 }
-function renderOrderKpis(){
- const set=(id,v)=>{const e=$(id);if(e)e.textContent=v};
- const lv=LV.find(x=>x[0].toLowerCase()===String(myAcc.level||"").trim().toLowerCase());
- const rate=lv?lv[1]/100:0;
- const t0=new Date();t0.setHours(0,0,0,0);
- const isDone=o=>String(o.status||"").toUpperCase().includes("COMPLETED");
- const earn=demoOrders.filter(o=>o.created>=t0.getTime()&&isDone(o)).reduce((a,o)=>a+(Number(o.commission)||((Number(o.price)||0)*rate)),0);
- set("#okearn","+"+money2(earn));
- set("#okord",money2(demoOrders.reduce((a,o)=>a+(Number(o.price)||0),0)));
- set("#okcomp",demoOrders.filter(isDone).length);
- set("#okbal",money2(Number(myAcc.available)||0));
-}
 async function loadOrders(){
  ensureDemoOrders();applyDemoRate();ordersPage=1;renderDemoOrders();
- try{await loadAccount()}catch(e){}
- renderOrderKpis();
 }
 $("#order-search")?.addEventListener("input",()=>{ordersPage=1;renderDemoOrders()});
 $("#orders-prev")?.addEventListener("click",()=>{ordersPage=Math.max(1,ordersPage-1);renderDemoOrders()});
