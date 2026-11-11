@@ -558,6 +558,21 @@ html.in:not(.rdy) #app{visibility:hidden}
 #v-dashboard button.lx-kpi--link:active{transform:scale(.98)}
 #v-dashboard button.lx-kpi--link:focus-visible{outline:2px solid #3b6cf0;outline-offset:2px}
 
+
+/* ---------- Orders: kartu ringkasan KPI (sama dengan Dashboard) ---------- */
+#v-orders .ok-kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 16px}
+#v-orders .ok-kpi{min-width:0;min-height:132px;display:flex;flex-direction:column;justify-content:center;text-align:left;font-family:inherit;color:#111827;background:#fff;border:1px solid #dce4ef;border-radius:15px;padding:18px 15px;box-shadow:0 3px 8px rgba(15,23,42,.06)}
+#v-orders .ok-kpi small{display:block;color:#64748b;font:700 10px/1.35 ui-monospace,Menlo,monospace;letter-spacing:.13em;margin:0 0 16px;overflow-wrap:anywhere}
+#v-orders .ok-kpi b{display:block;font:800 clamp(24px,7vw,34px)/1 Outfit,system-ui,sans-serif;letter-spacing:-1.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums}
+#v-orders .ok-kpi b.is-pos{color:#07845e}
+#v-orders button.ok-kpi{cursor:pointer;width:100%}
+#v-orders button.ok-kpi:active{transform:scale(.98)}
+#v-orders button.ok-kpi:focus-visible{outline:2px solid #3b6cf0;outline-offset:2px}
+#v-orders .card.pad{border-radius:15px;padding:18px}
+#v-orders #order-search{width:100%}
+#v-orders #olist .card{border-radius:15px;box-shadow:0 3px 8px rgba(15,23,42,.05)}
+@media(min-width:700px){#v-orders .ok-kpis{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}}
+
 /* VELORA support page + Tawk.to launcher */
 .velora-support-intro{padding:4px 0 20px}
 .velora-support-kicker{font:800 12px Outfit,sans-serif;letter-spacing:3px;color:var(--blue);margin-bottom:12px}
@@ -866,6 +881,12 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
     </section>
     <section id="v-orders" hidden>
       <div class="bghead" data-bg2="0"><h2>Order History</h2><p>Browse 1,000 randomly generated demo booking records across 10 sample travel channels.</p></div>
+      <div class="ok-kpis me-kpis">
+        <div class="ok-kpi lx-kpi"><small class="lx-kpi__label">TODAY'S DEMO COMMISSION</small><b class="lx-kpi__value is-pos" id="okearn">+$0.00</b></div>
+        <div class="ok-kpi lx-kpi"><small class="lx-kpi__label">ORDERS AMOUNT</small><b class="lx-kpi__value" id="okord">$0.00</b></div>
+        <div class="ok-kpi lx-kpi"><small class="lx-kpi__label">DEMO BOOKINGS</small><b class="lx-kpi__value" id="okcomp">0</b></div>
+        <button type="button" class="ok-kpi lx-kpi lx-kpi--link" data-go="wallet"><small class="lx-kpi__label">AVAILABLE BALANCE</small><b class="lx-kpi__value" id="okbal">$0.00</b></button>
+      </div>
       <div class="card pad" style="margin-bottom:16px">
         <b>DEMO DATA ONLY</b><p class="mut" style="margin-top:6px">These are synthetic examples, not real reservations, partner confirmations, or payable earnings.</p>
         <input id="order-search" placeholder="Search hotel, city, room, provider…" style="margin-top:14px">
@@ -1698,8 +1719,22 @@ function renderDemoOrders(){
  $("#orders-page").textContent=`Page ${ordersPage} of ${pages} · ${filtered.length.toLocaleString()} records`;
  $("#orders-prev").disabled=ordersPage<=1;$("#orders-next").disabled=ordersPage>=pages;
 }
+function renderOrderKpis(){
+ const set=(id,v)=>{const e=$(id);if(e)e.textContent=v};
+ const lv=LV.find(x=>x[0].toLowerCase()===String(myAcc.level||"").trim().toLowerCase());
+ const rate=lv?lv[1]/100:0;
+ const t0=new Date();t0.setHours(0,0,0,0);
+ const isDone=o=>String(o.status||"").toUpperCase().includes("COMPLETED");
+ const earn=demoOrders.filter(o=>o.created>=t0.getTime()&&isDone(o)).reduce((a,o)=>a+(Number(o.commission)||((Number(o.price)||0)*rate)),0);
+ set("#okearn","+"+money2(earn));
+ set("#okord",money2(demoOrders.reduce((a,o)=>a+(Number(o.price)||0),0)));
+ set("#okcomp",demoOrders.filter(isDone).length);
+ set("#okbal",money2(Number(myAcc.available)||0));
+}
 async function loadOrders(){
  ensureDemoOrders();applyDemoRate();ordersPage=1;renderDemoOrders();
+ try{await loadAccount()}catch(e){}
+ renderOrderKpis();
 }
 $("#order-search")?.addEventListener("input",()=>{ordersPage=1;renderDemoOrders()});
 $("#orders-prev")?.addEventListener("click",()=>{ordersPage=Math.max(1,ordersPage-1);renderDemoOrders()});
