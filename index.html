@@ -240,7 +240,7 @@ body{padding-bottom:100px}
 .dmc .eb{font:700 15px ui-monospace,Menlo,monospace;letter-spacing:.2em;color:var(--blue);margin-bottom:10px}
 .dprog{background:var(--bg);border-radius:12px;padding:18px;margin:16px 0}
 .dprow{display:flex;justify-content:space-between;align-items:center}
-.dbadge{background:var(--blue);color:#fff;font:700 13px ui-monospace,Menlo,monospace;letter-spacing:.12em;padding:8px 14px;border-radius:999px}
+.dbadge{background:#16A34A;color:#fff;font:700 13px ui-monospace,Menlo,monospace;letter-spacing:.12em;padding:8px 14px;border-radius:999px}
 .dbadge.full{background:#b42318}
 .dcount{margin-top:12px;font-size:34px;font-weight:700;letter-spacing:-1px}
 .dcount small{font-size:16px;color:var(--mut);font-weight:500;letter-spacing:0}
@@ -530,6 +530,23 @@ html.in:not(.rdy) #app{visibility:hidden}
   #v-dashboard .mcl-row span{font-size:17px;line-height:1.45}
 }
 
+
+
+/* ---------- Dashboard: status hijau + slide to book (mengikuti referensi INNFinite) ---------- */
+.dbadge{display:inline-flex;align-items:center;padding:.3rem .7rem;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;white-space:nowrap}
+.dbadge.full{background:#b42318}
+.me-slide{--v:0;position:relative;width:100%;height:3.5rem;border:1.5px solid var(--line);border-radius:999px;background:var(--card);overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.me-slide__fill{position:absolute;left:0;top:0;bottom:0;width:calc(1.75rem + (100% - 3.5rem) * var(--v));background:linear-gradient(90deg,#dbe7ff,#a9c4ff);border-radius:999px;pointer-events:none}
+.me-slide__label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:800 1rem Outfit,system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);pointer-events:none;opacity:calc(1 - var(--v) * 1.4)}
+.me-slide__input{-webkit-appearance:none;appearance:none;position:absolute;top:.25rem;left:.25rem;width:calc(100% - .5rem);height:3rem;margin:0;padding:0;background:transparent;cursor:grab;outline:none}
+.me-slide__input:active{cursor:grabbing}
+.me-slide__input::-webkit-slider-runnable-track{height:3rem;background:transparent;border:0}
+.me-slide__input::-moz-range-track{height:3rem;background:transparent;border:0}
+.me-slide__input::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:3rem;height:3rem;border-radius:50%;border:0;background:radial-gradient(circle at 50% 50%,#dbe7ff 0,#4f86ff 45%,#2f5fe0 100%);box-shadow:0 6px 18px #3b6cf055}
+.me-slide__input::-moz-range-thumb{width:3rem;height:3rem;border-radius:50%;border:0;background:radial-gradient(circle at 50% 50%,#dbe7ff 0,#4f86ff 45%,#2f5fe0 100%);box-shadow:0 6px 18px #3b6cf055}
+.me-slide__input:focus-visible{box-shadow:0 0 0 3px #3b6cf055;border-radius:999px}
+.me-slide.is-busy{opacity:.6;pointer-events:none}
+.me-slide.is-reset .me-slide__fill{transition:width .25s}
 
 /* VELORA support page + Tawk.to launcher */
 .velora-support-intro{padding:4px 0 20px}
@@ -914,7 +931,7 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
         <div class="dprog"><div class="dprow"><span class="mut">Current progress</span><span class="dbadge" id="dbadge">READY</span></div>
           <div class="dcount"><span id="dcur">0</span> / <span id="dmax">0</span> <small>Bookings</small></div>
           <div class="dbar"><i id="dfill"></i></div></div>
-        <button class="bookpill" id="booknow" type="button"><span class="orb"></span><b>BOOK NOW</b></button>
+        <div class="me-slide" id="booknow" data-slide-to-book><span class="me-slide__fill" aria-hidden="true"></span><span class="me-slide__label" aria-hidden="true">Book Now</span><input type="range" class="me-slide__input" id="bookslide" min="0" max="100" step="1" value="0" aria-label="Book Now"></div>
       </div>
       <div class="dstats">
         <div class="st g"><small>TODAY'S DEMO COMMISSION</small><b id="dearn">+$0.00</b></div>
@@ -1913,7 +1930,19 @@ const _bpBook=$("#bp-book");if(_bpBook)_bpBook.onclick=async()=>{
 
 const _bokGot=$("#bok-got");if(_bokGot)_bokGot.onclick=()=>{showB("bflow-ok",false);bflow.busy=false;loadDashboard()};
 
-const _bn=$("#booknow");if(_bn)_bn.onclick=()=>runBookFlow();
+/* Slide to book: geser bulatan sampai ujung kanan untuk memulai booking */
+(function(){
+  const box=$("#booknow"),inp=$("#bookslide");if(!box||!inp)return;
+  const paint=()=>box.style.setProperty("--v",String(inp.value/100));
+  const reset=()=>{box.classList.add("is-reset");inp.value=0;paint();setTimeout(()=>box.classList.remove("is-reset"),300)};
+  inp.addEventListener("input",paint);
+  inp.addEventListener("change",async()=>{
+    if(Number(inp.value)>=90){
+      inp.value=100;paint();box.classList.add("is-busy");
+      try{await runBookFlow()}finally{box.classList.remove("is-busy");reset()}
+    }else reset();
+  });
+})();
 
 const PMN={bank:"Bank",wise:"Wise",trc20:"USDT TRC20",erc20:"USDT ERC20"};
 const PMF={bank:["Bank name","Account holder name","Account/card number"],wise:[0,"Account holder name","Wise email or ID"],trc20:[0,0,"Wallet address (TRC20)"],erc20:[0,0,"Wallet address (ERC20)"]};
