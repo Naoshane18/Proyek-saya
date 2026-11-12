@@ -1614,11 +1614,16 @@ async function loadHotels(){
 }
 /* Foto asli hotel dari Wikipedia (dicari di browser saat kartu terlihat); jika tidak ada, tetap pakai foto bawaan */
 const wikiCache={};
+/* Upgrade ke resolusi HD */
+function hd(u){if(!u)return u;
+  u=u.replace(/(images\.unsplash\.com\/[^?]+)\?.*$/,"$1?w=1280&q=90&auto=format&fit=crop");
+  u=u.replace(/loremflickr\.com\/\d+\/\d+\//,"loremflickr.com/1280/800/");
+  return u}
 async function wikiPhoto(name,loc){
   const k=name+"|"+loc;if(k in wikiCache)return wikiCache[k];
   try{
     const city=loc.split(",")[0];
-    const u="https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch="+encodeURIComponent(name+" "+city+" hotel")+"&gsrlimit=3&prop=pageimages&piprop=thumbnail&pithumbsize=800&format=json&origin=*";
+    const u="https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch="+encodeURIComponent(name+" "+city+" hotel")+"&gsrlimit=3&prop=pageimages&piprop=thumbnail&pithumbsize=1280&format=json&origin=*";
     const j=await (await fetch(u)).json();
     const pages=Object.values((j.query&&j.query.pages)||{}).sort((x,y)=>x.index-y.index);
     const norm=t=>t.toLowerCase().replace(/[^a-z0-9]/g,"");
@@ -1634,10 +1639,16 @@ const wikiIO=new IntersectionObserver(es=>es.forEach(async e=>{
 function renderHotels(){
   const q=$("#search").value.toLowerCase();
   const l=hotels.filter(h=>((h.name||"")+" "+(h.location||"")).toLowerCase().includes(q));
-  $("#hlist").innerHTML=l.length?l.map(h=>`<div class="card hc"><img src="${h.pi!=null?HOTEL_IMGS[h.pi]:esc(h.photo)}" data-hn="${String(h.id).startsWith('local-')?esc(h.name):''}" data-hl="${esc(h.location)}" alt="${esc(h.name)}" loading="lazy" onerror="if(!this.dataset.f&&this.dataset.fb){this.dataset.f=1;this.src=this.dataset.fb}else{this.style.display='none'}" data-fb="${esc(h.fb||'')}"><div class="pad"><h3>${esc(h.name)}</h3><p class="mut">${esc(h.location)}</p><p style="margin-top:8px">${esc(h.desc)}</p>${h.gl?`<p style="margin-top:6px"><a class="l" href="${esc(h.gl)}" target="_blank" rel="noopener">Lihat foto asli hotel</a></p>`:""}<div class="row"><b>${money(h.price)} <small class="mut">/ night</small></b><button class="btn" data-book="${h.id}">Book</button></div></div></div>`).join(""):'<p class="mut">No matching hotels found.</p>';
+  $("#hlist").innerHTML=l.length?l.map(h=>`<div class="card hc"><img src="${esc(hd(h.photo||h.fb||''))}" data-pi="${h.pi!=null?h.pi:''}" decoding="async" data-hn="${String(h.id).startsWith('local-')?esc(h.name):''}" data-hl="${esc(h.location)}" alt="${esc(h.name)}" loading="lazy" data-fb="${esc(h.fb||'')}"><div class="pad"><h3>${esc(h.name)}</h3><p class="mut">${esc(h.location)}</p><p style="margin-top:8px">${esc(h.desc)}</p><div class="row"><b>${money(h.price)} <small class="mut">/ night</small></b><button class="btn" data-book="${h.id}">Book</button></div></div></div>`).join(""):'<p class="mut">No matching hotels found.</p>';
   document.querySelectorAll('#hlist img[data-hn]:not([data-hn=""])').forEach(i=>wikiIO.observe(i));
 }
 $("#search").oninput=renderHotels;
+$("#hlist").addEventListener("error",function(e){
+  var im=e.target;if(!im||im.tagName!=="IMG")return;
+  var st=+(im.dataset.st||0);
+  if(st===0){im.dataset.st=1;var fb=im.dataset.fb;if(fb&&fb!==im.getAttribute("src")){im.src=fb;return}}
+  im.style.display="none";
+},true);
 
 /* ---------- Room booking ---------- */
 const nights=()=>{const n=Math.round((new Date($("#co").value)-new Date($("#ci").value))/864e5);return n>0?n:0};
