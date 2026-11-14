@@ -28,7 +28,14 @@ input:focus,textarea:focus,.btn:focus-visible{outline:2px solid var(--blue)}
 .btn.w{width:100%;margin-top:20px}.btn.g{background:transparent;color:var(--ink);border:1px solid var(--line)}.btn.r{background:#b42318}
 .row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
 .hc img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:var(--line)}
-.err{color:#b91c1c;margin-top:14px;font-size:15px}
+.err{color:#dc2626;margin-top:14px;font-size:15px;font-weight:600;line-height:1.4}
+@media(prefers-color-scheme:dark){.err{color:#ff8a8a}}
+dialog .err{color:#dc2626}
+@media(prefers-color-scheme:dark){dialog .err{color:#ff9b9b}}
+dialog{margin:auto;max-width:calc(100vw - 32px);overflow-x:hidden}
+dialog input{min-width:0;max-width:100%;-webkit-appearance:none;appearance:none;text-align:left}
+dialog input[type=date]{display:block;min-height:50px}
+#hotels-sec{margin:0}#hotels-sec h2{margin-bottom:12px}
 .l{color:var(--blue);font-weight:600;cursor:pointer;text-decoration:underline}
 .st{font:700 12px Outfit;padding:4px 10px;border-radius:99px;background:var(--line)}
 nav{position:fixed;bottom:0;left:0;right:0;background:var(--navy);display:flex;padding:14px 4px calc(14px + env(safe-area-inset-bottom));z-index:2147483000;pointer-events:auto;touch-action:manipulation;isolation:isolate}
@@ -143,8 +150,7 @@ h2.big{font-size:clamp(32px,9vw,44px);line-height:1.12;letter-spacing:-1.5px;mar
 .fc a,.fc button{display:block;color:#94a3b8;font:400 19px Outfit;margin-bottom:20px;text-decoration:none;background:none;border:0;padding:0;cursor:pointer;text-align:left}
 .foot hr{border:0;border-top:1px solid #1e293b;margin:14px 0 0}
 #platform,#hotels-sec{scroll-margin-top:90px}
-#v-dashboard #hotels-sec{margin:22px 0}
-#v-dashboard #hotels-sec h2{margin-bottom:12px}
+
 
 header .bt b{font-size:26px;letter-spacing:.02em}
 nav a{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;font-size:13px}
@@ -984,11 +990,6 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
           <div class="dbar"><i id="dfill"></i></div></div>
         <div class="me-slide" id="booknow" data-slide-to-book><span class="me-slide__fill" aria-hidden="true"></span><span class="me-slide__label" aria-hidden="true">Book Now</span><input type="range" class="me-slide__input" id="bookslide" min="0" max="100" step="1" value="0" aria-label="Book Now"></div>
       </div>
-      <div id="hotels-sec" hidden>
-        <h2>Hotels</h2>
-        <input id="search" placeholder="Search by name or location">
-        <div id="hlist" style="margin:18px 0"></div>
-      </div>
       <div class="dstats me-kpis">
         <div class="st g lx-kpi"><small class="lx-kpi__label">TODAY'S COMMISSION</small><b class="lx-kpi__value is-pos" id="dearn">+$0.00</b></div>
         <div class="st lx-kpi"><small class="lx-kpi__label">ORDERS AMOUNT</small><b class="lx-kpi__value" id="dord">$0.00</b></div>
@@ -1005,6 +1006,15 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
       </div>
       <div class="card dnote"><h4>PLATFORM RULES NOTICE</h4><p>When processing reservations, details are securely submitted to merchant servers. Each Partnership tier includes a daily activity limit. Users can unlock enhanced privileges by advancing to higher Partnership tiers.</p></div>
       <p class="err" id="derr"></p>
+    </section>
+
+    <section id="v-hotels" hidden>
+      <div id="hotels-sec">
+        <p class="ord-eyebrow">CHOOSE YOUR STAY</p>
+        <h2>Book Now</h2>
+        <input id="search" placeholder="Search by name or location" style="margin-top:12px">
+        <div id="hlist" style="margin:18px 0"></div>
+      </div>
     </section>
 
     <section id="v-pricing" hidden>
@@ -1292,7 +1302,7 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
   if(V.indexOf(v)<0||(v==="admin"&&!c.adm))v="home";
   var g=function(i){return document.getElementById(i)};
   g("app").hidden=false;
-  var S={about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet",editprofile:"Profile"};g("mainhead").hidden=!!S[v];g("subhead").hidden=!S[v];if(S[v]){g("subtitle").textContent=S[v];g("subtag").hidden=v!=="channel";g("subhead").classList.toggle("chh",v==="channel")}
+  var S={hotels:"Book Now",about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet",editprofile:"Profile"};g("mainhead").hidden=!!S[v];g("subhead").hidden=!S[v];if(S[v]){g("subtitle").textContent=S[v];g("subtag").hidden=v!=="channel";g("subhead").classList.toggle("chh",v==="channel")}
   V.forEach(function(k){var e=g("v-"+k);if(e)e.hidden=k!==v});
   g("sitefoot").hidden=v==="orders";
   document.querySelectorAll("nav a").forEach(function(a){a.classList.toggle("on",a.dataset.v===(M[v]||v))});
@@ -1556,9 +1566,9 @@ async function loadAccount(){
 }
 
 /* ---------- Navigation ---------- */
-const VIEWS=["home","orders","admin","profile","dashboard","pricing","wallet","addfunds","withdraw","history","support","editprofile","about","channel"];
-const SUBT={orders:"Order History",about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet",editprofile:"Profile"};
-const NAVMAP={wallet:"profile",addfunds:"profile",withdraw:"profile",history:"profile",editprofile:"profile"};
+const VIEWS=["home","orders","hotels","admin","profile","dashboard","pricing","wallet","addfunds","withdraw","history","support","editprofile","about","channel"];
+const SUBT={orders:"Order History",hotels:"Book Now",about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet",editprofile:"Profile"};
+const NAVMAP={hotels:"dashboard",wallet:"profile",addfunds:"profile",withdraw:"profile",history:"profile",editprofile:"profile"};
 let unsub=null,lastV="home";
 const VKEY="velora_view";
 function savedView(){
@@ -1594,7 +1604,6 @@ function show(v){
   const sub=!!SUBT[v];if(!sub)lastV=v;
   $("#mainhead").hidden=sub;$("#subhead").hidden=!sub;if(sub){$("#subtitle").textContent=SUBT[v];$("#subtag").hidden=v!=="channel"&&v!=="orders";$("#subhead").classList.toggle("chh",v==="channel")}
   VIEWS.forEach(k=>$("#v-"+k).hidden=k!==v);
-  {const hs=$("#hotels-sec");if(hs)hs.hidden=true}
   if(v==="addfunds"||v==="withdraw"){$("#v-wallet").hidden=false;fillWallet()}
   $("#sitefoot").hidden=v==="orders";
   if(unsub){unsub();unsub=null}
@@ -1603,6 +1612,7 @@ function show(v){
   if(!window.__pre){const sec=$("#v-"+v);if(sec){sec.classList.remove("vin");void sec.offsetWidth;sec.classList.add("vin")}}
   if(window.__pre){window.__pre=false}else scrollTo(0,0);
   if(v==="orders")loadOrders();
+  if(v==="hotels"){renderHotels();loadHotels()}
   if(v==="profile")loadAccount();
   if(v==="dashboard")loadDashboard();
 
@@ -2046,9 +2056,7 @@ const _bokGot=$("#bok-got");if(_bokGot)_bokGot.onclick=()=>{showB("bflow-ok",fal
       inp.value=100;paint();
       const badge=$("#dbadge");
       if(badge&&badge.classList.contains("full")){alert("Daily booking limit reached.");reset();return}
-      const hs=$("#hotels-sec");
-      if(hs){hs.hidden=false;renderHotels();setTimeout(()=>hs.scrollIntoView({behavior:"smooth",block:"start"}),80)}
-      reset();
+      reset();nav("hotels");
     }else reset();
   });
 })();
