@@ -963,7 +963,7 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
     <section id="v-orders" hidden>
       <p class="ord-eyebrow">MANAGE AND TRACK YOUR HOTEL BOOKINGS</p>
       <h2 class="ord-title">Order History</h2>
-      <div class="card ord-empty" id="oempty">
+      <div class="card ord-empty" id="oempty" hidden>
         <span class="ord-empty__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg></span>
         <h3>No Order History</h3>
         <p>Your rated and unrated bookings will appear here.</p>
@@ -1879,7 +1879,7 @@ function fsOrders(){
   const price=Number(b.total)||0;
   return {id:"fs_"+b.id,hotelName:b.hotelName,location:h.location||"",provider:"",price,rate,commission:+(price*rate).toFixed(2),
    created:(st==="COMPLETED"&&b.confirmedAt)?b.confirmedAt:(b.created||0),checkin:b.checkin,checkout:b.checkout,status:st,
-   image:h.photo||h.fb||"",bookingNo:"VLR"+String(b.id).slice(0,9).toUpperCase()};
+   image:h.fb||h.photo||pic(h),fb:h.fb||"",bookingNo:"VLR"+String(b.id).slice(0,9).toUpperCase()};
  });
 }
 function allOrders(){return fsOrders().concat(Orders).sort((a,b)=>(b.created||0)-(a.created||0))}
@@ -1889,6 +1889,7 @@ function applyRate(){
  saveOrders();
 }
 function providerLogo(name){
+ if(!name)return"";
  const aliases={"Google Hotels":"Google"};
  const alt=aliases[name]||name;
  const img=[...document.querySelectorAll("img[alt]")].find(el=>
@@ -1914,7 +1915,7 @@ function renderOrders(){
   const label=done?"COMPLETED":(String(o.status||"").toUpperCase()==="PENDING"?"PENDING":(String(o.status||"").toUpperCase()==="CANCELLED"?"CANCELLED":"BOOKED"));
   const d=o.created?new Date(o.created).toISOString().slice(0,10):"";
   return `<article class="order-card" data-oid="${esc(o.id)}">
-   <div class="order-photo">${o.image?`<img src="${esc(o.image)}" alt="${esc(o.hotelName)}" loading="lazy">`:""}<span class="order-status${done?"":" pending"}">${label}</span></div>
+   <div class="order-photo">${o.image?`<img src="${esc(o.image)}" data-fb="${esc(o.fb||'')}" alt="${esc(o.hotelName)}" loading="lazy">`:""}<span class="order-status${done?"":" pending"}">${label}</span></div>
    <div class="order-body">
     <div class="order-title">${esc(o.hotelName)}</div>
     <div class="order-room">${esc(o.location||"")}</div>
@@ -1924,8 +1925,15 @@ function renderOrders(){
    </div>
   </article>`}).join("");
 }
+$("#olist").addEventListener("error",function(e){var im=e.target;
+ if(!im||im.tagName!=="IMG"||!im.closest(".order-photo"))return;
+ if(!im.dataset.x){im.dataset.x=1;var fb=im.dataset.fb;
+  if(fb&&fb!==im.getAttribute("src")){im.src=fb;return}}
+ im.style.display="none"},true);
 async function loadOrders(){
- ensureOrders();applyRate();ordersPage=1;renderOrders();await loadFsBookings();renderOrders();
+ ensureOrders();applyRate();ordersPage=1;
+ if(!hotels.length){try{await loadHotels()}catch(e){}}
+ await loadFsBookings();renderOrders();
 }
 
 /* ---------- Admin ---------- */
