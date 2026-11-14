@@ -1866,6 +1866,23 @@ function ensureOrders(){
  try{localStorage.setItem(Key(),JSON.stringify(Orders))}catch(e){}
 }
 function saveOrders(){try{localStorage.setItem(Key(),JSON.stringify(Orders))}catch(e){}}
+let FsBk=[];
+async function loadFsBookings(){
+ if(!me)return;
+ try{FsBk=(await getDocs(query(collection(db,"bookings"),where("uid","==",me.uid)))).docs.map(d=>({id:d.id,...d.data()}))}catch(e){}
+}
+function fsOrders(){
+ const rate=commissionRate();
+ return FsBk.map(b=>{
+  const h=(hotels||[]).find(x=>String(x.id)===String(b.hotelId))||{};
+  const st=b.status==="Dikonfirmasi"?"COMPLETED":(b.status==="Dibatalkan"?"CANCELLED":"PENDING");
+  const price=Number(b.total)||0;
+  return {id:"fs_"+b.id,hotelName:b.hotelName,location:h.location||"",provider:"",price,rate,commission:+(price*rate).toFixed(2),
+   created:(st==="COMPLETED"&&b.confirmedAt)?b.confirmedAt:(b.created||0),checkin:b.checkin,checkout:b.checkout,status:st,
+   image:h.photo||h.fb||"",bookingNo:"VLR"+String(b.id).slice(0,9).toUpperCase()};
+ });
+}
+function allOrders(){return fsOrders().concat(Orders).sort((a,b)=>(b.created||0)-(a.created||0))}
 function applyRate(){
  const rate=commissionRate();
  Orders.forEach(o=>{o.rate=rate;o.commission=+((Number(o.price)||0)*rate).toFixed(2)});
@@ -1888,13 +1905,13 @@ function providerLogo(name){
 function renderOrders(){
  const list=$("#olist"),empty=$("#oempty");
  if(!list||!empty)return;
- const has=Array.isArray(Orders)&&Orders.length>0;
+ const AO=allOrders();const has=AO.length>0;
  empty.hidden=has;   /* sudah ada booking -> sembunyikan "No Order History" */
  list.hidden=!has;
  if(!has){list.innerHTML="";return}
- list.innerHTML=Orders.map(o=>{
+ list.innerHTML=AO.map(o=>{
   const done=String(o.status||"").toUpperCase()==="COMPLETED";
-  const label=done?"COMPLETED":(String(o.status||"").toUpperCase()==="PENDING"?"PENDING":"BOOKED");
+  const label=done?"COMPLETED":(String(o.status||"").toUpperCase()==="PENDING"?"PENDING":(String(o.status||"").toUpperCase()==="CANCELLED"?"CANCELLED":"BOOKED"));
   const d=o.created?new Date(o.created).toISOString().slice(0,10):"";
   return `<article class="order-card" data-oid="${esc(o.id)}">
    <div class="order-photo">${o.image?`<img src="${esc(o.image)}" alt="${esc(o.hotelName)}" loading="lazy">`:""}<span class="order-status${done?"":" pending"}">${label}</span></div>
@@ -1908,7 +1925,7 @@ function renderOrders(){
   </article>`}).join("");
 }
 async function loadOrders(){
- ensureOrders();applyRate();ordersPage=1;renderOrders();
+ ensureOrders();applyRate();ordersPage=1;renderOrders();await loadFsBookings();renderOrders();
 }
 
 /* ---------- Admin ---------- */
@@ -1998,17 +2015,17 @@ const LV=[["Classic",.4,20],["Deluxe",.5,40],["Executive",.7,60],["Suite",.8,80]
 
 async function loadDashboard(){
  await loadAccount();$("#derr").textContent="";
- ensureOrders();applyRate();
+ ensureOrders();applyRate();await loadFsBookings();
  const lv=LV.find(x=>x[0].toLowerCase()===String(myAcc.level||"").trim().toLowerCase());
  const cap=lv?lv[2]:0,rate=lv?lv[1]/100:0;
  const set=(id,v)=>{const e=$(id);if(e)e.textContent=v};
  set("#dplan",lv?lv[0]:(String(myAcc.level||"").trim()||"No plan"));
  set("#dcap",cap||"—");set("#dmax",cap||0);
  const today=new Date();today.setHours(0,0,0,0);
- const todays=Orders.filter(o=>o.created>=today.getTime() && String(o.status||"").toUpperCase().includes("COMPLETED"));
+ const todays=allOrders().filter(o=>o.created>=today.getTime() && String(o.status||"").toUpperCase().includes("COMPLETED"));
  const earn=todays.reduce((sum,o)=>sum+(Number(o.commission)||((Number(o.price)||0)*rate)),0);
- const allValue=Orders.reduce((sum,o)=>sum+(Number(o.price)||0),0);
- const completed=Orders.filter(o=>String(o.status||"").toUpperCase().includes("COMPLETED")).length;
+ const allValue=allOrders().reduce((sum,o)=>sum+(Number(o.price)||0),0);
+ const completed=allOrders().filter(o=>String(o.status||"").toUpperCase().includes("COMPLETED")).length;
  set("#dcur",Math.min(todays.length,cap||todays.length));set("#dcomp",completed);
  set("#dearn","+"+money2(earn));set("#dord",money2(allValue));
  set("#dbal",money2(Number(myAcc.available)||0));
@@ -2371,7 +2388,7 @@ document.addEventListener("click",async e=>{
     $("#accerr").textContent="";$("#accform").hidden=false;$("#accform").scrollIntoView({behavior:"smooth"});
   }
   if(t.dataset.del&&confirm("Delete this hotel?")){await deleteDoc(doc(db,"hotels",t.dataset.del));loadHotels()}
-  if(t.dataset.st){await updateDoc(doc(db,"bookings",t.dataset.id),{status:t.dataset.st});loadAllBookings()}
+  if(t.dataset.st){await updateDoc(doc(db,"bookings",t.dataset.id),t.dataset.st==="Dikonfirmasi"?{status:t.dataset.st,confirmedAt:Date.now()}:{status:t.dataset.st});loadAllBookings()}
 });
 </script>
 <script>
