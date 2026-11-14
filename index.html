@@ -637,6 +637,7 @@ body.velora-tawk-open [class*="tawk"] {
 #v-orders .order-card{transition:transform .18s,box-shadow .18s}
 #v-orders .order-card:focus-within{box-shadow:0 0 0 2px var(--blue),0 8px 20px #0b122018}
 
+#accform select#alv{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px;font:500 16px Outfit,system-ui,sans-serif;background:var(--card);color:var(--ink)}
 /* ---------- Admin: halaman Hotel list tersendiri ---------- */
 #v-adminhotels .ah-top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:4px 0 16px;flex-wrap:wrap}
 #v-adminhotels .ah-eyebrow{font:700 12px ui-monospace,Menlo,monospace;letter-spacing:.18em;color:#2457df;margin:0 0 6px}
@@ -979,7 +980,7 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
       <h3 style="margin:24px 0 12px">User accounts</h3>
       <div class="card pad" id="accform" hidden>
         <h3 id="acctitle"></h3>
-        <label for="alv">Account level</label><input id="alv" placeholder="e.g. Gold (leave empty = no plan yet)">
+        <label for="alv">Account level</label><select id="alv"><option value="">No plan yet</option><option value="Classic">Classic</option><option value="Deluxe">Deluxe</option><option value="Executive">Executive</option><option value="Suite">Suite</option><option value="Presidential">Presidential</option></select>
         <label for="atot">Total account balance (USD)</label><input id="atot" type="number" step="any" min="0">
         <label for="aav">Available balance (USD)</label><input id="aav" type="number" step="any" min="0">
         <label for="aor">Orders amount (USD)</label><input id="aor" type="number" step="any" min="0">
@@ -2363,7 +2364,9 @@ document.addEventListener("click",async e=>{
   }
   if(t.dataset.acc&&isAdmin()){
     const u=users.find(x=>x.uid===t.dataset.acc),a=accs[u.uid]||NOACC;accUid=u.uid;
-    $("#acctitle").textContent="Edit account @"+u.userid;$("#alv").value=a.level||"";
+    $("#acctitle").textContent="Edit account @"+u.userid;{const sel=$("#alv"),lvl=String(a.level||"").trim();sel.querySelectorAll("option[data-legacy]").forEach(o=>o.remove());
+      const hit=[...sel.options].find(o=>o.value.toLowerCase()===lvl.toLowerCase());
+      if(hit)sel.value=hit.value;else if(lvl){const o=document.createElement("option");o.value=lvl;o.textContent=lvl+" (not in pricing)";o.dataset.legacy="1";sel.appendChild(o);sel.value=lvl}else sel.value=""}
     $("#atot").value=a.total;$("#aav").value=a.available;$("#aor").value=a.orders;
     $("#accerr").textContent="";$("#accform").hidden=false;$("#accform").scrollIntoView({behavior:"smooth"});
   }
