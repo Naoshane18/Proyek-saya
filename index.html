@@ -921,6 +921,7 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
         <p>Your rated and unrated bookings will appear here.</p>
         <button type="button" class="ord-empty__btn" data-go="dashboard">FIND HOTELS <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
+      <div id="olist" hidden></div>
     </section>
     <section id="v-admin" hidden>
       <h2>Admin</h2>
@@ -1811,7 +1812,28 @@ function providerLogo(name){
  const v=styles[name]||[name.slice(0,1),"#eef2ff","#2457df"];
  return `<span class="partner-mark" style="--mark-bg:${v[1]};--mark-color:${v[2]}">${v[0]}</span><span class="partner-word">${esc(name)}</span>`;
 }
-function renderOrders(){} /* daftar order dihapus: halaman Orders hanya menampilkan tampilan kosong */
+function renderOrders(){
+ const list=$("#olist"),empty=$("#oempty");
+ if(!list||!empty)return;
+ const has=Array.isArray(Orders)&&Orders.length>0;
+ empty.hidden=has;   /* sudah ada booking -> sembunyikan "No Order History" */
+ list.hidden=!has;
+ if(!has){list.innerHTML="";return}
+ list.innerHTML=Orders.map(o=>{
+  const done=String(o.status||"").toUpperCase()==="COMPLETED";
+  const label=done?"COMPLETED":(String(o.status||"").toUpperCase()==="PENDING"?"PENDING":"BOOKED");
+  const d=o.created?new Date(o.created).toISOString().slice(0,10):"";
+  return `<article class="order-card" data-oid="${esc(o.id)}">
+   <div class="order-photo">${o.image?`<img src="${esc(o.image)}" alt="${esc(o.hotelName)}" loading="lazy">`:""}<span class="order-status${done?"":" pending"}">${label}</span></div>
+   <div class="order-body">
+    <div class="order-title">${esc(o.hotelName)}</div>
+    <div class="order-room">${esc(o.location||"")}</div>
+    <div class="order-meta"><span class="partner-lockup">${providerLogo(o.provider||"")}</span><span>· ${esc(o.checkin||"")} → ${esc(o.checkout||"")}</span><span>· ${esc(o.bookingNo||"")}</span></div>
+    <div class="order-values"><div><small>PRICE</small><b>${money2(o.price)}</b></div><div><small>COMMISSION</small><b class="reward">${money2(o.commission)}</b></div></div>
+    ${d?`<div class="order-meta">Booked on ${d}</div>`:""}
+   </div>
+  </article>`}).join("");
+}
 async function loadOrders(){
  ensureOrders();applyRate();ordersPage=1;renderOrders();
 }
@@ -2034,9 +2056,9 @@ const _bpBook=$("#bp-book");if(_bpBook)_bpBook.onclick=async()=>{
   saveOrders();
   bflow.orderId=null;
   await loadDashboard();
-  if(!$("#v-orders").hidden)renderDemoOrders();
+  renderOrders();
 
-  $("#bt-count").textContent=demoOrders.length;
+  $("#bt-count").textContent=Orders.length;
   showB("bflow-toast",true);
   showB("bflow-ok",true);
   setTimeout(()=>showB("bflow-toast",false),2800);
