@@ -636,6 +636,25 @@ body.velora-tawk-open [class*="tawk"] {
 #v-orders .order-book-btn,#v-orders .order-detail-btn{margin-top:14px;border-radius:8px;min-height:46px}
 #v-orders .order-card{transition:transform .18s,box-shadow .18s}
 #v-orders .order-card:focus-within{box-shadow:0 0 0 2px var(--blue),0 8px 20px #0b122018}
+
+/* ---------- Admin: halaman Hotel list tersendiri ---------- */
+#v-adminhotels .ah-top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:4px 0 16px;flex-wrap:wrap}
+#v-adminhotels .ah-eyebrow{font:700 12px ui-monospace,Menlo,monospace;letter-spacing:.18em;color:#2457df;margin:0 0 6px}
+#v-adminhotels .ah-title{font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1.1;margin:0;display:flex;align-items:center;gap:10px}
+#v-adminhotels .ah-count{font:800 13px Outfit,sans-serif;letter-spacing:0;background:var(--blue);color:#fff;border-radius:99px;padding:4px 11px}
+#v-adminhotels .ah-add{margin:0;border-radius:10px;padding:13px 18px}
+#v-adminhotels .ah-search{margin:0 0 16px;border-radius:12px}
+#v-adminhotels #ahlist{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:700px){#v-adminhotels #ahlist{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ah-card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 4px 14px rgba(15,23,42,.06);min-width:0}
+.ah-photo{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#16254a,#0b1220);display:grid;place-items:center;color:#fff;font:800 40px Outfit,sans-serif;overflow:hidden}
+.ah-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ah-price{position:absolute;right:10px;bottom:10px;background:#0b1220cc;color:#fff;font:800 13px Outfit,sans-serif;border-radius:8px;padding:6px 10px}
+.ah-body{padding:14px 15px 15px}
+.ah-name{font-size:17px;font-weight:800;line-height:1.3;letter-spacing:-.25px}
+.ah-loc{font-size:13px;color:var(--mut);margin-top:4px}
+.ah-act{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.ah-act .btn{margin:0;border-radius:8px;min-height:44px;padding:10px}
 /* ---------- Orders history: visual layout matching the supplied reference ---------- */
 #v-orders #olist{display:grid;grid-template-columns:1fr;gap:16px}
 .order-card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 4px 14px rgba(15,23,42,.06);min-width:0}
@@ -925,15 +944,8 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
     </section>
     <section id="v-admin" hidden>
       <h2>Admin</h2>
-      <div class="card pad">
-        <h3 id="ftitle">Add hotel</h3>
-        <label for="hn">Hotel name</label><input id="hn">
-        <label for="hl">Location</label><input id="hl">
-        <label for="hp">Price per night (USD)</label><input id="hp" type="number" min="0" step="any">
-        <label for="hph">Photo link (e.g. foto/bali1.jpg)</label><input id="hph">
-        <label for="hd">Description</label><textarea id="hd" rows="3"></textarea>
-        <div class="row"><button class="btn" id="hsave">Save hotel</button><button class="btn g" id="hcancel" hidden>Cancel</button></div>
-        <p class="err" id="herr"></p>
+      <div class="lg" style="grid-template-columns:1fr">
+        <button class="lc" data-go="adminhotels"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21V7l9-4 9 4v14"/><path d="M9 21v-6h6v6M8 10h2M14 10h2"/></svg></i><b>Hotel list</b><span>Kelola semua hotel: tambah, edit, dan hapus.</span></button>
       </div>
       <h3 style="margin:24px 0 12px">User accounts</h3>
       <div class="card pad" id="accform" hidden>
@@ -948,8 +960,25 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
       <div id="aulist"></div>
       <h3 style="margin:24px 0 12px">Balance requests</h3><div id="atx"></div>
       <h3 style="margin:24px 0 12px">Support messages</h3><div id="ainbox"></div>
-      <h3 style="margin:24px 0 12px">Hotel list</h3><div id="ahlist"></div>
       <h3 style="margin:24px 0 12px">All orders</h3><div id="ablist"></div>
+    </section>
+    <section id="v-adminhotels" hidden>
+      <div class="ah-top">
+        <div><p class="ah-eyebrow">ADMIN · HOTEL MANAGEMENT</p><h2 class="ah-title">Hotel list <span class="ah-count" id="ahcount">0</span></h2></div>
+        <button class="btn ah-add" id="ahadd" type="button">+ Add hotel</button>
+      </div>
+      <div class="card pad" id="ahform" hidden>
+        <h3 id="ftitle">Add hotel</h3>
+        <label for="hn">Hotel name</label><input id="hn">
+        <label for="hl">Location</label><input id="hl">
+        <label for="hp">Price per night (USD)</label><input id="hp" type="number" min="0" step="any">
+        <label for="hph">Photo link (e.g. foto/bali1.jpg)</label><input id="hph">
+        <label for="hd">Description</label><textarea id="hd" rows="3"></textarea>
+        <div class="row"><button class="btn" id="hsave">Save hotel</button><button class="btn g" id="hcancel" hidden>Cancel</button></div>
+        <p class="err" id="herr"></p>
+      </div>
+      <input id="ahsearch" class="ah-search" type="search" placeholder="Cari nama hotel atau lokasi…" autocomplete="off">
+      <div id="ahlist"></div>
     </section>
     <section id="v-profile" hidden>
       <div class="bghead" data-bg2="3"><h2>Profile</h2></div>
@@ -1297,13 +1326,13 @@ select{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:10px
 (function(){try{
   var h=document.documentElement;if(h.className.indexOf("in")<0)return;
   var c={};try{c=JSON.parse(localStorage.getItem("velora_cache")||"{}")}catch(e){}
-  var V=["home","orders","admin","profile","dashboard","pricing","wallet","addfunds","withdraw","history","support","editprofile","about","channel"];
-  var M={wallet:"profile",addfunds:"profile",withdraw:"profile",history:"profile",editprofile:"profile"};
+  var V=["home","orders","admin","adminhotels","profile","dashboard","pricing","wallet","addfunds","withdraw","history","support","editprofile","about","channel"];
+  var M={adminhotels:"admin",wallet:"profile",addfunds:"profile",withdraw:"profile",history:"profile",editprofile:"profile"};
   var v=location.hash.slice(1)||localStorage.getItem("velora_view")||"";
-  if(V.indexOf(v)<0||(v==="admin"&&!c.adm))v="home";
+  if(V.indexOf(v)<0||((v==="admin"||v==="adminhotels")&&!c.adm))v="home";
   var g=function(i){return document.getElementById(i)};
   g("app").hidden=false;
-  var S={hotels:"Book Now",about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet",editprofile:"Profile"};g("mainhead").hidden=!!S[v];g("subhead").hidden=!S[v];if(S[v]){g("subtitle").textContent=S[v];g("subtag").hidden=v!=="channel";g("subhead").classList.toggle("chh",v==="channel")}
+  var S={adminhotels:"Hotel List",hotels:"Book Now",about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet",editprofile:"Profile"};g("mainhead").hidden=!!S[v];g("subhead").hidden=!S[v];if(S[v]){g("subtitle").textContent=S[v];g("subtag").hidden=v!=="channel";g("subhead").classList.toggle("chh",v==="channel")}
   V.forEach(function(k){var e=g("v-"+k);if(e)e.hidden=k!==v});
   g("sitefoot").hidden=v==="orders";
   document.querySelectorAll("nav a").forEach(function(a){a.classList.toggle("on",a.dataset.v===(M[v]||v))});
@@ -1567,15 +1596,15 @@ async function loadAccount(){
 }
 
 /* ---------- Navigation ---------- */
-const VIEWS=["home","orders","hotels","admin","profile","dashboard","pricing","wallet","addfunds","withdraw","history","support","editprofile","about","channel"];
-const SUBT={orders:"Order History",hotels:"Book Now",about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet",editprofile:"Profile"};
-const NAVMAP={hotels:"dashboard",wallet:"profile",addfunds:"profile",withdraw:"profile",history:"profile",editprofile:"profile"};
+const VIEWS=["home","orders","hotels","admin","adminhotels","profile","dashboard","pricing","wallet","addfunds","withdraw","history","support","editprofile","about","channel"];
+const SUBT={adminhotels:"Hotel List",orders:"Order History",hotels:"Book Now",about:"About Us",channel:"Channel",wallet:"Wallet",addfunds:"Wallet",withdraw:"Wallet",editprofile:"Profile"};
+const NAVMAP={adminhotels:"admin",hotels:"dashboard",wallet:"profile",addfunds:"profile",withdraw:"profile",history:"profile",editprofile:"profile"};
 let unsub=null,lastV="home";
 const VKEY="velora_view";
 function savedView(){
   let v="";
   try{v=location.hash.slice(1)||localStorage.getItem(VKEY)||""}catch(x){}
-  if(!VIEWS.includes(v)||(v==="admin"&&!isAdmin()))return"home";
+  if(!VIEWS.includes(v)||((v==="admin"||v==="adminhotels")&&!isAdmin()))return"home";
   return v;
 }
 
@@ -1602,7 +1631,7 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkIdle(
 addEventListener("pageshow",checkIdle);addEventListener("focus",checkIdle);
 function show(v){
   try{localStorage.setItem(VKEY,v);history.replaceState(null,"","#"+v)}catch(x){}
-  const sub=!!SUBT[v];if(!sub)lastV=v;
+  const sub=!!SUBT[v];if(!sub)lastV=v;if(v==="adminhotels")lastV="admin";
   $("#mainhead").hidden=sub;$("#subhead").hidden=!sub;if(sub){$("#subtitle").textContent=SUBT[v];$("#subtag").hidden=v!=="channel"&&v!=="orders";$("#subhead").classList.toggle("chh",v==="channel")}
   VIEWS.forEach(k=>$("#v-"+k).hidden=k!==v);
   if(v==="addfunds"||v==="withdraw"){$("#v-wallet").hidden=false;fillWallet()}
@@ -1630,7 +1659,8 @@ function show(v){
   if(v==="history")loadHistory();
   if(v==="support")startChat();
   if(v==="editprofile")fillEdit();
-  if(v==="admin"){loadHotels();loadAllBookings();loadUsers();loadTx();loadInbox()}
+  if(v==="admin"){loadAllBookings();loadUsers();loadTx();loadInbox()}
+  if(v==="adminhotels"){loadHotels()}
 }
 let navT=null;
 function nav(v){
@@ -1841,7 +1871,13 @@ async function loadOrders(){
 /* ---------- Admin ---------- */
 function renderAdminHotels(){
   if(!isAdmin())return;
-  $("#ahlist").innerHTML=hotels.map(h=>`<div class="card pad"><h3>${esc(h.name)}</h3><p class="mut">${esc(h.location)} · ${money(h.price)}</p><div class="row"><button class="btn g" data-edit="${h.id}">Edit</button><button class="btn r" data-del="${h.id}">Delete</button></div></div>`).join("")||'<p class="mut">No hotels yet.</p>';
+  const box=$("#ahlist");if(!box)return;
+  const q=(($("#ahsearch")||{}).value||"").trim().toLowerCase();
+  const list=hotels.filter(h=>!q||(String(h.name||"")+" "+String(h.location||"")).toLowerCase().includes(q));
+  const cnt=$("#ahcount");if(cnt)cnt.textContent=hotels.length;
+  box.innerHTML=list.map(h=>{
+    const img=h.photo||h.fb||"";
+    return `<article class="ah-card"><div class="ah-photo"><span>${esc(String(h.name||"?").charAt(0).toUpperCase())}</span>${img?`<img src="${esc(img)}" alt="" loading="lazy" onerror="this.remove()">`:""}<span class="ah-price">${money(h.price)} / night</span></div><div class="ah-body"><div class="ah-name">${esc(h.name)}</div><div class="ah-loc">${esc(h.location)}</div><div class="ah-act"><button class="btn g" data-edit="${esc(h.id)}">Edit</button><button class="btn r" data-del="${esc(h.id)}">Delete</button></div></div></article>`}).join("")||'<p class="mut">'+(q?"Tidak ada hotel yang cocok.":"No hotels yet.")+'</p>';
 }
 async function loadAllBookings(){
   if(!isAdmin())return;
@@ -1871,8 +1907,11 @@ $("#accsave").onclick=async()=>{
 };
 function resetForm(){
   editId=null;["hn","hl","hp","hph","hd"].forEach(i=>$("#"+i).value="");
-  $("#ftitle").textContent="Add hotel";$("#hcancel").hidden=true;$("#herr").textContent="";
+  $("#ftitle").textContent="Add hotel";$("#hcancel").hidden=false;$("#herr").textContent="";
+  const f=$("#ahform");if(f)f.hidden=true;
 }
+$("#ahadd").onclick=()=>{const f=$("#ahform");if(f.hidden){resetForm();f.hidden=false;$("#hn").focus()}else resetForm()};
+$("#ahsearch").addEventListener("input",renderAdminHotels);
 $("#hcancel").onclick=resetForm;
 $("#hsave").onclick=async()=>{
   const d={name:$("#hn").value.trim(),location:$("#hl").value.trim(),price:Number($("#hp").value),photo:$("#hph").value.trim(),desc:$("#hd").value.trim()};
@@ -2254,7 +2293,7 @@ document.addEventListener("click",async e=>{
   if(t.dataset.edit){
     const h=hotels.find(x=>x.id===t.dataset.edit);editId=h.id;
     $("#hn").value=h.name;$("#hl").value=h.location;$("#hp").value=h.price;$("#hph").value=h.photo||"";$("#hd").value=h.desc||"";
-    $("#ftitle").textContent="Edit hotel";$("#hcancel").hidden=false;scrollTo(0,0);
+    $("#ftitle").textContent="Edit hotel";$("#hcancel").hidden=false;$("#ahform").hidden=false;scrollTo(0,0);
   }
   if(t.dataset.acc&&isAdmin()){
     const u=users.find(x=>x.uid===t.dataset.acc),a=accs[u.uid]||NOACC;accUid=u.uid;
